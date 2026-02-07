@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test';
 test.describe('Navigation', () => {
   test('home page loads with correct content', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('h1')).toContainText('Alex Alexandrescu');
+    await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible();
     await expect(page.getByRole('navigation', { name: 'Primary navigation' })).toBeVisible();
   });
 

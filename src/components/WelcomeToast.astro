@@ -3,19 +3,17 @@
 
 <div
   id="welcome-toast"
-  class="fixed top-4 left-1/2 z-50 -translate-x-1/2 transform-gpu transition-all duration-300 pointer-events-none opacity-0 -translate-y-4"
+  class="fixed top-20 left-1/2 z-50 -translate-x-1/2 transform-gpu transition-all duration-300 pointer-events-none opacity-0 -translate-y-4"
 >
-  <div class="glass-strong border border-border shadow-lg rounded-lg px-6 py-4 flex items-center gap-3">
-    <p class="text-card-foreground text-sm">Welcome! Thanks for visiting.</p>
+  <div class="border border-border bg-card px-6 py-3 flex items-center gap-4">
+    <p class="text-sm text-card-foreground">Welcome — thanks for visiting.</p>
     <button
       type="button"
       id="welcome-toast-close"
-      class="text-muted-foreground hover:text-foreground transition-colors"
+      class="text-muted-foreground hover:text-foreground transition-colors text-xs uppercase tracking-widest"
       aria-label="Close"
     >
-      <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-      </svg>
+      Close
     </button>
   </div>
 </div>
@@ -31,13 +29,11 @@
 
     localStorage.setItem('visited', 'true');
 
-    // Show toast
     requestAnimationFrame(() => {
       toast.classList.remove('opacity-0', '-translate-y-4', 'pointer-events-none');
       toast.classList.add('opacity-100', 'translate-y-0');
     });
 
-    // Auto-dismiss after 3s
     const timer = setTimeout(() => {
       toast.classList.add('opacity-0', '-translate-y-4', 'pointer-events-none');
       toast.classList.remove('opacity-100', 'translate-y-0');

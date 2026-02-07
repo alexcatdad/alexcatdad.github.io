@@ -3,25 +3,26 @@ import { expect, test } from '@playwright/test';
 test.describe('Projects Page', () => {
   test('shows at least one repo card', async ({ page }) => {
     await page.goto('/projects');
-    await expect(page.locator('h1')).toContainText('Projects');
+    await expect(page.getByRole('heading', { name: 'Projects' })).toBeVisible();
 
-    // Should have at least one project card (or a fallback message if API failed)
-    const cards = page.locator('.interactive-card');
-    const fallback = page.locator('text=No repos found');
-    const hasCards = await cards.count();
+    // Should have at least one project row (or a fallback message if API failed)
+    const rows = page.locator('a[href*="github.com"]');
+    const fallback = page.getByText('No repos found');
+    const hasRows = await rows.count();
     const hasFallback = await fallback.count();
-    expect(hasCards > 0 || hasFallback > 0).toBe(true);
+    expect(hasRows > 0 || hasFallback > 0).toBe(true);
   });
 
   test('cards have name and GitHub link', async ({ page }) => {
     await page.goto('/projects');
 
-    const firstCard = page.locator('.interactive-card').first();
-    const cardCount = await page.locator('.interactive-card').count();
+    const rows = page.locator('a[href*="github.com"]');
+    const rowCount = await rows.count();
 
-    if (cardCount > 0) {
-      await expect(firstCard.locator('h2')).toBeVisible();
-      await expect(firstCard).toHaveAttribute('href', /github\.com/);
+    if (rowCount > 0) {
+      const firstRow = rows.first();
+      await expect(firstRow.locator('h2')).toBeVisible();
+      await expect(firstRow).toHaveAttribute('href', /github\.com/);
     }
   });
 });

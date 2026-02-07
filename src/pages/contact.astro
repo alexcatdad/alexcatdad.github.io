@@ -13,66 +13,43 @@ const location = basics?.location
 ---
 
 <Base title="Contact — Alex Alexandrescu" description="Get in touch with Alex Alexandrescu">
-  <div class="max-w-3xl mx-auto px-6 lg:px-8 py-12">
-    <div class="mb-10">
-      <p class="text-xs font-semibold uppercase tracking-[0.4em] text-primary/80">Get in touch</p>
-      <h1 class="text-3xl font-semibold text-foreground mt-1">Contact</h1>
-    </div>
+  <div class="max-w-3xl mx-auto px-6 lg:px-8 py-16">
+    <header class="mb-12">
+      <p class="text-xs uppercase tracking-[0.3em] text-primary mb-2">Get in touch</p>
+      <h1 class="text-4xl md:text-5xl font-serif text-foreground">Contact</h1>
+    </header>
 
-    <div class="space-y-6">
+    <div class="border-t border-border">
       {/* Email */}
       {basics?.email && (
-        <div class="interactive-card rounded-3xl border border-border bg-card/50 p-6 shadow-apple">
-          <div class="flex items-center gap-4">
-            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/15 text-primary shrink-0">
-              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-              </svg>
-            </div>
-            <div>
-              <p class="text-sm font-semibold text-foreground">Email</p>
-              <div class="mt-1">
-                <ContactReveal email={basics.email} />
-              </div>
-            </div>
-          </div>
+        <div class="py-8 border-b border-border">
+          <p class="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">Email</p>
+          <ContactReveal email={basics.email} />
         </div>
       )}
 
       {/* Location */}
       {location && (
-        <div class="interactive-card rounded-3xl border border-border bg-card/50 p-6 shadow-apple">
-          <div class="flex items-center gap-4">
-            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent/15 text-accent shrink-0">
-              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-              </svg>
-            </div>
-            <div>
-              <p class="text-sm font-semibold text-foreground">Location</p>
-              <p class="text-sm text-muted-foreground mt-1">{location}</p>
-            </div>
-          </div>
+        <div class="py-8 border-b border-border">
+          <p class="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">Location</p>
+          <p class="font-serif text-lg text-foreground">{location}</p>
         </div>
       )}
 
       {/* Profiles */}
       {basics?.profiles && basics.profiles.length > 0 && (
-        <div class="interactive-card rounded-3xl border border-border bg-card/50 p-6 shadow-apple">
-          <p class="text-sm font-semibold text-foreground mb-4">Profiles</p>
-          <div class="flex flex-wrap gap-3">
+        <div class="py-8 border-b border-border">
+          <p class="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-4">Profiles</p>
+          <div class="flex flex-wrap gap-4">
             {basics.profiles.map((profile) => (
               <a
                 href={profile.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 rounded-2xl border border-border bg-secondary/50 px-4 py-2 text-sm font-semibold text-foreground transition hover:border-primary hover:text-primary"
+                class="link-pulse text-foreground font-serif text-lg hover:text-primary"
               >
                 {profile.network}
-                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
-                </svg>
+                <span class="text-sm ml-1">&#8599;</span>
               </a>
             ))}
           </div>
