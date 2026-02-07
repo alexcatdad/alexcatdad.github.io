@@ -1,0 +1,37 @@
+---
+---
+
+<div
+  id="scroll-progress"
+  class="fixed top-0 left-0 right-0 z-[60] h-1 origin-left bg-gradient-to-r from-primary via-accent to-primary shadow-lg"
+  style="transform: scaleX(0)"
+  aria-hidden="true"
+/>
+
+<script>
+  function initScrollProgress() {
+    const bar = document.getElementById('scroll-progress');
+    if (!bar) return;
+
+    let frame: number | null = null;
+
+    const update = () => {
+      const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+      const total = scrollHeight - clientHeight;
+      const progress = total > 0 ? scrollTop / total : 0;
+      bar.style.transform = `scaleX(${progress})`;
+      frame = null;
+    };
+
+    const onScroll = () => {
+      if (frame !== null) return;
+      frame = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  initScrollProgress();
+  document.addEventListener('astro:after-swap', initScrollProgress);
+</script>

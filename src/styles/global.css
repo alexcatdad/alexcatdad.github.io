@@ -1,0 +1,264 @@
+@import "tailwindcss";
+
+/* 1. TAILWIND CONFIGURATION */
+@theme {
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-highlight: highlight-pulse 2s ease-in-out;
+}
+
+/* 2. VARIABLES */
+@layer base {
+  :root {
+    --radius: 1.5rem;
+    --ease-spring: cubic-bezier(0.24, 0.82, 0.25, 1);
+
+    /* Dark Mode (Default) */
+    --background: #030109;
+    --foreground: #f4f2ff;
+    --card: rgba(7, 3, 24, 0.92);
+    --card-foreground: #f8f5ff;
+    --card-border: rgba(142, 119, 255, 0.25);
+    --popover: rgba(8, 0, 28, 0.95);
+    --popover-foreground: #f8f5ff;
+    --primary: #ff47c0;
+    --primary-foreground: #1b0012;
+    --secondary: #1b0b2e;
+    --secondary-foreground: #c8b8ff;
+    --muted: rgba(177, 153, 255, 0.1);
+    --muted-foreground: #a59fd1;
+    --accent: #4bc9ff;
+    --accent-foreground: #01111f;
+    --destructive: #ff3b63;
+    --destructive-foreground: #ffeef3;
+    --border: rgba(142, 119, 255, 0.2);
+    --input: rgba(142, 119, 255, 0.2);
+    --ring: rgba(255, 71, 192, 0.5);
+
+    /* Effects */
+    --bg-gradient: radial-gradient(circle at top, rgba(75, 201, 255, 0.1), transparent 45%),
+                   radial-gradient(circle at 20% 20%, rgba(255, 71, 192, 0.16), transparent 35%);
+    --glass-bg: linear-gradient(135deg, rgba(13, 4, 34, 0.78), rgba(20, 5, 38, 0.45));
+    --glass-border: rgba(255, 71, 192, 0.2);
+    --glass-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 25px 60px -16px rgba(12, 0, 33, 0.85);
+    --neo-grid: rgba(134, 97, 255, 0.14);
+    --neo-orb-1: rgba(75, 201, 255, 0.35);
+    --neo-orb-2: rgba(255, 71, 192, 0.4);
+  }
+
+  /* Light Mode */
+  html.light {
+    --background: #f4f6ff;
+    --foreground: #0f172a;
+    --card: #ffffff;
+    --card-foreground: #0f172a;
+    --card-border: #e2e8f0;
+    --popover: #ffffff;
+    --popover-foreground: #0f172a;
+    --primary: #be185d;
+    --primary-foreground: #ffffff;
+    --secondary: #f1f5f9;
+    --secondary-foreground: #0f172a;
+    --muted: #f1f5f9;
+    --muted-foreground: #475569;
+    --accent: #2563eb;
+    --accent-foreground: #ffffff;
+    --destructive: #dc2626;
+    --destructive-foreground: #ffffff;
+    --border: #e2e8f0;
+    --input: #cbd5e1;
+    --ring: rgba(37, 99, 235, 0.4);
+
+    /* Effects Light */
+    --bg-gradient: radial-gradient(circle at 12% 20%, rgba(59, 130, 246, 0.10), transparent 42%),
+                   radial-gradient(circle at 80% 0%, rgba(190, 24, 93, 0.08), transparent 38%),
+                   linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(244, 247, 255, 0.9));
+    --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.65));
+    --glass-border: rgba(0, 0, 0, 0.06);
+    --glass-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 20px 40px -20px rgba(0, 0, 0, 0.1);
+    --neo-grid: rgba(15, 23, 42, 0.06);
+    --neo-orb-1: rgba(59, 130, 246, 0.2);
+    --neo-orb-2: rgba(219, 39, 119, 0.22);
+  }
+}
+
+/* 3. BASE */
+@layer base {
+  @font-face {
+    font-family: 'SF Pro Display';
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+    src: local('system-ui'), local('-apple-system'), local('BlinkMacSystemFont');
+  }
+
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+  body {
+    background-color: var(--background);
+    background-image: var(--bg-gradient);
+    color: var(--foreground);
+    font-family: 'SF Pro Display', system-ui, sans-serif;
+    letter-spacing: -0.011em;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--foreground);
+  }
+
+  /* Light Mode Pill Headers */
+  html.light h1, html.light h2 {
+    display: inline-flex;
+    padding: 0.2em 0.8em;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+}
+
+/* 4. COMPONENTS */
+@layer components {
+  .glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(16px);
+  }
+
+  .glass-strong {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(24px);
+  }
+
+  .glass-subtle {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(8px);
+  }
+
+  .interactive-card {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    border-radius: var(--radius);
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    color: var(--card-foreground);
+    transition: all 0.3s var(--ease-spring);
+  }
+
+  .interactive-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--ring);
+    box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.15);
+  }
+
+  .hover-lift {
+    transition: transform 0.3s var(--ease-spring);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-3px);
+  }
+
+  .link-pulse {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+  .link-pulse::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: -2px;
+    width: 100%; height: 1.5px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s var(--ease-spring);
+  }
+  .link-pulse:hover { color: var(--primary); }
+  .link-pulse:hover::after { transform: scaleX(1); }
+
+  .neo-grid {
+    background-image: linear-gradient(var(--neo-grid) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--neo-grid) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+
+  .neo-orb {
+    background: radial-gradient(circle, var(--neo-orb-1), transparent 60%),
+                radial-gradient(circle at 40% 30%, var(--neo-orb-2), transparent 50%);
+    filter: blur(20px);
+    opacity: 0.8;
+  }
+
+  .shadow-apple {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  }
+
+  .shadow-apple-lg {
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* 5. UTILITIES */
+@layer utilities {
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .text-balance { text-wrap: balance; }
+
+  [data-resume-section][data-highlighted='true'] {
+    animation: highlight-pulse 2s ease-in-out;
+    border-color: var(--primary);
+  }
+
+  @keyframes highlight-pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 transparent; }
+    50% { transform: scale(1.01); box-shadow: 0 0 20px -5px var(--primary); }
+  }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
