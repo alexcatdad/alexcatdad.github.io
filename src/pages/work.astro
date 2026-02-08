@@ -13,6 +13,16 @@ if (!resume) {
 ---
 
 <Base title="Commercial Work Experience — Alex Alexandrescu">
+  <div class="max-w-5xl mx-auto px-6 lg:px-8 pt-16">
+    <header class="mb-8" transition:name="page-header">
+      <p class="text-xs uppercase tracking-[0.3em] text-primary mb-2">Resume</p>
+      <h1 class="text-4xl md:text-5xl font-serif text-foreground text-balance">Commercial Work Experience</h1>
+      <p class="font-serif text-muted-foreground mt-3 italic">
+        Roles, responsibilities, and impact across my career.
+      </p>
+    </header>
+  </div>
+
   <div class="relative">
     <ResumeLayout resume={resume} client:load />
     <DownloadButtons resume={resume} alignment="left" client:load />

@@ -1,0 +1,73 @@
+---
+---
+
+<div
+  id="transition-loader"
+  class="fixed top-0 left-0 right-0 z-[70] h-0.5 pointer-events-none"
+  aria-hidden="true"
+>
+  <div class="h-full w-full bg-gradient-to-r from-primary to-accent" />
+</div>
+
+<style>
+  #transition-loader {
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  #transition-loader.is-loading {
+    opacity: 1;
+    transform: scaleX(0.8);
+    transition: opacity 0.2s ease, transform 1.2s var(--ease-spring);
+  }
+
+  #transition-loader.is-finishing {
+    transform: scaleX(1);
+    transition: opacity 0.3s ease, transform 0.2s ease;
+  }
+
+  #transition-loader.is-hidden {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+</style>
+
+<script>
+  const loader = document.getElementById('transition-loader');
+  let delayTimer: ReturnType<typeof setTimeout> | null = null;
+  let finishTimer: ReturnType<typeof setTimeout> | null = null;
+  let resetTimer: ReturnType<typeof setTimeout> | null = null;
+
+  function clearTimers() {
+    if (delayTimer) { clearTimeout(delayTimer); delayTimer = null; }
+    if (finishTimer) { clearTimeout(finishTimer); finishTimer = null; }
+    if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; }
+  }
+
+  document.addEventListener('astro:before-preparation', () => {
+    if (!loader) return;
+    clearTimers();
+    loader.classList.remove('is-loading', 'is-finishing', 'is-hidden');
+
+    delayTimer = setTimeout(() => {
+      loader.classList.add('is-loading');
+    }, 120);
+  });
+
+  document.addEventListener('astro:after-swap', () => {
+    if (!loader) return;
+    clearTimers();
+    loader.classList.remove('is-loading');
+    loader.classList.add('is-finishing');
+
+    finishTimer = setTimeout(() => {
+      loader.classList.remove('is-finishing');
+      loader.classList.add('is-hidden');
+
+      resetTimer = setTimeout(() => {
+        loader.classList.remove('is-hidden');
+      }, 300);
+    }, 100);
+  });
+</script>
