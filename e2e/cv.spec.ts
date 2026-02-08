@@ -1,14 +1,14 @@
 import { expect, test } from '@playwright/test';
 
-test.describe('CV Page', () => {
+test.describe('Work Page', () => {
   test('shows resume content', async ({ page }) => {
-    await page.goto('/cv');
+    await page.goto('/work');
     await expect(page.getByRole('heading', { name: 'Alex Alexandrescu' })).toBeVisible();
     await expect(page.getByText('Full-Stack Architect', { exact: true })).toBeVisible();
   });
 
   test('tab navigation switches sections', async ({ page }) => {
-    await page.goto('/cv');
+    await page.goto('/work');
 
     // Wait for React island to hydrate
     await page.waitForSelector('button:has-text("Experience")');
@@ -23,7 +23,7 @@ test.describe('CV Page', () => {
   });
 
   test('download menu opens with options', async ({ page }) => {
-    await page.goto('/cv');
+    await page.goto('/work');
 
     // Wait for download FAB to appear
     const fab = page.locator('button[aria-label="Open download menu"]');
@@ -36,7 +36,12 @@ test.describe('CV Page', () => {
   });
 
   test('role filtering via query param', async ({ page }) => {
-    await page.goto('/cv?role=ic-senior');
+    await page.goto('/work?role=ic-senior');
     await expect(page.getByRole('heading', { name: 'Alex Alexandrescu' })).toBeVisible();
+  });
+
+  test('legacy /cv route redirects to /work', async ({ page }) => {
+    await page.goto('/cv');
+    await expect(page).toHaveURL('/work');
   });
 });

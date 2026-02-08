@@ -29,8 +29,8 @@ test.describe('Theme Toggle', () => {
     await expect(page.locator('html')).toHaveClass(/light/);
 
     // Navigate to another page
-    await page.click('a[href="/cv"]');
-    await expect(page).toHaveURL('/cv');
+    await page.click('a[href="/work"]');
+    await expect(page).toHaveURL('/work');
 
     // Should still be light
     await expect(page.locator('html')).toHaveClass(/light/);

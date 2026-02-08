@@ -5,12 +5,16 @@ const pathname = Astro.url.pathname;
 
 const navLinks = [
   { href: '/', label: 'Home' },
-  { href: '/cv', label: 'CV' },
+  { href: '/work', label: 'Work' },
   { href: '/projects', label: 'Projects' },
+  { href: '/tools', label: 'Tools' },
+  { href: '/stats', label: 'Stats' },
+  { href: '/bored', label: "I'm bored" },
   { href: '/contact', label: 'Contact' },
 ];
 
 function isActive(href: string): boolean {
+  if (href === '/work') return pathname.startsWith('/work') || pathname.startsWith('/cv');
   if (href === '/') return pathname === '/';
   return pathname.startsWith(href);
 }

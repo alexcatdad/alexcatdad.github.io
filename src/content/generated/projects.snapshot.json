@@ -1,0 +1,15 @@
+{
+  "generatedAt": "2026-02-08T13:20:31.075Z",
+  "owner": "alexcatdad",
+  "thresholds": {
+    "activeDays": 7,
+    "maintenanceDays": 30,
+    "pausedDays": 90
+  },
+  "totals": {
+    "scannedRepos": 22,
+    "includedRepos": 0,
+    "excludedRepos": 22
+  },
+  "items": []
+}

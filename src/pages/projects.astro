@@ -1,81 +1,92 @@
 ---
 import Base from '@/layouts/Base.astro';
-import { fetchGitHubRepos } from '@/lib/github';
+import projectsSnapshot from '@/content/generated/projects.snapshot.json';
+import type { ProjectLifecycleState, ProjectsSnapshot } from '@/types/project-snapshot';
 
-const repos = await fetchGitHubRepos();
+const snapshot = projectsSnapshot as ProjectsSnapshot;
+const projects = snapshot.items ?? [];
 
-const languageColors: Record<string, string> = {
-  TypeScript: '#3178c6',
-  JavaScript: '#f1e05a',
-  Go: '#00ADD8',
-  Python: '#3572A5',
-  Rust: '#dea584',
-  HTML: '#e34c26',
-  CSS: '#563d7c',
-  Shell: '#89e051',
-  Svelte: '#ff3e00',
-  Astro: '#bc52ee',
-  Swift: '#f05138',
-  Ruby: '#701516',
+const stateClasses: Record<ProjectLifecycleState, string> = {
+  active: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+  maintenance: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+  paused: 'bg-sky-500/15 text-sky-300 border-sky-500/30',
+  archived: 'bg-zinc-500/20 text-zinc-300 border-zinc-500/30',
 };
 ---
 
-<Base title="Projects — Alex Alexandrescu" description="Open source repositories and side projects">
-  <div class="max-w-5xl mx-auto px-6 lg:px-8 py-16">
+<Base title="Projects — Alex Alexandrescu" description="Snapshot-driven open source projects">
+  <div class="max-w-6xl mx-auto px-6 lg:px-8 py-16">
     <header class="mb-12">
       <p class="text-xs uppercase tracking-[0.3em] text-primary mb-2">Open Source</p>
       <h1 class="text-4xl md:text-5xl font-serif text-foreground">Projects</h1>
-      <p class="font-serif text-muted-foreground mt-3 italic">Public repositories from GitHub, sorted by stars.</p>
+      <p class="font-serif text-muted-foreground mt-3 italic">
+        Generated at build time from GitHub repo metadata and per-repo `.project.json` files.
+      </p>
+      <p class="text-xs text-muted-foreground mt-3">
+        Snapshot: {new Date(snapshot.generatedAt).toLocaleString('en-US')} · Included {snapshot.totals.includedRepos} / {snapshot.totals.scannedRepos}
+      </p>
     </header>
 
-    {repos.length === 0 ? (
-      <p class="font-serif text-muted-foreground italic">No repos found. GitHub API may be rate-limited during build.</p>
+    {projects.length === 0 ? (
+      <div class="rounded-3xl border border-border bg-card/40 p-8">
+        <h2 class="text-2xl font-serif text-foreground">No templated projects yet</h2>
+        <p class="mt-3 font-serif text-muted-foreground">
+          Repositories appear here only when they contain a valid `.project.json` file.
+        </p>
+      </div>
     ) : (
-      <div class="border-t border-border">
-        {repos.map((repo) => (
-          <a
-            href={repo.html_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="group flex flex-col md:flex-row md:items-start gap-2 md:gap-8 py-6 border-b border-border transition-colors hover:bg-card/50"
+      <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {projects.map((project) => (
+          <article
+            data-project-card
+            class="interactive-card overflow-hidden rounded-3xl border border-border bg-card/50 shadow-apple-lg"
           >
-            <div class="md:w-48 shrink-0">
-              <h2 class="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
-                {repo.name}
-              </h2>
-              <div class="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
-                {repo.language && (
-                  <span class="flex items-center gap-1.5">
-                    <span
-                      class="inline-block h-2 w-2 rounded-full"
-                      style={`background-color: ${languageColors[repo.language] ?? '#8a8378'}`}
-                    />
-                    {repo.language}
-                  </span>
-                )}
-                {repo.stargazers_count > 0 && (
-                  <span>{repo.stargazers_count} &#9733;</span>
-                )}
+            <a href={project.htmlUrl} target="_blank" rel="noopener noreferrer" class="block">
+              <img
+                src={project.hero}
+                alt={`${project.name} preview`}
+                loading="lazy"
+                class="h-44 w-full object-cover border-b border-border"
+              />
+            </a>
+
+            <div class="p-5">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <h2 class="text-xl font-semibold text-foreground">{project.name}</h2>
+                  {project.language && <p class="text-xs text-muted-foreground mt-1">{project.language}</p>}
+                </div>
+                <span class={`rounded-full border px-2.5 py-1 text-[11px] uppercase tracking-[0.2em] ${stateClasses[project.state]}`}>
+                  {project.state}
+                </span>
               </div>
-            </div>
-            <div class="flex-1">
-              {repo.description && (
-                <p class="font-serif text-sm text-muted-foreground leading-relaxed">{repo.description}</p>
-              )}
-              {repo.topics && repo.topics.length > 0 && (
-                <div class="mt-2 flex flex-wrap gap-2">
-                  {repo.topics.slice(0, 5).map((topic) => (
-                    <span class="text-xs text-muted-foreground border border-border px-2 py-0.5">
-                      {topic}
+
+              <p class="mt-4 text-sm font-semibold text-foreground">What</p>
+              <p class="text-sm text-muted-foreground mt-1">{project.what}</p>
+
+              <p class="mt-4 text-sm font-semibold text-foreground">Why</p>
+              <p class="text-sm text-muted-foreground mt-1">{project.why}</p>
+
+              {project.tags.length > 0 && (
+                <div class="mt-4 flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <span class="text-xs border border-border px-2 py-0.5 text-muted-foreground">
+                      {tag}
                     </span>
                   ))}
                 </div>
               )}
+
+              <div class="mt-5 flex items-center justify-between text-xs text-muted-foreground">
+                <span>{project.stars} stars</span>
+                <span>{project.daysSinceCommit}d since commit</span>
+              </div>
+
+              <a href={project.htmlUrl} target="_blank" rel="noopener noreferrer" class="link-pulse mt-5 text-sm text-foreground">
+                Open repository <span aria-hidden="true">↗</span>
+              </a>
             </div>
-            <span class="hidden md:block text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all text-sm shrink-0">
-              &#8594;
-            </span>
-          </a>
+          </article>
         ))}
       </div>
     )}

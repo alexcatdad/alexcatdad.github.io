@@ -4,8 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "bun run generate:snapshots && astro build",
     "preview": "astro preview",
+    "generate:projects-snapshot": "bun run scripts/generate-projects-snapshot.ts",
+    "generate:stats-snapshot": "bun run scripts/generate-stats-snapshot.ts",
+    "generate:snapshots": "bun run scripts/generate-snapshots.ts",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "format": "biome format --write ."
