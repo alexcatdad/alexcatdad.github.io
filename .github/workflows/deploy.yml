@@ -3,6 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   schedule:
     # Daily rebuild to refresh precomputed snapshots
     - cron: '0 0 * * *'
@@ -66,6 +68,7 @@ jobs:
 
   deploy:
     needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
