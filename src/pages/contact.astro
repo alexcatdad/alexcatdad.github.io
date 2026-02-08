@@ -13,10 +13,10 @@ const location = basics?.location
 ---
 
 <Base title="Contact — Alex Alexandrescu" description="Get in touch with Alex Alexandrescu">
-  <div class="max-w-3xl mx-auto px-6 lg:px-8 py-16">
+  <div class="max-w-5xl mx-auto px-6 lg:px-8 py-16">
     <header class="mb-12">
       <p class="text-xs uppercase tracking-[0.3em] text-primary mb-2">Get in touch</p>
-      <h1 class="text-4xl md:text-5xl font-serif text-foreground">Contact</h1>
+      <h1 class="text-4xl md:text-5xl font-serif text-foreground text-balance">Contact</h1>
     </header>
 
     <div class="border-t border-border">
@@ -49,7 +49,7 @@ const location = basics?.location
                 class="link-pulse text-foreground font-serif text-lg hover:text-primary"
               >
                 {profile.network}
-                <span class="text-sm ml-1">&#8599;</span>
+                <span class="text-sm ml-1" aria-hidden="true">&#8599;</span>
               </a>
             ))}
           </div>

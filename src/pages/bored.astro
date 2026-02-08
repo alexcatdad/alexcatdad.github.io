@@ -3,10 +3,10 @@ import Base from '@/layouts/Base.astro';
 ---
 
 <Base title="I'm bored — Alex Alexandrescu" description="Cozy idle game for tab-side fun">
-  <div class="max-w-6xl mx-auto px-6 lg:px-8 py-16">
+  <div class="max-w-5xl mx-auto px-6 lg:px-8 py-16">
     <header class="mb-8">
       <p class="text-xs uppercase tracking-[0.3em] text-primary mb-2">Idle game</p>
-      <h1 class="text-4xl md:text-5xl font-serif text-foreground">I'm bored</h1>
+      <h1 class="text-4xl md:text-5xl font-serif text-foreground text-balance">I'm bored</h1>
       <p class="mt-3 font-serif text-muted-foreground italic">
         Leave this open in a tab. Come back. Upgrade your tiny cat settlement.
       </p>
@@ -14,7 +14,9 @@ import Base from '@/layouts/Base.astro';
 
     <section class="grid gap-6 lg:grid-cols-[2fr_1fr]">
       <article class="interactive-card rounded-3xl border border-border bg-card/50 p-5 shadow-apple-lg">
-        <canvas id="bored-canvas" width="960" height="480" class="w-full rounded-2xl border border-border bg-secondary/20"></canvas>
+        <canvas id="bored-canvas" width="960" height="480" class="w-full rounded-2xl border border-border bg-secondary/20" aria-label="Cat settlement idle game canvas">
+          Your browser does not support the canvas element.
+        </canvas>
       </article>
 
       <aside class="space-y-4">
@@ -26,8 +28,8 @@ import Base from '@/layouts/Base.astro';
             <p>Soup: <span id="resource-soup" class="text-foreground font-semibold">0</span></p>
           </div>
           <div class="mt-4 flex flex-wrap gap-2">
-            <button id="action-gather-wood" class="rounded-2xl border border-border px-3 py-2 text-sm hover:border-primary transition-colors">Gather wood</button>
-            <button id="action-gather-fish" class="rounded-2xl border border-border px-3 py-2 text-sm hover:border-primary transition-colors">Catch fish</button>
+            <button id="action-gather-wood" class="rounded-2xl border border-border px-3 py-2 text-sm hover:border-primary transition-colors focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2">Gather wood</button>
+            <button id="action-gather-fish" class="rounded-2xl border border-border px-3 py-2 text-sm hover:border-primary transition-colors focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2">Catch fish</button>
           </div>
         </article>
 
@@ -38,7 +40,7 @@ import Base from '@/layouts/Base.astro';
 
         <article class="interactive-card rounded-3xl border border-border bg-card/50 p-5 shadow-apple">
           <p class="text-sm text-muted-foreground">Progress saves automatically in this browser. No offline gains are applied while the tab is closed.</p>
-          <button id="action-reset" class="mt-4 rounded-2xl border border-border px-3 py-2 text-sm hover:border-primary transition-colors">Reset settlement</button>
+          <button id="action-reset" class="mt-4 rounded-2xl border border-border px-3 py-2 text-sm hover:border-primary transition-colors focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2">Reset settlement</button>
         </article>
       </aside>
     </section>
@@ -329,7 +331,11 @@ import Base from '@/layouts/Base.astro';
         renderHud();
       });
 
-      resetBtn.addEventListener('click', resetState);
+      resetBtn.addEventListener('click', () => {
+        if (confirm('Reset your settlement? All progress will be lost.')) {
+          resetState();
+        }
+      });
 
       let lastFrameAt = performance.now();
       const loop = (at) => {

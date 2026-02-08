@@ -22,15 +22,15 @@ const cards = [
 ---
 
 <Base title="Stats — Alex Alexandrescu" description="Build-time repository activity snapshot">
-  <div class="max-w-6xl mx-auto px-6 lg:px-8 py-16">
+  <div class="max-w-5xl mx-auto px-6 lg:px-8 py-16">
     <header class="mb-12">
       <p class="text-xs uppercase tracking-[0.3em] text-primary mb-2">Snapshot</p>
-      <h1 class="text-4xl md:text-5xl font-serif text-foreground">Stats</h1>
+      <h1 class="text-4xl md:text-5xl font-serif text-foreground text-balance">Stats</h1>
       <p class="font-serif text-muted-foreground mt-3 italic">
         Cached at build time from public repository activity.
       </p>
       <p class="text-xs text-muted-foreground mt-3">
-        Generated: {new Date(snapshot.generatedAt).toLocaleString('en-US')}
+        Generated: {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(snapshot.generatedAt))}
       </p>
     </header>
 
@@ -38,7 +38,7 @@ const cards = [
       {cards.map((card) => (
         <article class="interactive-card rounded-3xl border border-border bg-card/50 p-5 shadow-apple">
           <p class="text-xs uppercase tracking-[0.3em] text-primary">{card.label}</p>
-          <p class="mt-2 text-3xl font-semibold text-foreground">{card.value}</p>
+          <p class="mt-2 text-3xl font-semibold text-foreground tabular-nums">{card.value}</p>
         </article>
       ))}
     </section>
