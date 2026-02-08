@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://alexcatdad.github.io/schemas/project-meta.schema.json",
+  "title": "Project Metadata",
+  "description": "Schema for /.project.json consumed by alexcatdad.github.io snapshot generation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["what", "why"],
+  "properties": {
+    "what": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Short statement of what the project is."
+    },
+    "why": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Short statement of why the project exists."
+    },
+    "hero": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Hero image URL or repo-relative path (for example: assets/hero.png)."
+    },
+    "tags": {
+      "type": "array",
+      "description": "Optional display tags for project cards.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "featured": {
+      "type": "boolean",
+      "description": "Featured projects sort before non-featured projects."
+    },
+    "order": {
+      "type": "integer",
+      "description": "Lower numbers sort earlier among equally featured projects."
+    }
+  },
+  "examples": [
+    {
+      "what": "Zero-config HTTPS proxy for local macOS development.",
+      "why": "Built to remove HTTPS friction from OAuth and secure-cookie local workflows.",
+      "hero": "assets/hero.png",
+      "tags": ["go", "proxy", "developer-tooling"],
+      "featured": true,
+      "order": 10
+    }
+  ]
+}
