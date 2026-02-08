@@ -1,0 +1,58 @@
+{
+  "sections": [
+    {
+      "title": "Runtime and Frameworks",
+      "description": "Defaults for shipping quickly with predictable DX and performance.",
+      "items": [
+        {
+          "name": "Bun",
+          "kind": "runtime",
+          "url": "https://bun.sh",
+          "why": "Fast install and script execution across local and CI workflows."
+        },
+        {
+          "name": "React",
+          "kind": "framework",
+          "url": "https://react.dev",
+          "why": "Component model that stays productive from tiny UI islands to full apps."
+        },
+        {
+          "name": "Next.js",
+          "kind": "framework",
+          "url": "https://nextjs.org",
+          "why": "Strong full-stack conventions when shipping product-grade web experiences."
+        },
+        {
+          "name": "Astro",
+          "kind": "framework",
+          "url": "https://astro.build",
+          "why": "Great fit for content-heavy static builds with selective hydration."
+        }
+      ]
+    },
+    {
+      "title": "Built Tools",
+      "description": "Internal tools and open-source projects used in daily workflows.",
+      "items": [
+        {
+          "name": "paw",
+          "kind": "custom",
+          "url": "https://github.com/alexcatdad/paw",
+          "why": "Personal dotfiles manager focused on repeatable machine setup."
+        },
+        {
+          "name": "paw-proxy",
+          "kind": "custom",
+          "url": "https://github.com/alexcatdad/paw-proxy",
+          "why": "Local HTTPS proxy to remove friction from secure dev environments."
+        },
+        {
+          "name": "catnap",
+          "kind": "custom",
+          "url": "https://github.com/alexcatdad/catnap",
+          "why": "macOS menubar dashboard for tracking local repo health and activity."
+        }
+      ]
+    }
+  ]
+}

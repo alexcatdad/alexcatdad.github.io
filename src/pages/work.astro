@@ -1,0 +1,20 @@
+---
+import Base from '@/layouts/Base.astro';
+import { getEntry } from 'astro:content';
+import { DownloadButtons } from '@/components/DownloadButtons';
+import { ResumeLayout } from '@/components/ResumeLayout';
+
+const entry = await getEntry('resume', 'alex');
+const resume = entry?.data;
+
+if (!resume) {
+  return Astro.redirect('/');
+}
+---
+
+<Base title="Commercial Work Experience — Alex Alexandrescu">
+  <div class="relative">
+    <ResumeLayout resume={resume} client:load />
+    <DownloadButtons resume={resume} alignment="left" client:load />
+  </div>
+</Base>

@@ -1,20 +1,19 @@
 ---
 import Base from '@/layouts/Base.astro';
-import { getEntry } from 'astro:content';
-import { ResumeLayout } from '@/components/ResumeLayout';
-import { DownloadButtons } from '@/components/DownloadButtons';
-
-const entry = await getEntry('resume', 'alex');
-const resume = entry?.data;
-
-if (!resume) {
-  return Astro.redirect('/');
-}
 ---
 
-<Base title="CV — Alex Alexandrescu">
-  <div class="relative">
-    <ResumeLayout resume={resume} client:load />
-    <DownloadButtons resume={resume} alignment="left" client:load />
-  </div>
+<Base title="Redirecting to Work — Alex Alexandrescu">
+  <section class="mx-auto max-w-3xl px-6 py-20 text-center">
+    <p class="text-xs uppercase tracking-[0.3em] text-primary">Moved</p>
+    <h1 class="mt-3 text-4xl font-serif text-foreground">Commercial Work Experience</h1>
+    <p class="mt-4 font-serif text-muted-foreground">
+      The CV route has moved.
+      <a class="link-pulse" href="/work">Open /work</a>
+    </p>
+  </section>
+
+  <script is:inline>
+    const target = `/work${window.location.search}${window.location.hash}`;
+    window.location.replace(target);
+  </script>
 </Base>

@@ -1,0 +1,142 @@
+{
+  "generatedAt": "2026-02-08T13:19:35.445Z",
+  "owner": "alexcatdad",
+  "windows": {
+    "activeDays": 30,
+    "commitDays": 90
+  },
+  "totals": {
+    "publicRepos": 26,
+    "stars": 0,
+    "forks": 0,
+    "activeRepos": 26,
+    "recentCommitCount": 597,
+    "recentTouchedRepos": 24
+  },
+  "languages": [
+    {
+      "name": "TypeScript",
+      "repos": 14
+    },
+    {
+      "name": "Svelte",
+      "repos": 2
+    },
+    {
+      "name": "Go",
+      "repos": 1
+    },
+    {
+      "name": "Swift",
+      "repos": 1
+    },
+    {
+      "name": "Ruby",
+      "repos": 1
+    },
+    {
+      "name": "JavaScript",
+      "repos": 1
+    },
+    {
+      "name": "CSS",
+      "repos": 1
+    },
+    {
+      "name": "Shell",
+      "repos": 1
+    }
+  ],
+  "recentUpdates": [
+    {
+      "name": "paw-proxy",
+      "htmlUrl": "https://github.com/alexcatdad/paw-proxy",
+      "description": "Zero-config HTTPS proxy for local macOS development",
+      "language": "Go",
+      "pushedAt": "2026-02-08T01:29:15Z",
+      "daysSinceCommit": 0,
+      "state": "active"
+    },
+    {
+      "name": "aniforge-full",
+      "htmlUrl": "https://github.com/alexcatdad/aniforge-full",
+      "description": "Aniforge — self-hosted anime database aggregation and recommendation engine (monorepo)",
+      "language": null,
+      "pushedAt": "2026-02-08T00:54:18Z",
+      "daysSinceCommit": 0,
+      "state": "active"
+    },
+    {
+      "name": "aksmed",
+      "htmlUrl": "https://github.com/alexcatdad/aksmed",
+      "description": "AKSMED brand logo preview tool - luxury medical brand design studio",
+      "language": "TypeScript",
+      "pushedAt": "2026-02-08T00:14:46Z",
+      "daysSinceCommit": 0,
+      "state": "active"
+    },
+    {
+      "name": "alexcatdad.github.io",
+      "htmlUrl": "https://github.com/alexcatdad/alexcatdad.github.io",
+      "description": "Personal GitHub Pages site",
+      "language": "TypeScript",
+      "pushedAt": "2026-02-07T16:55:46Z",
+      "daysSinceCommit": 0,
+      "state": "active"
+    },
+    {
+      "name": "catnap",
+      "htmlUrl": "https://github.com/alexcatdad/catnap",
+      "description": "macOS menubar dashboard for local git repos — live status, GitHub enrichment, zero config",
+      "language": "Swift",
+      "pushedAt": "2026-02-07T15:09:36Z",
+      "daysSinceCommit": 0,
+      "state": "active"
+    },
+    {
+      "name": "paw",
+      "htmlUrl": "https://github.com/alexcatdad/paw",
+      "description": "Personal dotfiles manager CLI",
+      "language": "TypeScript",
+      "pushedAt": "2026-02-07T14:54:26Z",
+      "daysSinceCommit": 0,
+      "state": "active"
+    },
+    {
+      "name": "Project-Clockwork",
+      "htmlUrl": "https://github.com/alexcatdad/Project-Clockwork",
+      "description": "Browser-based RPG game",
+      "language": "TypeScript",
+      "pushedAt": "2026-02-07T14:27:59Z",
+      "daysSinceCommit": 0,
+      "state": "active"
+    },
+    {
+      "name": "homebrew-tap",
+      "htmlUrl": "https://github.com/alexcatdad/homebrew-tap",
+      "description": "Homebrew formulae for alexcatdad tools",
+      "language": "Ruby",
+      "pushedAt": "2026-02-07T13:41:37Z",
+      "daysSinceCommit": 0,
+      "state": "active"
+    },
+    {
+      "name": "aniforge-infra",
+      "htmlUrl": "https://github.com/alexcatdad/aniforge-infra",
+      "description": "Aniforge infrastructure — K8s manifests and GitOps config",
+      "language": null,
+      "pushedAt": "2026-02-06T14:11:19Z",
+      "daysSinceCommit": 1,
+      "state": "active"
+    },
+    {
+      "name": "aniforge-api",
+      "htmlUrl": "https://github.com/alexcatdad/aniforge-api",
+      "description": "Aniforge pipeline and API — anime database aggregation with vector search",
+      "language": null,
+      "pushedAt": "2026-02-06T14:11:11Z",
+      "daysSinceCommit": 1,
+      "state": "active"
+    }
+  ]
+}

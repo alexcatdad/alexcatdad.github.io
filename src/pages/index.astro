@@ -12,18 +12,36 @@ const lastName = basics?.name?.split(' ').slice(1).join(' ') ?? 'Alexandrescu';
 const sections = [
   {
     num: '01',
-    label: 'Curriculum Vitae',
-    desc: 'Experience, skills, projects — the full professional profile',
-    href: '/cv',
+    label: 'Commercial Work Experience',
+    desc: 'Experience, skills, and delivery highlights',
+    href: '/work',
   },
   {
     num: '02',
     label: 'Projects',
-    desc: 'Open source repos and side projects on GitHub',
+    desc: 'Snapshot-powered cards from public repos + project metadata',
     href: '/projects',
   },
   {
     num: '03',
+    label: 'Tools',
+    desc: 'Preferred stack and built tools used in daily workflows',
+    href: '/tools',
+  },
+  {
+    num: '04',
+    label: 'Stats',
+    desc: 'Daily cached build-time metrics from repository activity',
+    href: '/stats',
+  },
+  {
+    num: '05',
+    label: "I'm bored",
+    desc: 'A cozy idle game you can leave open in a tab',
+    href: '/bored',
+  },
+  {
+    num: '06',
     label: 'Contact',
     desc: 'Get in touch via email or LinkedIn',
     href: '/contact',

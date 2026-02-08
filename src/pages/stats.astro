@@ -1,0 +1,86 @@
+---
+import Base from '@/layouts/Base.astro';
+import statsSnapshot from '@/content/generated/stats.snapshot.json';
+import type { StatsSnapshot } from '@/types/stats-snapshot';
+
+const snapshot = statsSnapshot as StatsSnapshot;
+
+const cards = [
+  { label: 'Public repos', value: snapshot.totals.publicRepos },
+  { label: 'Stars', value: snapshot.totals.stars },
+  { label: 'Forks', value: snapshot.totals.forks },
+  { label: `Active (${snapshot.windows.activeDays}d)`, value: snapshot.totals.activeRepos },
+  {
+    label: `Recent commits (${snapshot.windows.commitDays}d)`,
+    value: snapshot.totals.recentCommitCount,
+  },
+  {
+    label: `Repos touched (${snapshot.windows.commitDays}d)`,
+    value: snapshot.totals.recentTouchedRepos,
+  },
+];
+---
+
+<Base title="Stats — Alex Alexandrescu" description="Build-time repository activity snapshot">
+  <div class="max-w-6xl mx-auto px-6 lg:px-8 py-16">
+    <header class="mb-12">
+      <p class="text-xs uppercase tracking-[0.3em] text-primary mb-2">Snapshot</p>
+      <h1 class="text-4xl md:text-5xl font-serif text-foreground">Stats</h1>
+      <p class="font-serif text-muted-foreground mt-3 italic">
+        Cached at build time from public repository activity.
+      </p>
+      <p class="text-xs text-muted-foreground mt-3">
+        Generated: {new Date(snapshot.generatedAt).toLocaleString('en-US')}
+      </p>
+    </header>
+
+    <section class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {cards.map((card) => (
+        <article class="interactive-card rounded-3xl border border-border bg-card/50 p-5 shadow-apple">
+          <p class="text-xs uppercase tracking-[0.3em] text-primary">{card.label}</p>
+          <p class="mt-2 text-3xl font-semibold text-foreground">{card.value}</p>
+        </article>
+      ))}
+    </section>
+
+    <section class="mt-10 grid gap-6 lg:grid-cols-2">
+      <article class="interactive-card rounded-3xl border border-border bg-card/50 p-6 shadow-apple">
+        <h2 class="text-2xl font-serif text-foreground">Language distribution</h2>
+        {snapshot.languages.length === 0 ? (
+          <p class="mt-3 text-sm text-muted-foreground">No language data available in snapshot.</p>
+        ) : (
+          <ul class="mt-4 space-y-3">
+            {snapshot.languages.map((language) => (
+              <li class="flex items-center justify-between gap-4 text-sm">
+                <span class="text-foreground">{language.name}</span>
+                <span class="text-muted-foreground">{language.repos} repos</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </article>
+
+      <article class="interactive-card rounded-3xl border border-border bg-card/50 p-6 shadow-apple">
+        <h2 class="text-2xl font-serif text-foreground">Recent updates</h2>
+        {snapshot.recentUpdates.length === 0 ? (
+          <p class="mt-3 text-sm text-muted-foreground">No recent updates available in snapshot.</p>
+        ) : (
+          <ul class="mt-4 space-y-4">
+            {snapshot.recentUpdates.map((repo) => (
+              <li class="rounded-2xl border border-border bg-secondary/30 p-4">
+                <div class="flex items-start justify-between gap-3">
+                  <a href={repo.htmlUrl} target="_blank" rel="noopener noreferrer" class="font-semibold text-foreground hover:text-primary transition-colors">
+                    {repo.name}
+                  </a>
+                  <span class="text-xs uppercase tracking-[0.2em] text-muted-foreground">{repo.state}</span>
+                </div>
+                {repo.description && <p class="mt-2 text-sm text-muted-foreground">{repo.description}</p>}
+                <p class="mt-2 text-xs text-muted-foreground">{repo.daysSinceCommit}d since commit</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </article>
+    </section>
+  </div>
+</Base>

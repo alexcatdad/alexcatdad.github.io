@@ -1,0 +1,379 @@
+---
+import Base from '@/layouts/Base.astro';
+---
+
+<Base title="I'm bored — Alex Alexandrescu" description="Cozy idle game for tab-side fun">
+  <div class="max-w-6xl mx-auto px-6 lg:px-8 py-16">
+    <header class="mb-8">
+      <p class="text-xs uppercase tracking-[0.3em] text-primary mb-2">Idle game</p>
+      <h1 class="text-4xl md:text-5xl font-serif text-foreground">I'm bored</h1>
+      <p class="mt-3 font-serif text-muted-foreground italic">
+        Leave this open in a tab. Come back. Upgrade your tiny cat settlement.
+      </p>
+    </header>
+
+    <section class="grid gap-6 lg:grid-cols-[2fr_1fr]">
+      <article class="interactive-card rounded-3xl border border-border bg-card/50 p-5 shadow-apple-lg">
+        <canvas id="bored-canvas" width="960" height="480" class="w-full rounded-2xl border border-border bg-secondary/20"></canvas>
+      </article>
+
+      <aside class="space-y-4">
+        <article class="interactive-card rounded-3xl border border-border bg-card/50 p-5 shadow-apple">
+          <h2 class="text-xl font-serif text-foreground">Resources</h2>
+          <div class="mt-4 space-y-2 text-sm text-muted-foreground">
+            <p>Wood: <span id="resource-wood" class="text-foreground font-semibold">0</span></p>
+            <p>Fish: <span id="resource-fish" class="text-foreground font-semibold">0</span></p>
+            <p>Soup: <span id="resource-soup" class="text-foreground font-semibold">0</span></p>
+          </div>
+          <div class="mt-4 flex flex-wrap gap-2">
+            <button id="action-gather-wood" class="rounded-2xl border border-border px-3 py-2 text-sm hover:border-primary transition-colors">Gather wood</button>
+            <button id="action-gather-fish" class="rounded-2xl border border-border px-3 py-2 text-sm hover:border-primary transition-colors">Catch fish</button>
+          </div>
+        </article>
+
+        <article class="interactive-card rounded-3xl border border-border bg-card/50 p-5 shadow-apple">
+          <h2 class="text-xl font-serif text-foreground">Buildings</h2>
+          <div id="building-list" class="mt-4 space-y-3"></div>
+        </article>
+
+        <article class="interactive-card rounded-3xl border border-border bg-card/50 p-5 shadow-apple">
+          <p class="text-sm text-muted-foreground">Progress saves automatically in this browser. No offline gains are applied while the tab is closed.</p>
+          <button id="action-reset" class="mt-4 rounded-2xl border border-border px-3 py-2 text-sm hover:border-primary transition-colors">Reset settlement</button>
+        </article>
+      </aside>
+    </section>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const STORAGE_KEY = 'bored-settlement-v1';
+      const VERSION = 1;
+
+      const buildingDefs = [
+        {
+          key: 'camp',
+          label: 'Campfire',
+          description: 'Keeps everyone cozy and boosts baseline gathering.',
+          cost: (level) => ({ wood: 12 + level * 10, fish: 8 + level * 6, soup: 0 }),
+        },
+        {
+          key: 'lumberyard',
+          label: 'Lumberyard',
+          description: 'Cat carpenters gather more wood over time.',
+          cost: (level) => ({ wood: 20 + level * 18, fish: 0, soup: 2 + level }),
+        },
+        {
+          key: 'dock',
+          label: 'Fishing Dock',
+          description: 'Cat anglers increase fish production.',
+          cost: (level) => ({ wood: 16 + level * 12, fish: 10 + level * 8, soup: 2 + level }),
+        },
+        {
+          key: 'kitchen',
+          label: 'Soup Kitchen',
+          description: 'Converts wood + fish into delicious soup.',
+          cost: (level) => ({ wood: 30 + level * 20, fish: 24 + level * 14, soup: 6 + level * 2 }),
+        },
+        {
+          key: 'guild',
+          label: 'Guild Hall',
+          description: 'Improves overall production efficiency.',
+          cost: (level) => ({ wood: 48 + level * 28, fish: 36 + level * 24, soup: 12 + level * 3 }),
+        },
+      ];
+
+      const defaultState = () => ({
+        version: VERSION,
+        resources: {
+          wood: 10,
+          fish: 6,
+          soup: 0,
+        },
+        buildings: {
+          camp: 0,
+          lumberyard: 0,
+          dock: 0,
+          kitchen: 0,
+          guild: 0,
+        },
+      });
+
+      const saveState = () => {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      };
+
+      const loadState = () => {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return defaultState();
+          const parsed = JSON.parse(raw);
+          if (!parsed || parsed.version !== VERSION) return defaultState();
+          return {
+            ...defaultState(),
+            ...parsed,
+            resources: {
+              ...defaultState().resources,
+              ...(parsed.resources || {}),
+            },
+            buildings: {
+              ...defaultState().buildings,
+              ...(parsed.buildings || {}),
+            },
+          };
+        } catch {
+          return defaultState();
+        }
+      };
+
+      const state = loadState();
+      const canvas = document.getElementById('bored-canvas');
+      const ctx = canvas.getContext('2d');
+
+      const resourceEls = {
+        wood: document.getElementById('resource-wood'),
+        fish: document.getElementById('resource-fish'),
+        soup: document.getElementById('resource-soup'),
+      };
+
+      const buildingList = document.getElementById('building-list');
+      const gatherWoodBtn = document.getElementById('action-gather-wood');
+      const gatherFishBtn = document.getElementById('action-gather-fish');
+      const resetBtn = document.getElementById('action-reset');
+
+      const clamp = (value) => Math.max(0, Number(value.toFixed(2)));
+
+      const getProduction = () => {
+        const boost = 1 + state.buildings.guild * 0.1;
+        const woodPerSecond = (0.18 + state.buildings.camp * 0.05 + state.buildings.lumberyard * 0.7) * boost;
+        const fishPerSecond = (0.14 + state.buildings.camp * 0.04 + state.buildings.dock * 0.65) * boost;
+        const soupCapacity = state.buildings.kitchen * 0.5 * boost;
+
+        return {
+          woodPerSecond,
+          fishPerSecond,
+          soupPerSecond: soupCapacity,
+        };
+      };
+
+      const canAfford = (cost) =>
+        state.resources.wood >= cost.wood &&
+        state.resources.fish >= cost.fish &&
+        state.resources.soup >= cost.soup;
+
+      const spend = (cost) => {
+        state.resources.wood = clamp(state.resources.wood - cost.wood);
+        state.resources.fish = clamp(state.resources.fish - cost.fish);
+        state.resources.soup = clamp(state.resources.soup - cost.soup);
+      };
+
+      const attemptUpgrade = (key) => {
+        const def = buildingDefs.find((item) => item.key === key);
+        if (!def) return;
+        const level = state.buildings[key] || 0;
+        const cost = def.cost(level);
+        if (!canAfford(cost)) return;
+
+        spend(cost);
+        state.buildings[key] = level + 1;
+        saveState();
+        renderBuildings();
+        renderHud();
+      };
+
+      const tick = (seconds) => {
+        const production = getProduction();
+
+        state.resources.wood = clamp(state.resources.wood + production.woodPerSecond * seconds);
+        state.resources.fish = clamp(state.resources.fish + production.fishPerSecond * seconds);
+
+        if (production.soupPerSecond > 0) {
+          const desiredSoup = production.soupPerSecond * seconds;
+          const maxByFish = state.resources.fish / 1.2;
+          const maxByWood = state.resources.wood / 0.8;
+          const craftableSoup = Math.min(desiredSoup, maxByFish, maxByWood);
+
+          if (craftableSoup > 0) {
+            state.resources.fish = clamp(state.resources.fish - craftableSoup * 1.2);
+            state.resources.wood = clamp(state.resources.wood - craftableSoup * 0.8);
+            state.resources.soup = clamp(state.resources.soup + craftableSoup);
+          }
+        }
+      };
+
+      const drawScene = () => {
+        if (!ctx) return;
+        const w = canvas.width;
+        const h = canvas.height;
+
+        const sky = ctx.createLinearGradient(0, 0, 0, h);
+        sky.addColorStop(0, '#2f2a22');
+        sky.addColorStop(1, '#12100d');
+        ctx.fillStyle = sky;
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.fillStyle = '#2f3f2b';
+        ctx.fillRect(0, h * 0.62, w, h * 0.38);
+
+        ctx.fillStyle = '#28435c';
+        ctx.fillRect(0, h * 0.7, w * 0.42, h * 0.3);
+
+        const totalBuildings = Object.values(state.buildings).reduce((sum, level) => sum + level, 0);
+        const catCount = 3 + Math.min(10, totalBuildings);
+
+        for (let i = 0; i < catCount; i += 1) {
+          const x = 70 + (i * 77) % (w - 120);
+          const y = h * 0.6 + ((i * 13) % 60);
+          ctx.fillStyle = i % 2 === 0 ? '#e6d8b2' : '#d5b97b';
+          ctx.fillRect(x, y, 16, 12);
+          ctx.fillStyle = '#2a1f13';
+          ctx.fillRect(x + 3, y - 5, 3, 5);
+          ctx.fillRect(x + 10, y - 5, 3, 5);
+        }
+
+        const keys = ['camp', 'lumberyard', 'dock', 'kitchen', 'guild'];
+        const colors = ['#c97a3a', '#8f6a40', '#4679a1', '#9f5a3d', '#7763a3'];
+
+        keys.forEach((key, index) => {
+          const level = state.buildings[key];
+          if (!level) return;
+          const x = 540 + index * 72;
+          const y = h * 0.63 - Math.min(90, level * 10);
+          const width = 54;
+          const height = 50 + Math.min(70, level * 7);
+          ctx.fillStyle = colors[index];
+          ctx.fillRect(x, y, width, height);
+          ctx.fillStyle = '#f8f2e4';
+          ctx.font = '12px sans-serif';
+          ctx.fillText(`L${level}`, x + 15, y + 18);
+        });
+
+        const production = getProduction();
+        ctx.fillStyle = '#e8e2d4';
+        ctx.font = '16px sans-serif';
+        ctx.fillText(`Wood +${production.woodPerSecond.toFixed(2)}/s`, 18, 28);
+        ctx.fillText(`Fish +${production.fishPerSecond.toFixed(2)}/s`, 18, 52);
+        ctx.fillText(`Soup +${production.soupPerSecond.toFixed(2)}/s`, 18, 76);
+      };
+
+      const renderHud = () => {
+        resourceEls.wood.textContent = state.resources.wood.toFixed(1);
+        resourceEls.fish.textContent = state.resources.fish.toFixed(1);
+        resourceEls.soup.textContent = state.resources.soup.toFixed(1);
+      };
+
+      const renderBuildings = () => {
+        buildingList.innerHTML = '';
+
+        buildingDefs.forEach((def) => {
+          const level = state.buildings[def.key] || 0;
+          const cost = def.cost(level);
+          const disabled = !canAfford(cost);
+
+          const row = document.createElement('div');
+          row.className = 'rounded-2xl border border-border bg-secondary/30 p-3';
+
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'w-full text-left';
+          button.disabled = disabled;
+          button.addEventListener('click', () => attemptUpgrade(def.key));
+
+          const title = document.createElement('p');
+          title.className = 'text-sm font-semibold text-foreground';
+          title.textContent = `${def.label} · L${level}`;
+
+          const desc = document.createElement('p');
+          desc.className = 'mt-1 text-xs text-muted-foreground';
+          desc.textContent = def.description;
+
+          const costText = document.createElement('p');
+          costText.className = 'mt-2 text-xs text-muted-foreground';
+          costText.textContent = `Upgrade cost: ${cost.wood.toFixed(0)} wood, ${cost.fish.toFixed(0)} fish, ${cost.soup.toFixed(0)} soup`;
+
+          if (disabled) {
+            button.classList.add('opacity-65', 'cursor-not-allowed');
+          }
+
+          button.appendChild(title);
+          button.appendChild(desc);
+          button.appendChild(costText);
+          row.appendChild(button);
+          buildingList.appendChild(row);
+        });
+      };
+
+      const renderAll = () => {
+        renderHud();
+        renderBuildings();
+        drawScene();
+      };
+
+      const resetState = () => {
+        const fresh = defaultState();
+        state.version = fresh.version;
+        state.resources = { ...fresh.resources };
+        state.buildings = { ...fresh.buildings };
+        saveState();
+        renderAll();
+      };
+
+      gatherWoodBtn.addEventListener('click', () => {
+        state.resources.wood = clamp(state.resources.wood + 3);
+        saveState();
+        renderHud();
+      });
+
+      gatherFishBtn.addEventListener('click', () => {
+        state.resources.fish = clamp(state.resources.fish + 2.5);
+        saveState();
+        renderHud();
+      });
+
+      resetBtn.addEventListener('click', resetState);
+
+      let lastFrameAt = performance.now();
+      const loop = (at) => {
+        const elapsed = Math.min(0.25, (at - lastFrameAt) / 1000);
+        lastFrameAt = at;
+        tick(elapsed);
+        drawScene();
+        renderHud();
+        requestAnimationFrame(loop);
+      };
+
+      setInterval(saveState, 5000);
+      window.addEventListener('beforeunload', saveState);
+
+      window.render_game_to_text = () => {
+        const production = getProduction();
+        return JSON.stringify({
+          mode: 'idle',
+          coordinate_system: 'canvas origin top-left, x right, y down',
+          resources: state.resources,
+          buildings: state.buildings,
+          production,
+          rules: {
+            offlineGains: false,
+            thresholds: {
+              active: 7,
+              maintenance: 30,
+              paused: 90,
+            },
+          },
+        });
+      };
+
+      window.advanceTime = (ms) => {
+        const step = 1000 / 30;
+        const iterations = Math.max(1, Math.round(ms / step));
+        for (let i = 0; i < iterations; i += 1) {
+          tick(step / 1000);
+        }
+        renderAll();
+      };
+
+      renderAll();
+      requestAnimationFrame(loop);
+    })();
+  </script>
+</Base>
