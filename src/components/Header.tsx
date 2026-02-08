@@ -32,11 +32,13 @@ export function Header({ basics }: HeaderProps) {
   const featuredProfile = basics.profiles?.[0];
 
   return (
-    <header className="interactive-card mb-10 rounded-3xl border border-border bg-card/50 p-6 shadow-apple-lg backdrop-blur-xl dark:bg-card/50 transition-all duration-300">
+    <header className="interactive-card mb-12 rounded-3xl border border-border bg-card/50 p-6 shadow-apple-lg backdrop-blur-xl dark:bg-card/50 transition-[border-color,box-shadow] duration-300">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           {basics.name && (
-            <h1 className="text-3xl font-semibold text-foreground md:text-4xl">{basics.name}</h1>
+            <h1 className="text-4xl font-semibold text-foreground text-balance md:text-5xl">
+              {basics.name}
+            </h1>
           )}
           {basics.label && (
             <p className="text-lg font-medium text-primary/90 transition-opacity">{basics.label}</p>

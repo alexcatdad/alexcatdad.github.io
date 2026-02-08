@@ -384,13 +384,13 @@ export function ResumeLayout({ resume }: ResumeLayoutProps) {
   }, [activeTab, activeSection, availableSections]);
 
   return (
-    <div className="relative min-h-screen px-4 pb-16 pt-6 text-foreground md:px-8">
+    <div className="relative min-h-screen px-6 pb-16 pt-6 text-foreground lg:px-8">
       <div className="mx-auto max-w-5xl">
         <Header basics={resume.basics} />
 
         <div
           className={cn(
-            'sticky top-20 z-40 -mx-4 md:-mx-8 px-4 md:px-8',
+            'sticky top-20 z-40 -mx-6 lg:-mx-8 px-6 lg:px-8',
             showStickyContext && 'pb-4'
           )}
         >
@@ -489,10 +489,10 @@ export function ResumeLayout({ resume }: ResumeLayoutProps) {
             />
           )}
 
-        <footer className="mt-12 border-t border-border pt-4 text-center text-sm text-muted-foreground">
+        <div className="mt-12 border-t border-border pt-4 text-center text-sm text-muted-foreground">
           {resume.meta?.version && `JSON Resume ${resume.meta.version}`}
           {resume.meta?.lastModified && ` · Last updated ${resume.meta.lastModified}`}
-        </footer>
+        </div>
       </div>
     </div>
   );

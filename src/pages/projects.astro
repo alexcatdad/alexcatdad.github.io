@@ -15,15 +15,15 @@ const stateClasses: Record<ProjectLifecycleState, string> = {
 ---
 
 <Base title="Projects — Alex Alexandrescu" description="Snapshot-driven open source projects">
-  <div class="max-w-6xl mx-auto px-6 lg:px-8 py-16">
+  <div class="max-w-5xl mx-auto px-6 lg:px-8 py-16">
     <header class="mb-12">
       <p class="text-xs uppercase tracking-[0.3em] text-primary mb-2">Open Source</p>
-      <h1 class="text-4xl md:text-5xl font-serif text-foreground">Projects</h1>
+      <h1 class="text-4xl md:text-5xl font-serif text-foreground text-balance">Projects</h1>
       <p class="font-serif text-muted-foreground mt-3 italic">
         Generated at build time from GitHub repo metadata and per-repo `.project.json` files.
       </p>
       <p class="text-xs text-muted-foreground mt-3">
-        Snapshot: {new Date(snapshot.generatedAt).toLocaleString('en-US')} · Included {snapshot.totals.includedRepos} / {snapshot.totals.scannedRepos}
+        Snapshot: {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(snapshot.generatedAt))} · Included {snapshot.totals.includedRepos} / {snapshot.totals.scannedRepos}
       </p>
     </header>
 
@@ -45,6 +45,8 @@ const stateClasses: Record<ProjectLifecycleState, string> = {
               <img
                 src={project.hero}
                 alt={`${project.name} preview`}
+                width="400"
+                height="176"
                 loading="lazy"
                 class="h-44 w-full object-cover border-b border-border"
               />

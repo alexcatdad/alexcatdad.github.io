@@ -23,7 +23,7 @@ function isActive(href: string): boolean {
 <nav
   id="main-nav"
   aria-label="Primary navigation"
-  class="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-sm transition-all duration-300"
+  class="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-sm transition-[background-color,box-shadow,border-color] duration-300"
 >
   <div class="max-w-5xl mx-auto px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
@@ -35,7 +35,7 @@ function isActive(href: string): boolean {
       </a>
 
       {/* Desktop Navigation */}
-      <div class="hidden lg:flex items-center gap-8" role="menubar">
+      <div class="hidden lg:flex items-center gap-8">
         {navLinks.map((link) => (
           <a
             href={link.href}
@@ -71,10 +71,10 @@ function isActive(href: string): boolean {
         aria-label="Toggle menu"
         aria-expanded="false"
       >
-        <svg class="menu-icon h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <svg aria-hidden="true" class="menu-icon h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
         </svg>
-        <svg class="close-icon hidden h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <svg aria-hidden="true" class="close-icon hidden h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
         </svg>
       </button>
@@ -84,7 +84,7 @@ function isActive(href: string): boolean {
   {/* Mobile Menu */}
   <div
     id="mobile-menu"
-    class="lg:hidden border-t border-border bg-background max-h-0 overflow-hidden opacity-0 transition-all duration-300"
+    class="lg:hidden border-t border-border bg-background max-h-0 overflow-hidden opacity-0 transition-[max-height,opacity] duration-300"
   >
     <div class="px-6 py-4 space-y-1">
       {navLinks.map((link) => (
