@@ -51,7 +51,7 @@ function isActive(href: string): boolean {
             {isActive(link.href) && (
               <span
                 aria-hidden="true"
-                class="absolute -bottom-1 left-0 right-0 h-px bg-primary"
+                class="nav-active-indicator absolute -bottom-1 left-0 right-0 h-px bg-primary"
               />
             )}
           </a>
@@ -149,6 +149,54 @@ function isActive(href: string): boolean {
     });
   }
 
+  function closeMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const btn = document.getElementById('mobile-menu-btn');
+    if (!menu || !btn) return;
+    menu.classList.add('max-h-0', 'opacity-0');
+    menu.classList.remove('max-h-[600px]', 'opacity-100');
+    btn.querySelector('.menu-icon')?.classList.remove('hidden');
+    btn.querySelector('.close-icon')?.classList.add('hidden');
+    btn.setAttribute('aria-expanded', 'false');
+  }
+
+  function updateActiveLinks() {
+    const path = window.location.pathname;
+    const nav = document.getElementById('main-nav');
+    if (!nav) return;
+
+    // Remove all existing indicators first to avoid duplicates
+    nav.querySelectorAll('.nav-active-indicator').forEach((el) => el.remove());
+
+    nav.querySelectorAll('a[href]').forEach((link) => {
+      const href = link.getAttribute('href') ?? '';
+      let active = false;
+      if (href === '/work') active = path.startsWith('/work') || path.startsWith('/cv');
+      else if (href === '/') active = path === '/';
+      else active = path.startsWith(href);
+
+      if (active) {
+        link.setAttribute('aria-current', 'page');
+        link.classList.remove('text-muted-foreground', 'hover:text-foreground');
+        link.classList.add('text-foreground');
+        if (link.closest('.hidden.lg\\:flex')) {
+          const span = document.createElement('span');
+          span.setAttribute('aria-hidden', 'true');
+          span.className = 'nav-active-indicator absolute -bottom-1 left-0 right-0 h-px bg-primary';
+          link.appendChild(span);
+        }
+      } else {
+        link.removeAttribute('aria-current');
+        link.classList.add('text-muted-foreground', 'hover:text-foreground');
+        link.classList.remove('text-foreground');
+      }
+    });
+  }
+
   initNav();
-  document.addEventListener('astro:after-swap', initNav);
+  document.addEventListener('astro:before-swap', closeMenu);
+  document.addEventListener('astro:after-swap', () => {
+    updateActiveLinks();
+    initNav();
+  });
 </script>
