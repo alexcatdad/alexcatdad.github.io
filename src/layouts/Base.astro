@@ -10,11 +10,19 @@ import WelcomeToast from '@/components/WelcomeToast.astro';
 interface Props {
   title?: string;
   description?: string;
+  hideNav?: boolean;
+  hideFooter?: boolean;
+  hideWelcomeToast?: boolean;
+  mainClass?: string;
 }
 
 const {
   title = 'Alex Alexandrescu — Full-Stack Architect',
   description = 'Full-stack architect building products from database to deployment. 14+ years shipping production web applications.',
+  hideNav = false,
+  hideFooter = false,
+  hideWelcomeToast = false,
+  mainClass = 'relative',
 } = Astro.props;
 ---
 
@@ -57,13 +65,13 @@ const {
     </a>
     <ScrollProgress />
     <TransitionLoader />
-    <Nav />
-    <WelcomeToast />
+    {!hideNav && <Nav />}
+    {!hideWelcomeToast && <WelcomeToast />}
 
-    <main id="main-content" class="relative">
+    <main id="main-content" class={mainClass}>
       <slot />
     </main>
 
-    <Footer />
+    {!hideFooter && <Footer />}
   </body>
 </html>
