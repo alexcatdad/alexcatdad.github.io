@@ -37,7 +37,7 @@ const cards = [
 
 <Base title="Stats — Alex Alexandrescu" description="Build-time repository activity snapshot">
   <div class="max-w-5xl mx-auto px-6 lg:px-8 py-16">
-    <header class="mb-12">
+    <header class="mb-12" transition:name="page-header">
       <p class="text-xs uppercase tracking-[0.3em] text-primary mb-2">Snapshot</p>
       <h1 class="text-4xl md:text-5xl font-serif text-foreground text-balance">Stats</h1>
       <p class="font-serif text-muted-foreground mt-3 italic">
@@ -48,31 +48,32 @@ const cards = [
       </p>
     </header>
 
-    <section>
-      <article class="interactive-card rounded-3xl border border-border bg-card/50 p-6 shadow-apple">
-        <div class="flex items-baseline justify-between gap-4">
-          <h2 class="text-2xl font-serif text-foreground">Vibe Code Stats</h2>
-          <span class="text-xs text-muted-foreground">
-            {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(claude.dateRange.earliest))}
-            &ndash;
-            {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(claude.dateRange.latest))}
-          </span>
-        </div>
-        <p class="mt-1 text-sm text-muted-foreground">
-          AI pair-programming across {claude.sessions.projectCount} projects &middot; {claude.git.reposScanned} repos scanned
-        </p>
-        <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {claudeCards.map((card) => (
-            <div class="rounded-2xl border border-border bg-secondary/30 p-4">
-              <p class="text-xs uppercase tracking-[0.3em] text-primary">{card.label}</p>
-              <p class="mt-2 text-3xl font-semibold text-foreground tabular-nums">{card.value}</p>
-            </div>
-          ))}
-        </div>
-      </article>
-    </section>
+    <div class="space-y-10">
+      <section>
+        <article class="interactive-card rounded-3xl border border-border bg-card/50 p-6 shadow-apple">
+          <div class="flex items-baseline justify-between gap-4">
+            <h2 class="text-2xl font-serif text-foreground">Vibe Code Stats</h2>
+            <span class="text-xs text-muted-foreground">
+              {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(claude.dateRange.earliest))}
+              &ndash;
+              {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(claude.dateRange.latest))}
+            </span>
+          </div>
+          <p class="mt-1 text-sm text-muted-foreground">
+            AI pair-programming across {claude.sessions.projectCount} projects &middot; {claude.git.reposScanned} repos scanned
+          </p>
+          <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {claudeCards.map((card) => (
+              <div class="rounded-2xl border border-border bg-secondary/30 p-4">
+                <p class="text-xs uppercase tracking-[0.3em] text-primary">{card.label}</p>
+                <p class="mt-2 text-3xl font-semibold text-foreground tabular-nums">{card.value}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+      </section>
 
-    <section class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <section class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {cards.map((card) => (
         <article class="interactive-card rounded-3xl border border-border bg-card/50 p-5 shadow-apple">
           <p class="text-xs uppercase tracking-[0.3em] text-primary">{card.label}</p>
@@ -81,7 +82,7 @@ const cards = [
       ))}
     </section>
 
-    <section class="mt-10 grid gap-6 lg:grid-cols-2">
+      <section class="grid gap-6 lg:grid-cols-2">
       <article class="interactive-card rounded-3xl border border-border bg-card/50 p-6 shadow-apple">
         <h2 class="text-2xl font-serif text-foreground">Language distribution</h2>
         {snapshot.languages.length === 0 ? (
@@ -120,5 +121,6 @@ const cards = [
         )}
       </article>
     </section>
+    </div>
   </div>
 </Base>

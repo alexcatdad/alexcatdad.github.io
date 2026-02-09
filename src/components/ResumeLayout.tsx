@@ -384,8 +384,8 @@ export function ResumeLayout({ resume }: ResumeLayoutProps) {
   }, [activeTab, activeSection, availableSections]);
 
   return (
-    <div className="relative min-h-screen px-6 pb-16 pt-6 text-foreground lg:px-8">
-      <div className="mx-auto max-w-5xl">
+    <div className="relative min-h-screen pb-16 pt-6 text-foreground">
+      <div className="mx-auto max-w-5xl px-6 lg:px-8">
         <Header basics={resume.basics} />
 
         <div
