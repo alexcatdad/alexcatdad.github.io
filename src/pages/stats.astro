@@ -1,9 +1,23 @@
 ---
 import Base from '@/layouts/Base.astro';
 import statsSnapshot from '@/content/generated/stats.snapshot.json';
+import claudeSnapshot from '@/content/generated/claude-stats.snapshot.json';
 import type { StatsSnapshot } from '@/types/stats-snapshot';
+import type { ClaudeStatsSnapshot } from '@/types/claude-stats-snapshot';
 
 const snapshot = statsSnapshot as StatsSnapshot;
+const claude = claudeSnapshot as ClaudeStatsSnapshot;
+
+const fmt = (n: number) => n.toLocaleString('en-US');
+
+const claudeCards = [
+  { label: 'Sessions', value: fmt(claude.sessions.total) },
+  { label: 'Messages', value: fmt(claude.messages.total) },
+  { label: 'Commits', value: fmt(claude.git.commits) },
+  { label: 'Lines added', value: fmt(claude.git.insertions) },
+  { label: 'Lines removed', value: fmt(claude.git.deletions) },
+  { label: 'Files modified', value: fmt(claude.git.filesChanged) },
+];
 
 const cards = [
   { label: 'Public repos', value: snapshot.totals.publicRepos },
@@ -34,7 +48,31 @@ const cards = [
       </p>
     </header>
 
-    <section class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <section>
+      <article class="interactive-card rounded-3xl border border-border bg-card/50 p-6 shadow-apple">
+        <div class="flex items-baseline justify-between gap-4">
+          <h2 class="text-2xl font-serif text-foreground">Vibe Code Stats</h2>
+          <span class="text-xs text-muted-foreground">
+            {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(claude.dateRange.earliest))}
+            &ndash;
+            {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(claude.dateRange.latest))}
+          </span>
+        </div>
+        <p class="mt-1 text-sm text-muted-foreground">
+          AI pair-programming across {claude.sessions.projectCount} projects &middot; {claude.git.reposScanned} repos scanned
+        </p>
+        <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {claudeCards.map((card) => (
+            <div class="rounded-2xl border border-border bg-secondary/30 p-4">
+              <p class="text-xs uppercase tracking-[0.3em] text-primary">{card.label}</p>
+              <p class="mt-2 text-3xl font-semibold text-foreground tabular-nums">{card.value}</p>
+            </div>
+          ))}
+        </div>
+      </article>
+    </section>
+
+    <section class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {cards.map((card) => (
         <article class="interactive-card rounded-3xl border border-border bg-card/50 p-5 shadow-apple">
           <p class="text-xs uppercase tracking-[0.3em] text-primary">{card.label}</p>
