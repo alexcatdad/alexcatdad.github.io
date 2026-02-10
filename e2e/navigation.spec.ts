@@ -22,12 +22,13 @@ test.describe('Navigation', () => {
     await page.click('a[href="/stats"]');
     await expect(page).toHaveURL('/stats');
 
-    await page.click('a[href="/bored"]');
-    await expect(page).toHaveURL('/bored');
-
     await page.click('a[href="/contact"]');
     await expect(page).toHaveURL('/contact');
 
+    await page.click('a[href="/bored"]');
+    await expect(page).toHaveURL('/bored');
+
+    // /bored hides the site nav (immersive game UI), use its exit link
     await page.click('a[href="/"]');
     await expect(page).toHaveURL('/');
   });
