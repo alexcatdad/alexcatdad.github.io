@@ -6,7 +6,7 @@ test.describe("I'm bored page", () => {
   }) => {
     await page.goto('/bored');
 
-    await expect(page.getByRole('heading', { name: "I'm bored" })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'bored' })).toBeVisible();
 
     await page.waitForFunction(() => {
       const candidate = window as typeof window & {

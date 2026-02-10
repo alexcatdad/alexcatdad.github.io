@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-02-08T13:20:31.075Z",
+  "generatedAt": "2026-02-10T16:22:12.307Z",
   "owner": "alexcatdad",
   "projects": {
-    "generatedAt": "2026-02-08T13:20:31.075Z",
-    "includedRepos": 0,
-    "excludedRepos": 22,
+    "generatedAt": "2026-02-10T16:22:12.307Z",
+    "includedRepos": 13,
+    "excludedRepos": 9,
     "scannedRepos": 22
   },
   "stats": {
@@ -14,9 +14,9 @@
     "recentCommitCount": 597
   },
   "claudeStats": {
-    "generatedAt": "2026-02-09T14:49:06.888Z",
-    "sessions": 238,
-    "messages": 58309,
-    "commits": 1260
+    "generatedAt": "2026-02-10T16:26:17.637Z",
+    "sessions": 243,
+    "messages": 59169,
+    "commits": 1274
   }
 }
