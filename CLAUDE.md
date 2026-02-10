@@ -91,7 +91,8 @@ api.github.com/users/alexcatdad/repos → fetchGitHubRepos() → /projects (buil
 
 GitHub Actions (`.github/workflows/deploy.yml`):
 1. **lint** — `bunx biome ci .`
-2. **test** — build + Playwright E2E
-3. **deploy** — `withastro/action` to GitHub Pages
+2. **build** — `bun run build`, uploads artifact for test + Pages
+3. **test** — downloads build artifact, Playwright E2E
+4. **deploy** — `actions/deploy-pages` (main only, skipped on PRs)
 
-Triggers: push to main, weekly cron (Sunday 00:00 UTC), manual dispatch.
+Triggers: push to main, PR to main, weekly cron (Sunday 00:00 UTC), manual dispatch.
