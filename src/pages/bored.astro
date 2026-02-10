@@ -1,385 +1,1010 @@
 ---
 import Base from '@/layouts/Base.astro';
+import ThemeToggle from '@/components/ThemeToggle.astro';
 ---
 
-<Base title="I'm bored — Alex Alexandrescu" description="Cozy idle game for tab-side fun">
-  <div class="max-w-5xl mx-auto px-6 lg:px-8 py-16">
-    <header class="mb-8" transition:name="page-header">
-      <p class="text-xs uppercase tracking-[0.3em] text-primary mb-2">Idle game</p>
-      <h1 class="text-4xl md:text-5xl font-serif text-foreground text-balance">I'm bored</h1>
-      <p class="mt-3 font-serif text-muted-foreground italic">
-        Leave this open in a tab. Come back. Upgrade your tiny cat settlement.
-      </p>
+<Base
+  title="I'm bored — Alex Alexandrescu"
+  description="Text roguelite for tab-side fun"
+  hideNav={true}
+  hideFooter={true}
+  hideWelcomeToast={true}
+  mainClass="h-screen"
+>
+  <div id="dungeon-root" class="dungeon-shell">
+    <!-- ═══ TOP BAR: vital gauges + compact stats ═══ -->
+    <header class="dungeon-header">
+      <div class="dungeon-header__top">
+        <div class="dungeon-header__brand">
+          <h1 class="dungeon-header__title">bored</h1>
+        </div>
+        <div class="dungeon-stats">
+          <span class="dungeon-chip" title="Depth"><span class="dungeon-chip__k">D</span><span id="stat-depth" class="dungeon-chip__v">0</span></span>
+          <span class="dungeon-chip" title="Attack"><span class="dungeon-chip__k">ATK</span><span id="stat-atk" class="dungeon-chip__v">0</span></span>
+          <span class="dungeon-chip" title="Guard"><span class="dungeon-chip__k">GRD</span><span id="stat-guard" class="dungeon-chip__v">0</span></span>
+          <span class="dungeon-chip" title="Luck"><span class="dungeon-chip__k">LCK</span><span id="stat-luck" class="dungeon-chip__v">0</span></span>
+          <span class="dungeon-chip" title="Gold"><span class="dungeon-chip__k">&#9733;</span><span id="stat-gold" class="dungeon-chip__v">0</span></span>
+          <span class="dungeon-chip dungeon-chip--accent" title="Goal"><span id="stat-goal" class="dungeon-chip__v">Depth 9</span></span>
+          <span class="dungeon-chip" title="Relic"><span class="dungeon-chip__k">Relic</span><span id="stat-relic" class="dungeon-chip__v">---</span></span>
+        </div>
+        <div class="dungeon-header__actions">
+          <ThemeToggle />
+          <a href="/" class="dungeon-btn dungeon-btn--ghost">&lt; Exit</a>
+        </div>
+      </div>
+
+      <!-- Vital bars -->
+      <div class="dungeon-vitals">
+        <div class="dungeon-bar dungeon-bar--timer" title="Time remaining">
+          <div class="dungeon-bar__label">
+            <span class="dungeon-bar__icon">&#9201;</span>
+            <span id="stat-time" class="dungeon-bar__value">60.0</span><span class="dungeon-bar__unit">s</span>
+          </div>
+          <div class="dungeon-bar__track">
+            <div id="bar-time-fill" class="dungeon-bar__fill dungeon-bar__fill--timer" style="width:100%"></div>
+          </div>
+        </div>
+        <div class="dungeon-bar dungeon-bar--hp" title="Hit points">
+          <div class="dungeon-bar__label">
+            <span class="dungeon-bar__icon">&#9829;</span>
+            <span id="stat-hp" class="dungeon-bar__value">0</span>
+          </div>
+          <div class="dungeon-bar__track">
+            <div id="bar-hp-fill" class="dungeon-bar__fill dungeon-bar__fill--hp" style="width:100%"></div>
+          </div>
+        </div>
+      </div>
     </header>
 
-    <section class="grid gap-6 lg:grid-cols-[2fr_1fr]">
-      <article class="interactive-card rounded-3xl border border-border bg-card/50 p-5 shadow-apple-lg">
-        <canvas id="bored-canvas" width="960" height="480" class="w-full rounded-2xl border border-border bg-secondary/20" aria-label="Cat settlement idle game canvas">
-          Your browser does not support the canvas element.
-        </canvas>
-      </article>
+    <!-- ═══ MIDDLE: encounter + log ═══ -->
+    <div class="dungeon-stage">
+      <!-- Room encounter card -->
+      <div class="dungeon-encounter">
+        <div class="dungeon-encounter__header">
+          <h2 id="room-title" class="dungeon-encounter__title">Ready for a run</h2>
+          <p id="room-intent" class="dungeon-encounter__intent"></p>
+        </div>
+        <p id="room-description" class="dungeon-encounter__desc">Press start to enter the dungeon. Each action spends its listed seconds. Reach depth 9 before time hits zero for a win.</p>
+        <p id="room-mission" class="dungeon-encounter__mission"></p>
+        <p id="room-risk" class="dungeon-encounter__risk"></p>
+        <pre
+          id="transition-ascii"
+          class="dungeon-transition hidden"
+        ></pre>
+        <!-- Collapsed quest brief -->
+        <div class="dungeon-quest-brief">
+          <p id="quest-role" class="dungeon-quest-brief__line">You are Nyx, the Lantern Courier.</p>
+          <p id="quest-motivation" class="dungeon-quest-brief__line hidden">Motivation: steal the Dawn Relic and prove this run still matters.</p>
+          <p id="quest-objective" class="dungeon-quest-brief__line">Objective: reach depth 9 before your 60 seconds are spent.</p>
+        </div>
+      </div>
 
-      <aside class="space-y-4">
-        <article class="interactive-card rounded-3xl border border-border bg-card/50 p-5 shadow-apple">
-          <h2 class="text-xl font-serif text-foreground">Resources</h2>
-          <div class="mt-4 space-y-2 text-sm text-muted-foreground">
-            <p>Wood: <span id="resource-wood" class="text-foreground font-semibold">0</span></p>
-            <p>Fish: <span id="resource-fish" class="text-foreground font-semibold">0</span></p>
-            <p>Soup: <span id="resource-soup" class="text-foreground font-semibold">0</span></p>
+      <!-- Compact event log -->
+      <div id="event-log-viewport" class="dungeon-log">
+        <ul id="event-log" class="dungeon-log__list"></ul>
+      </div>
+
+      <!-- Run summary (shown during run) -->
+      <div id="run-summary" class="dungeon-summary">
+        No run yet. Spend shards on upgrades, then start a run.
+      </div>
+    </div>
+
+    <!-- ═══ BOTTOM: choices + controls ═══ -->
+    <footer class="dungeon-controls">
+      <!-- Choice cards — THE core interaction -->
+      <div id="choice-list" class="dungeon-choices"></div>
+
+      <!-- Action buttons -->
+      <div class="dungeon-actions">
+        <button id="action-start-run" class="dungeon-btn dungeon-btn--primary dungeon-btn--start">
+          <span class="dungeon-btn__text">&gt; Start run</span>
+          <kbd class="dungeon-kbd">S</kbd>
+        </button>
+        <button id="action-restart-run" class="dungeon-btn dungeon-btn--secondary">
+          <span class="dungeon-btn__text">Restart</span>
+        </button>
+        <button id="action-abandon-run" class="dungeon-btn dungeon-btn--danger">
+          <span class="dungeon-btn__text">Abandon</span>
+        </button>
+        <button id="action-reset" class="dungeon-btn dungeon-btn--ghost dungeon-btn--sm">
+          <span class="dungeon-btn__text">Reset all</span>
+        </button>
+      </div>
+
+      <!-- Mobile sidebar toggle -->
+      <button
+        id="sidebar-toggle"
+        class="dungeon-btn dungeon-btn--ghost dungeon-sidebar-trigger lg:hidden"
+      >
+        Loadout &amp; Upgrades
+      </button>
+    </footer>
+
+    <!-- ═══ SIDEBAR (drawer on mobile, pinned on desktop) ═══ -->
+    <aside
+      id="sidebar-panel"
+      class="dungeon-sidebar hidden lg:flex"
+    >
+      <div class="dungeon-sidebar__inner">
+        <div class="dungeon-sidebar__head">
+          <h2 class="dungeon-sidebar__title">Loadout</h2>
+          <button id="sidebar-close" class="dungeon-btn dungeon-btn--ghost dungeon-btn--sm lg:hidden">Close</button>
+        </div>
+
+        <!-- Meta -->
+        <article class="dungeon-card">
+          <h3 class="dungeon-card__heading">Meta</h3>
+          <label class="dungeon-label" for="meta-alias">Alias</label>
+          <input id="meta-alias" class="dungeon-input" maxlength="18" />
+          <div class="dungeon-meta-grid">
+            <div class="dungeon-meta-stat"><span class="dungeon-meta-stat__k">Shards</span><span id="meta-shards" class="dungeon-meta-stat__v">0</span></div>
+            <div class="dungeon-meta-stat"><span class="dungeon-meta-stat__k">Runs</span><span id="meta-runs" class="dungeon-meta-stat__v">0</span></div>
+            <div class="dungeon-meta-stat"><span class="dungeon-meta-stat__k">Wins</span><span id="meta-wins" class="dungeon-meta-stat__v">0</span></div>
+            <div class="dungeon-meta-stat"><span class="dungeon-meta-stat__k">Best</span><span id="meta-best-depth" class="dungeon-meta-stat__v">0</span></div>
           </div>
-          <div class="mt-4 flex flex-wrap gap-2">
-            <button id="action-gather-wood" class="rounded-2xl border border-border px-3 py-2 text-sm hover:border-primary transition-colors focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2">Gather wood</button>
-            <button id="action-gather-fish" class="rounded-2xl border border-border px-3 py-2 text-sm hover:border-primary transition-colors focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2">Catch fish</button>
+        </article>
+
+        <!-- Inventory -->
+        <article class="dungeon-card">
+          <h3 class="dungeon-card__heading">Inventory</h3>
+          <div class="dungeon-inv-section">
+            <p class="dungeon-inv-label">Collectibles</p>
+            <ul id="inventory-collectibles" class="dungeon-inv-list"></ul>
+          </div>
+          <div class="dungeon-inv-section">
+            <p class="dungeon-inv-label">Consumables</p>
+            <ul id="inventory-consumables" class="dungeon-inv-list"></ul>
+          </div>
+          <div class="dungeon-inv-section">
+            <p class="dungeon-inv-label">Debuffs</p>
+            <ul id="inventory-debuffs" class="dungeon-inv-list"></ul>
           </div>
         </article>
 
-        <article class="interactive-card rounded-3xl border border-border bg-card/50 p-5 shadow-apple">
-          <h2 class="text-xl font-serif text-foreground">Buildings</h2>
-          <div id="building-list" class="mt-4 space-y-3"></div>
+        <!-- Upgrades -->
+        <article class="dungeon-card">
+          <h3 class="dungeon-card__heading">Shard Upgrades</h3>
+          <div id="upgrade-list" class="dungeon-upgrade-list"></div>
         </article>
 
-        <article class="interactive-card rounded-3xl border border-border bg-card/50 p-5 shadow-apple">
-          <p class="text-sm text-muted-foreground">Progress saves automatically in this browser. No offline gains are applied while the tab is closed.</p>
-          <button id="action-reset" class="mt-4 rounded-2xl border border-border px-3 py-2 text-sm hover:border-primary transition-colors focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2">Reset settlement</button>
+        <!-- Leaderboard -->
+        <article class="dungeon-card">
+          <div class="dungeon-card__heading-row">
+            <h3 class="dungeon-card__heading">Leaderboard</h3>
+            <span id="leaderboard-status" class="dungeon-card__badge">Local IndexedDB</span>
+          </div>
+          <ul id="leaderboard-list" class="dungeon-lb-list"></ul>
         </article>
-      </aside>
-    </section>
+
+        <!-- Telemetry -->
+        <article class="dungeon-card">
+          <div class="dungeon-card__heading-row">
+            <h3 class="dungeon-card__heading">Telemetry</h3>
+            <button id="telemetry-reset" class="dungeon-btn dungeon-btn--ghost dungeon-btn--xs">Reset</button>
+          </div>
+          <div id="telemetry-summary" class="dungeon-telemetry"></div>
+        </article>
+      </div>
+    </aside>
+
+    <!-- ═══ RECAP OVERLAY (modal after run ends) ═══ -->
+    <div id="recap-panel" class="dungeon-recap-overlay hidden">
+      <div class="dungeon-recap-overlay__backdrop"></div>
+      <div class="dungeon-recap-overlay__card">
+        <p id="recap-title" class="dungeon-recap-overlay__title">Run recap</p>
+        <ul id="recap-list" class="dungeon-recap-overlay__list"></ul>
+        <button class="dungeon-btn dungeon-btn--primary dungeon-recap-overlay__dismiss">&gt; Continue</button>
+      </div>
+    </div>
   </div>
 
-  <script is:inline>
-    (() => {
-      const STORAGE_KEY = 'bored-settlement-v1';
-      const VERSION = 1;
+  <style is:global>
+    /* ═══════════════════════════════════════
+       BORED DUNGEON — terminal roguelite UI
+       ═══════════════════════════════════════ */
 
-      const buildingDefs = [
-        {
-          key: 'camp',
-          label: 'Campfire',
-          description: 'Keeps everyone cozy and boosts baseline gathering.',
-          cost: (level) => ({ wood: 12 + level * 10, fish: 8 + level * 6, soup: 0 }),
-        },
-        {
-          key: 'lumberyard',
-          label: 'Lumberyard',
-          description: 'Cat carpenters gather more wood over time.',
-          cost: (level) => ({ wood: 20 + level * 18, fish: 0, soup: 2 + level }),
-        },
-        {
-          key: 'dock',
-          label: 'Fishing Dock',
-          description: 'Cat anglers increase fish production.',
-          cost: (level) => ({ wood: 16 + level * 12, fish: 10 + level * 8, soup: 2 + level }),
-        },
-        {
-          key: 'kitchen',
-          label: 'Soup Kitchen',
-          description: 'Converts wood + fish into delicious soup.',
-          cost: (level) => ({ wood: 30 + level * 20, fish: 24 + level * 14, soup: 6 + level * 2 }),
-        },
-        {
-          key: 'guild',
-          label: 'Guild Hall',
-          description: 'Improves overall production efficiency.',
-          cost: (level) => ({ wood: 48 + level * 28, fish: 36 + level * 24, soup: 12 + level * 3 }),
-        },
-      ];
+    .dungeon-shell {
+      /* Game-only colors with no design token match */
+      --dungeon-hp: #4a8a4a;
+      --dungeon-safe: #5a9a5a;
+      --dungeon-safe-fg: #8aba8a;
+      --dungeon-combat-fg: color-mix(in srgb, var(--destructive) 70%, var(--foreground));
+      --dungeon-buff: #7c6bcc;
+      --dungeon-buff-fg: #a99adc;
+      --dungeon-risk: color-mix(in srgb, var(--accent) 60%, var(--destructive));
 
-      const defaultState = () => ({
-        version: VERSION,
-        resources: {
-          wood: 10,
-          fish: 6,
-          soup: 0,
-        },
-        buildings: {
-          camp: 0,
-          lumberyard: 0,
-          dock: 0,
-          kitchen: 0,
-          guild: 0,
-        },
-      });
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      height: 100vh;
+      height: 100dvh;
+      width: 100%;
+      overflow: hidden;
+      background: var(--background);
+      color: var(--foreground);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      position: relative;
+    }
+    html.light .dungeon-shell {
+      --dungeon-hp: #3a7a3a;
+      --dungeon-safe: #4a8a4a;
+      --dungeon-safe-fg: #2a6a2a;
+      --dungeon-combat-fg: color-mix(in srgb, var(--destructive) 80%, var(--foreground));
+      --dungeon-buff: #6a5abc;
+      --dungeon-buff-fg: #5a4aac;
+    }
 
-      const saveState = () => {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      };
+    @media (min-width: 1024px) {
+      .dungeon-shell {
+        grid-template-columns: 1fr 20rem;
+        grid-template-rows: auto 1fr auto;
+      }
+      .dungeon-header { grid-column: 1; }
+      .dungeon-stage { grid-column: 1; }
+      .dungeon-controls { grid-column: 1; }
+      .dungeon-sidebar { grid-column: 2; grid-row: 1 / -1; }
+    }
 
-      const loadState = () => {
-        try {
-          const raw = localStorage.getItem(STORAGE_KEY);
-          if (!raw) return defaultState();
-          const parsed = JSON.parse(raw);
-          if (!parsed || parsed.version !== VERSION) return defaultState();
-          return {
-            ...defaultState(),
-            ...parsed,
-            resources: {
-              ...defaultState().resources,
-              ...(parsed.resources || {}),
-            },
-            buildings: {
-              ...defaultState().buildings,
-              ...(parsed.buildings || {}),
-            },
-          };
-        } catch {
-          return defaultState();
-        }
-      };
+    /* ─── HEADER (HUD) ─── */
+    .dungeon-header {
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--background);
+    }
+    @media (min-width: 1024px) {
+      .dungeon-header { padding: 0.5rem 1.5rem; }
+    }
 
-      const state = loadState();
-      const canvas = document.getElementById('bored-canvas');
-      const ctx = canvas.getContext('2d');
+    .dungeon-header__top {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .dungeon-header__brand { flex-shrink: 0; }
+    .dungeon-header__title {
+      font-size: 0.875rem;
+      line-height: 1;
+      margin: 0;
+      color: var(--accent);
+      text-shadow: 0 0 12px rgba(196, 162, 78, 0.25);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .dungeon-header__actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      margin-left: auto;
+    }
 
-      const resourceEls = {
-        wood: document.getElementById('resource-wood'),
-        fish: document.getElementById('resource-fish'),
-        soup: document.getElementById('resource-soup'),
-      };
+    /* ─── STAT HUD ─── */
+    .dungeon-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 0.625rem;
+      font-size: 0.75rem;
+      flex: 1;
+      min-width: 0;
+    }
+    .dungeon-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      white-space: nowrap;
+      color: var(--muted-foreground);
+    }
+    .dungeon-chip__k {
+      color: var(--muted-foreground);
+    }
+    .dungeon-chip__k::after {
+      content: ':';
+      color: var(--muted-foreground);
+    }
+    .dungeon-chip__v {
+      font-weight: 600;
+      font-family: 'Courier New', Courier, monospace;
+      font-variant-numeric: tabular-nums;
+      color: var(--secondary-foreground);
+    }
+    .dungeon-chip--accent { color: var(--accent); }
+    .dungeon-chip--accent .dungeon-chip__v { color: var(--accent); }
 
-      const buildingList = document.getElementById('building-list');
-      const gatherWoodBtn = document.getElementById('action-gather-wood');
-      const gatherFishBtn = document.getElementById('action-gather-fish');
-      const resetBtn = document.getElementById('action-reset');
+    /* stat flash */
+    @keyframes stat-flash {
+      0% { color: var(--accent); text-shadow: 0 0 6px rgba(196, 162, 78, 0.6); }
+      100% { color: var(--secondary-foreground); text-shadow: none; }
+    }
+    .dungeon-chip--flash .dungeon-chip__v {
+      animation: stat-flash 0.6s ease-out;
+    }
 
-      const clamp = (value) => Math.max(0, Number(value.toFixed(2)));
+    /* ─── VITAL BARS ─── */
+    .dungeon-vitals {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.375rem;
+      margin-top: 0.25rem;
+    }
+    .dungeon-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+    }
+    .dungeon-bar__label {
+      display: flex;
+      align-items: baseline;
+      gap: 0.125rem;
+      flex-shrink: 0;
+      min-width: 3.5rem;
+    }
+    .dungeon-bar__icon { font-size: 0.75rem; }
+    .dungeon-bar__value {
+      font-size: 0.75rem;
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      transition: color 0.15s;
+    }
+    .dungeon-bar__unit {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+    }
+    .dungeon-bar__track {
+      flex: 1;
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .dungeon-bar__fill {
+      height: 100%;
+      transition: width 0.15s ease-out, background-color 0.3s;
+    }
+    .dungeon-bar__fill--timer { background: var(--accent); }
+    .dungeon-bar__fill--timer[data-urgent="true"] { background: var(--primary); }
+    .dungeon-bar__fill--timer[data-critical="true"] {
+      background: var(--destructive);
+      animation: bar-pulse 0.5s ease-in-out infinite;
+    }
+    .dungeon-bar__fill--hp { background: var(--dungeon-hp); }
+    .dungeon-bar__fill--hp[data-low="true"] { background: var(--destructive); }
 
-      const getProduction = () => {
-        const boost = 1 + state.buildings.guild * 0.1;
-        const woodPerSecond = (0.18 + state.buildings.camp * 0.05 + state.buildings.lumberyard * 0.7) * boost;
-        const fishPerSecond = (0.14 + state.buildings.camp * 0.04 + state.buildings.dock * 0.65) * boost;
-        const soupCapacity = state.buildings.kitchen * 0.5 * boost;
+    @keyframes bar-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
 
-        return {
-          woodPerSecond,
-          fishPerSecond,
-          soupPerSecond: soupCapacity,
-        };
-      };
+    /* ─── STAGE ─── */
+    .dungeon-stage {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+      padding: 0.75rem 1rem;
+      gap: 0.375rem;
+    }
+    @media (min-width: 1024px) {
+      .dungeon-stage { padding: 0.75rem 1.5rem; }
+    }
 
-      const canAfford = (cost) =>
-        state.resources.wood >= cost.wood &&
-        state.resources.fish >= cost.fish &&
-        state.resources.soup >= cost.soup;
+    /* ─── ENCOUNTER ─── */
+    .dungeon-encounter {
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--border);
+      padding: 0.375rem 0 0.625rem;
+    }
+    .dungeon-encounter__header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .dungeon-encounter__title {
+      font-size: 1rem;
+      line-height: 1.3;
+      margin: 0;
+      color: var(--foreground);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .dungeon-encounter__intent {
+      font-size: 0.875rem;
+      color: var(--destructive);
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .dungeon-encounter__desc {
+      font-size: 0.8125rem;
+      color: var(--muted-foreground);
+      margin-top: 0.125rem;
+      line-height: 1.5;
+    }
+    .dungeon-encounter__mission {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+      margin-top: 0.125rem;
+    }
+    .dungeon-encounter__risk {
+      font-size: 0.75rem;
+      color: var(--dungeon-risk);
+      margin-top: 0;
+    }
 
-      const spend = (cost) => {
-        state.resources.wood = clamp(state.resources.wood - cost.wood);
-        state.resources.fish = clamp(state.resources.fish - cost.fish);
-        state.resources.soup = clamp(state.resources.soup - cost.soup);
-      };
+    /* Transition ASCII */
+    .dungeon-transition {
+      font-family: 'Courier New', Courier, monospace;
+      margin-top: 0.375rem;
+      padding: 0.375rem 0;
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      color: var(--accent);
+      white-space: pre;
+      text-align: center;
+      text-shadow: 0 0 8px rgba(196, 162, 78, 0.3);
+      animation: transition-glow 1.2s ease-in-out infinite;
+    }
+    .dungeon-transition.hidden { display: none; }
 
-      const attemptUpgrade = (key) => {
-        const def = buildingDefs.find((item) => item.key === key);
-        if (!def) return;
-        const level = state.buildings[key] || 0;
-        const cost = def.cost(level);
-        if (!canAfford(cost)) return;
+    @keyframes transition-glow {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
 
-        spend(cost);
-        state.buildings[key] = level + 1;
-        saveState();
-        renderBuildings();
-        renderHud();
-      };
+    /* Quest brief */
+    .dungeon-quest-brief {
+      margin-top: 0.25rem;
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+      line-height: 1.4;
+    }
+    .dungeon-quest-brief__line { margin: 0; }
+    .dungeon-quest-brief__line.hidden { display: none; }
 
-      const tick = (seconds) => {
-        const production = getProduction();
+    /* ─── EVENT LOG (terminal) ─── */
+    .dungeon-log {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.5rem 0;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .dungeon-log__list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
 
-        state.resources.wood = clamp(state.resources.wood + production.woodPerSecond * seconds);
-        state.resources.fish = clamp(state.resources.fish + production.fishPerSecond * seconds);
+    /* log entry stream-in */
+    @keyframes log-stream {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .dungeon-log-entry--new {
+      animation: log-stream 0.15s ease-out both;
+    }
 
-        if (production.soupPerSecond > 0) {
-          const desiredSoup = production.soupPerSecond * seconds;
-          const maxByFish = state.resources.fish / 1.2;
-          const maxByWood = state.resources.wood / 0.8;
-          const craftableSoup = Math.min(desiredSoup, maxByFish, maxByWood);
+    /* typewriter cursor */
+    .dungeon-cursor {
+      color: var(--accent);
+      animation: cursor-blink 0.53s step-end infinite;
+    }
+    @keyframes cursor-blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
 
-          if (craftableSoup > 0) {
-            state.resources.fish = clamp(state.resources.fish - craftableSoup * 1.2);
-            state.resources.wood = clamp(state.resources.wood - craftableSoup * 0.8);
-            state.resources.soup = clamp(state.resources.soup + craftableSoup);
-          }
-        }
-      };
+    /* choice entrance */
+    @keyframes choice-enter {
+      from { opacity: 0; transform: translateX(-0.375rem); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .dungeon-choice--enter {
+      animation: choice-enter 0.15s ease-out both;
+    }
 
-      const drawScene = () => {
-        if (!ctx) return;
-        const w = canvas.width;
-        const h = canvas.height;
+    /* text swap */
+    @keyframes text-swap {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .dungeon-text-swap {
+      animation: text-swap 0.12s ease-out both;
+    }
 
-        const sky = ctx.createLinearGradient(0, 0, 0, h);
-        sky.addColorStop(0, '#2f2a22');
-        sky.addColorStop(1, '#12100d');
-        ctx.fillStyle = sky;
-        ctx.fillRect(0, 0, w, h);
+    /* ─── RUN SUMMARY ─── */
+    .dungeon-summary {
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+      padding: 0.375rem 0;
+      border-top: 1px solid var(--border);
+      line-height: 1.5;
+    }
 
-        ctx.fillStyle = '#2f3f2b';
-        ctx.fillRect(0, h * 0.62, w, h * 0.38);
+    /* ─── CONTROLS ─── */
+    .dungeon-controls {
+      border-top: 1px solid var(--border);
+      background: var(--background);
+      padding: 0.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.375rem;
+    }
+    @media (min-width: 1024px) {
+      .dungeon-controls { padding: 0.5rem 1.5rem; }
+    }
 
-        ctx.fillStyle = '#28435c';
-        ctx.fillRect(0, h * 0.7, w * 0.42, h * 0.3);
+    /* ─── CHOICE CARDS ─── */
+    .dungeon-choices {
+      display: grid;
+      gap: 0.375rem;
+      max-height: 40vh;
+      overflow-y: auto;
+    }
+    @media (min-width: 640px) {
+      .dungeon-choices {
+        grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+      }
+    }
 
-        const totalBuildings = Object.values(state.buildings).reduce((sum, level) => sum + level, 0);
-        const catCount = 3 + Math.min(10, totalBuildings);
+    /* Action buttons */
+    .dungeon-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.375rem;
+      align-items: center;
+    }
 
-        for (let i = 0; i < catCount; i += 1) {
-          const x = 70 + (i * 77) % (w - 120);
-          const y = h * 0.6 + ((i * 13) % 60);
-          ctx.fillStyle = i % 2 === 0 ? '#e6d8b2' : '#d5b97b';
-          ctx.fillRect(x, y, 16, 12);
-          ctx.fillStyle = '#2a1f13';
-          ctx.fillRect(x + 3, y - 5, 3, 5);
-          ctx.fillRect(x + 10, y - 5, 3, 5);
-        }
+    /* ─── BUTTON SYSTEM ─── */
+    .dungeon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.375rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.3125rem 0.625rem;
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color 0.1s, background-color 0.1s, color 0.1s;
+      background: transparent;
+      color: var(--muted-foreground);
+      line-height: 1.3;
+      white-space: nowrap;
+      min-height: 1.5rem;
+    }
+    .dungeon-btn:hover:not(:disabled) {
+      border-color: var(--secondary-foreground);
+      color: var(--foreground);
+    }
+    .dungeon-btn:active:not(:disabled) {
+      background: rgba(196, 162, 78, 0.05);
+    }
+    .dungeon-btn:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+    }
+    .dungeon-btn:focus-visible {
+      outline: 1px solid var(--accent);
+      outline-offset: 1px;
+    }
+    .dungeon-btn--primary {
+      background: rgba(196, 162, 78, 0.08);
+      color: var(--accent);
+      border-color: rgba(196, 162, 78, 0.3);
+    }
+    .dungeon-btn--primary:hover:not(:disabled) {
+      background: rgba(196, 162, 78, 0.15);
+      border-color: var(--accent);
+    }
+    .dungeon-btn--secondary { color: var(--muted-foreground); }
+    .dungeon-btn--danger {
+      color: var(--destructive);
+      border-color: color-mix(in srgb, var(--destructive) 20%, transparent);
+    }
+    .dungeon-btn--danger:hover:not(:disabled) {
+      border-color: var(--destructive);
+      color: var(--destructive);
+    }
+    .dungeon-btn--ghost {
+      border-color: var(--border);
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      color: var(--muted-foreground);
+    }
+    .dungeon-btn--ghost:hover:not(:disabled) {
+      color: var(--secondary-foreground);
+      border-color: var(--secondary-foreground);
+    }
+    .dungeon-btn--sm { font-size: 0.75rem; padding: 0.25rem 0.5rem; }
+    .dungeon-btn--xs { font-size: 0.75rem; padding: 0.25rem 0.375rem; }
+    .dungeon-btn--start { flex: 1; max-width: 14rem; }
 
-        const keys = ['camp', 'lumberyard', 'dock', 'kitchen', 'guild'];
-        const colors = ['#c97a3a', '#8f6a40', '#4679a1', '#9f5a3d', '#7763a3'];
+    /* Keyboard hints */
+    .dungeon-kbd {
+      display: none;
+      font-size: 0.6875rem;
+      font-family: 'Courier New', Courier, monospace;
+      padding: 0 0.1875rem;
+      color: var(--muted-foreground);
+      line-height: 1;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .dungeon-kbd { display: inline-block; }
+    }
 
-        keys.forEach((key, index) => {
-          const level = state.buildings[key];
-          if (!level) return;
-          const x = 540 + index * 72;
-          const y = h * 0.63 - Math.min(90, level * 10);
-          const width = 54;
-          const height = 50 + Math.min(70, level * 7);
-          ctx.fillStyle = colors[index];
-          ctx.fillRect(x, y, width, height);
-          ctx.fillStyle = '#f8f2e4';
-          ctx.font = '12px sans-serif';
-          ctx.fillText(`L${level}`, x + 15, y + 18);
-        });
+    /* ─── SIDEBAR ─── */
+    .dungeon-sidebar {
+      flex-direction: column;
+      overflow-y: auto;
+      border-left: 1px solid var(--border);
+      background: var(--background);
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    @media (max-width: 1023px) {
+      .dungeon-sidebar {
+        position: fixed;
+        inset-inline: 0;
+        bottom: 3rem;
+        max-height: 72vh;
+        z-index: 40;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        background: var(--background);
+        overflow-y: auto;
+      }
+      .dungeon-sidebar.hidden { display: none; }
+    }
+    @media (min-width: 1024px) {
+      .dungeon-sidebar {
+        display: flex !important;
+        height: 100%;
+      }
+    }
 
-        const production = getProduction();
-        ctx.fillStyle = '#e8e2d4';
-        ctx.font = '16px sans-serif';
-        ctx.fillText(`Wood +${production.woodPerSecond.toFixed(2)}/s`, 18, 28);
-        ctx.fillText(`Fish +${production.fishPerSecond.toFixed(2)}/s`, 18, 52);
-        ctx.fillText(`Soup +${production.soupPerSecond.toFixed(2)}/s`, 18, 76);
-      };
+    .dungeon-sidebar__inner {
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+    }
+    .dungeon-sidebar__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .dungeon-sidebar__title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--muted-foreground);
+      margin: 0;
+    }
+    .dungeon-sidebar-trigger {
+      width: 100%;
+      text-align: center;
+    }
 
-      const renderHud = () => {
-        resourceEls.wood.textContent = state.resources.wood.toFixed(1);
-        resourceEls.fish.textContent = state.resources.fish.toFixed(1);
-        resourceEls.soup.textContent = state.resources.soup.toFixed(1);
-      };
+    /* ─── SIDEBAR CARDS ─── */
+    .dungeon-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.625rem 0.75rem;
+    }
+    .dungeon-card__heading {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--muted-foreground);
+      margin: 0 0 0.375rem;
+      font-weight: 500;
+    }
+    .dungeon-card__heading-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.375rem;
+    }
+    .dungeon-card__heading-row .dungeon-card__heading { margin-bottom: 0; }
+    .dungeon-card__badge {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted-foreground);
+    }
 
-      const renderBuildings = () => {
-        buildingList.innerHTML = '';
+    /* Meta */
+    .dungeon-label {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted-foreground);
+      margin-bottom: 0.25rem;
+    }
+    .dungeon-input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--input);
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+      font-family: 'Courier New', Courier, monospace;
+      color: var(--secondary-foreground);
+    }
+    .dungeon-input:focus-visible {
+      outline: 1px solid var(--accent);
+      outline-offset: 0;
+    }
+    .dungeon-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.125rem 0.5rem;
+      margin-top: 0.375rem;
+    }
+    .dungeon-meta-stat {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.25rem;
+      font-size: 0.75rem;
+    }
+    .dungeon-meta-stat__k { color: var(--muted-foreground); }
+    .dungeon-meta-stat__v {
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      color: var(--secondary-foreground);
+    }
 
-        buildingDefs.forEach((def) => {
-          const level = state.buildings[def.key] || 0;
-          const cost = def.cost(level);
-          const disabled = !canAfford(cost);
+    /* Inventory */
+    .dungeon-inv-section { margin-top: 0.375rem; }
+    .dungeon-inv-section:first-child { margin-top: 0; }
+    .dungeon-inv-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted-foreground);
+      margin: 0 0 0.125rem;
+    }
+    .dungeon-inv-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
 
-          const row = document.createElement('div');
-          row.className = 'rounded-2xl border border-border bg-secondary/30 p-3';
+    /* Upgrades */
+    .dungeon-upgrade-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
 
-          const button = document.createElement('button');
-          button.type = 'button';
-          button.className = 'w-full text-left';
-          button.disabled = disabled;
-          button.addEventListener('click', () => attemptUpgrade(def.key));
+    /* Leaderboard */
+    .dungeon-lb-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.125rem;
+    }
 
-          const title = document.createElement('p');
-          title.className = 'text-sm font-semibold text-foreground';
-          title.textContent = `${def.label} · L${level}`;
+    /* Telemetry */
+    .dungeon-telemetry {
+      display: flex;
+      flex-direction: column;
+      gap: 0.125rem;
+    }
 
-          const desc = document.createElement('p');
-          desc.className = 'mt-1 text-xs text-muted-foreground';
-          desc.textContent = def.description;
+    /* ─── RECAP OVERLAY ─── */
+    .dungeon-recap-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .dungeon-recap-overlay.hidden { display: none; }
+    .dungeon-recap-overlay__backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+    }
+    .dungeon-recap-overlay__card {
+      position: relative;
+      border: 1px solid var(--accent);
+      border-radius: var(--radius-lg);
+      background: var(--background);
+      padding: 1.25rem 1.5rem;
+      max-width: 24rem;
+      width: 100%;
+      animation: recap-enter 0.25s ease-out;
+      box-shadow: 0 0 40px rgba(196, 162, 78, 0.08);
+    }
+    .dungeon-recap-overlay__title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin: 0 0 0.5rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .dungeon-recap-overlay__list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.125rem;
+    }
+    .dungeon-recap-overlay__dismiss {
+      margin-top: 0.75rem;
+      width: 100%;
+    }
 
-          const costText = document.createElement('p');
-          costText.className = 'mt-2 text-xs text-muted-foreground';
-          costText.textContent = `Upgrade cost: ${cost.wood.toFixed(0)} wood, ${cost.fish.toFixed(0)} fish, ${cost.soup.toFixed(0)} soup`;
+    @keyframes recap-enter {
+      from { opacity: 0; transform: translateY(0.375rem); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-          if (disabled) {
-            button.classList.add('opacity-65', 'cursor-not-allowed');
-          }
+    /* ─── CHOICE CARD VARIANTS ─── */
+    .dungeon-choice {
+      display: flex;
+      flex-direction: column;
+      gap: 0.125rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      padding: 0.5rem 0.75rem;
+      text-align: left;
+      font-family: inherit;
+      cursor: pointer;
+      transition: border-color 0.1s, background-color 0.1s;
+      min-height: 2.5rem;
+    }
+    .dungeon-choice:hover { border-color: var(--secondary-foreground); background: color-mix(in srgb, var(--card) 80%, var(--foreground)); }
+    .dungeon-choice:active { background: var(--border); }
+    .dungeon-choice:focus-visible { outline: 1px solid var(--accent); outline-offset: 1px; }
+    .dungeon-choice__top { display: flex; align-items: center; justify-content: space-between; gap: 0.375rem; }
+    .dungeon-choice__label { font-size: 0.875rem; font-weight: 600; color: var(--foreground); }
+    .dungeon-choice__desc { font-size: 0.75rem; color: var(--muted-foreground); line-height: 1.35; margin: 0; }
 
-          button.appendChild(title);
-          button.appendChild(desc);
-          button.appendChild(costText);
-          row.appendChild(button);
-          buildingList.appendChild(row);
-        });
-      };
+    .dungeon-choice--combat { border-color: color-mix(in srgb, var(--destructive) 40%, transparent); background: color-mix(in srgb, var(--destructive) 8%, var(--card)); }
+    .dungeon-choice--combat:hover { border-color: var(--destructive); background: color-mix(in srgb, var(--destructive) 14%, var(--card)); }
+    .dungeon-choice--combat .dungeon-choice__label { color: var(--dungeon-combat-fg); }
 
-      const renderAll = () => {
-        renderHud();
-        renderBuildings();
-        drawScene();
-      };
+    .dungeon-choice--safe { border-color: color-mix(in srgb, var(--dungeon-safe) 40%, transparent); background: color-mix(in srgb, var(--dungeon-safe) 8%, var(--card)); }
+    .dungeon-choice--safe:hover { border-color: var(--dungeon-safe); background: color-mix(in srgb, var(--dungeon-safe) 14%, var(--card)); }
+    .dungeon-choice--safe .dungeon-choice__label { color: var(--dungeon-safe-fg); }
 
-      const resetState = () => {
-        const fresh = defaultState();
-        state.version = fresh.version;
-        state.resources = { ...fresh.resources };
-        state.buildings = { ...fresh.buildings };
-        saveState();
-        renderAll();
-      };
+    .dungeon-choice--risky { border-color: color-mix(in srgb, var(--accent) 40%, transparent); background: color-mix(in srgb, var(--accent) 8%, var(--card)); }
+    .dungeon-choice--risky:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--card)); }
+    .dungeon-choice--risky .dungeon-choice__label { color: var(--accent); }
 
-      gatherWoodBtn.addEventListener('click', () => {
-        state.resources.wood = clamp(state.resources.wood + 3);
-        saveState();
-        renderHud();
-      });
+    .dungeon-choice--buff { border-color: color-mix(in srgb, var(--dungeon-buff) 40%, transparent); background: color-mix(in srgb, var(--dungeon-buff) 8%, var(--card)); }
+    .dungeon-choice--buff:hover { border-color: var(--dungeon-buff); background: color-mix(in srgb, var(--dungeon-buff) 14%, var(--card)); }
+    .dungeon-choice--buff .dungeon-choice__label { color: var(--dungeon-buff-fg); }
 
-      gatherFishBtn.addEventListener('click', () => {
-        state.resources.fish = clamp(state.resources.fish + 2.5);
-        saveState();
-        renderHud();
-      });
+    .dungeon-choice--neutral {}
 
-      resetBtn.addEventListener('click', () => {
-        if (confirm('Reset your settlement? All progress will be lost.')) {
-          resetState();
-        }
-      });
+    /* ─── DYNAMIC ELEMENT CLASSES (used by ui.ts) ─── */
+    .dungeon-empty-text {
+      font-size: 0.8125rem;
+      color: var(--muted-foreground);
+      opacity: 0.6;
+    }
+    .dungeon-inv-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      font-size: 0.8125rem;
+      padding: 0.125rem 0;
+    }
+    .dungeon-inv-row__name { color: var(--foreground); }
+    .dungeon-inv-row__count {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+      font-variant-numeric: tabular-nums;
+    }
+    .dungeon-log-entry {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.75rem;
+      line-height: 1.4;
+      padding: 0.1875rem 0.5rem;
+    }
+    .dungeon-log-entry__tag {
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+    .dungeon-log-entry__tag--outcome { color: var(--accent); }
+    .dungeon-log-entry__tag--encounter { color: var(--destructive); }
+    .dungeon-log-entry__tag--decision { color: var(--foreground); }
+    .dungeon-log-entry__tag--descent { color: var(--muted-foreground); }
+    .dungeon-log-entry__tag--entered { color: var(--accent); }
+    .dungeon-log-entry__tag--default { color: var(--muted-foreground); }
+    .dungeon-log-entry__text { color: var(--muted-foreground); }
+    .dungeon-log-entry--newest { background-color: color-mix(in srgb, var(--accent) 6%, transparent); }
+    .dungeon-upgrade-row {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      padding: 0.5rem 0.625rem;
+    }
+    .dungeon-upgrade-row__title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .dungeon-upgrade-row__desc {
+      margin-top: 0.125rem;
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+    }
+    .dungeon-lb-row {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      padding: 0.375rem 0.5rem;
+    }
+    .dungeon-lb-row__top {
+      font-size: 0.75rem;
+      color: var(--foreground);
+    }
+    .dungeon-lb-row__bottom {
+      margin-top: 0.125rem;
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+    }
+    .dungeon-telemetry__line {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+    }
+    .dungeon-recap-item {
+      font-size: 0.8125rem;
+      color: var(--secondary-foreground);
+      padding: 0.125rem 0;
+    }
 
-      let lastFrameAt = performance.now();
-      const loop = (at) => {
-        const elapsed = Math.min(0.25, (at - lastFrameAt) / 1000);
-        lastFrameAt = at;
-        tick(elapsed);
-        drawScene();
-        renderHud();
-        requestAnimationFrame(loop);
-      };
+    /* ─── UTILITY ─── */
+    .dungeon-btn--hidden { display: none !important; }
 
-      setInterval(saveState, 5000);
-      window.addEventListener('beforeunload', saveState);
+    /* ─── REDUCED MOTION ─── */
+    @media (prefers-reduced-motion: reduce) {
+      .dungeon-bar__fill,
+      .dungeon-chip--flash .dungeon-chip__v,
+      .dungeon-transition,
+      .dungeon-recap-overlay__card,
+      .dungeon-log-entry--new,
+      .dungeon-choice--enter,
+      .dungeon-text-swap,
+      .dungeon-cursor {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 
-      window.render_game_to_text = () => {
-        const production = getProduction();
-        return JSON.stringify({
-          mode: 'idle',
-          coordinate_system: 'canvas origin top-left, x right, y down',
-          resources: state.resources,
-          buildings: state.buildings,
-          production,
-          rules: {
-            offlineGains: false,
-            thresholds: {
-              active: 7,
-              maintenance: 30,
-              paused: 90,
-            },
-          },
-        });
-      };
+  <script>
+    import { initBoredDungeonGame } from '@/lib/bored-dungeon/game';
 
-      window.advanceTime = (ms) => {
-        const step = 1000 / 30;
-        const iterations = Math.max(1, Math.round(ms / step));
-        for (let i = 0; i < iterations; i += 1) {
-          tick(step / 1000);
-        }
-        renderAll();
-      };
-
-      renderAll();
-      requestAnimationFrame(loop);
-    })();
+    initBoredDungeonGame();
   </script>
 </Base>

@@ -21,6 +21,7 @@
     "astro": "^5.5.5",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
+    "dexie": "^4.3.0",
     "lucide-react": "0.553.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
