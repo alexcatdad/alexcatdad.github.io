@@ -1,23 +1,23 @@
 {
-  "generatedAt": "2026-02-09T14:49:06.888Z",
+  "generatedAt": "2026-02-10T16:26:17.637Z",
   "sessions": {
-    "total": 238,
+    "total": 243,
     "projectCount": 29
   },
   "messages": {
-    "user": 21418,
-    "assistant": 36891,
-    "total": 58309
+    "user": 21755,
+    "assistant": 37414,
+    "total": 59169
   },
   "git": {
-    "commits": 1260,
-    "filesChanged": 20001,
-    "insertions": 594225,
-    "deletions": 334059,
+    "commits": 1274,
+    "filesChanged": 20221,
+    "insertions": 607111,
+    "deletions": 339301,
     "reposScanned": 25
   },
   "dateRange": {
     "earliest": "2026-01-27T00:43:54.038Z",
-    "latest": "2026-02-09T14:48:44.239Z"
+    "latest": "2026-02-10T16:26:13.033Z"
   }
 }

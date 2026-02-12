@@ -1,0 +1,41 @@
+{
+  "intro": "Working from home changes everything when cats enter the equation. They're your coworkers, your managers, and occasionally your keyboard debuggers. Deadlines mean nothing to a cat who's decided your lap is the only acceptable seat in the house. Here are the furry architects behind my work-life balance (or lack thereof).",
+  "cats": [
+    {
+      "id": "luna",
+      "name": "Luna",
+      "type": "Lap Cat",
+      "tagline": "Professional Meeting Crasher",
+      "image": "/cats/luna.jpg",
+      "personality": "Luna believes every Zoom call is an opportunity for a cameo. Her favorite move is the strategic keyboard walk during standup. She's mastered the art of looking innocent while causing maximum chaos.",
+      "ability": {
+        "name": "Laptop Heater",
+        "description": "Transforms any MacBook Pro into a personal heating pad. Bonus effect: forces you to take breaks when laptop reaches thermal throttling."
+      },
+      "stats": {
+        "cuddlePower": 95,
+        "zoomieSpeed": 45,
+        "napMastery": 88,
+        "treatRadar": 100
+      }
+    },
+    {
+      "id": "mochi",
+      "name": "Mochi",
+      "type": "Hunter",
+      "tagline": "Bug Bounty Specialist",
+      "image": "/cats/mochi.jpg",
+      "personality": "Mochi takes quality assurance seriously. Every bug in the house (and codebase) is fair game. She's the reason I have a second monitor \u2014 the first one is her observation deck.",
+      "ability": {
+        "name": "3AM Deploy",
+        "description": "Activates zoomies at peak focus hours. Guaranteed to trigger at least one production incident per sprint."
+      },
+      "stats": {
+        "cuddlePower": 60,
+        "zoomieSpeed": 98,
+        "napMastery": 72,
+        "treatRadar": 85
+      }
+    }
+  ]
+}
