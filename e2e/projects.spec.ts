@@ -1,28 +1,30 @@
 import { expect, test } from '@playwright/test';
 
-test.describe('Projects Page', () => {
-  test('shows at least one repo card', async ({ page }) => {
-    await page.goto('/projects');
-    await expect(page.getByRole('heading', { name: 'Projects', exact: true })).toBeVisible();
+test.describe('Open Source Page', () => {
+  test('shows featured project cards', async ({ page }) => {
+    await page.goto('/open-source');
+    await expect(page.getByRole('heading', { name: 'Open Source', exact: true })).toBeVisible();
 
-    // Should have at least one project card (or a fallback message if no templated repos exist)
-    const rows = page.locator('[data-project-card]');
-    const fallback = page.getByText('No templated projects yet');
-    const hasRows = await rows.count();
-    const hasFallback = await fallback.count();
-    expect(hasRows > 0 || hasFallback > 0).toBe(true);
+    const cards = page.locator('[data-project-card]');
+    await expect(cards).toHaveCount(3);
   });
 
-  test('cards have name and GitHub link', async ({ page }) => {
-    await page.goto('/projects');
+  test('cards have screenshot and GitHub link', async ({ page }) => {
+    await page.goto('/open-source');
 
-    const rows = page.locator('[data-project-card]');
-    const rowCount = await rows.count();
+    const cards = page.locator('[data-project-card]');
+    const firstCard = cards.first();
 
-    if (rowCount > 0) {
-      const firstRow = rows.first();
-      await expect(firstRow.locator('h2')).toBeVisible();
-      await expect(firstRow.locator('a[href*="github.com"]')).toHaveCount(2);
-    }
+    await expect(firstCard.locator('h2')).toBeVisible();
+    await expect(firstCard.locator('img')).toBeVisible();
+    await expect(firstCard.locator('a[href*="github.com"]').first()).toBeVisible();
+  });
+
+  test('shows catnap, paw, and paw-proxy projects', async ({ page }) => {
+    await page.goto('/open-source');
+
+    await expect(page.getByRole('heading', { name: 'catnap' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'paw', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'paw-proxy' })).toBeVisible();
   });
 });

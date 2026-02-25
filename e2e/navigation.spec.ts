@@ -13,17 +13,11 @@ test.describe('Navigation', () => {
     await page.click('a[href="/work"]');
     await expect(page).toHaveURL('/work');
 
-    await page.click('a[href="/projects"]');
-    await expect(page).toHaveURL('/projects');
-
-    await page.click('a[href="/tools"]');
-    await expect(page).toHaveURL('/tools');
+    await page.click('a[href="/open-source"]');
+    await expect(page).toHaveURL('/open-source');
 
     await page.click('a[href="/stats"]');
     await expect(page).toHaveURL('/stats');
-
-    await page.click('a[href="/contact"]');
-    await expect(page).toHaveURL('/contact');
 
     await page.click('a[href="/bored"]');
     await expect(page).toHaveURL('/bored');
