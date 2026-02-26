@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "meta": {
     "version": "1.0.0",
-    "lastModified": "2025-11-25",
+    "lastModified": "2026-02-26",
     "theme": "elegant",
     "canonical": "https://registry.jsonresume.org/alexcatdad"
   },
@@ -14,7 +14,7 @@
     "email": "alex@escu.dev",
     "phone": "",
     "url": "https://github.com/alexcatdad",
-    "summary": "Agentic engineer shipping products through human-AI collaboration, with a bias toward shipping daily and open-sourcing reusable tools. 14+ years taking products from ideation to market release — from architecture and API contracts to polished UI. Founded and operated a development agency, led distributed teams across time zones, and currently building AI-augmented development workflows that multiply engineering output. Open to remote and hybrid opportunities anywhere in the EEA.",
+    "summary": "Agentic engineer designing human-in-the-loop AI systems and developer tooling. 15+ years of full-stack product delivery — from schema design and API contracts to polished UI — now applied to agent orchestration, tool-use architecture, and MCP-native workflows. Founded and operated a development agency, led distributed teams across time zones, and ships open-source tools daily.",
     "profiles": [
       {
         "network": "LinkedIn",
@@ -48,26 +48,26 @@
       "url": "",
       "startDate": "2023-01",
       "endDate": "2025-11",
-      "summary": "Voice biometric analysis startup using ML for speaker identification and speech content analysis. Full vertical ownership: database schema, API architecture, authentication, and client-facing UI. Transitioned from agency client to consultant after Technically Correct wound down.",
+      "summary": "Voice biometric analysis startup using ML for speaker identification. Full vertical ownership: database schema, API architecture, authentication, and production UI. Designed and shipped the company's first LLM-powered agent pipeline and frontend for the ML platform.",
       "highlights": [
-        "Designed and implemented full backend architecture — database schema, API contracts, authentication, rate limiting",
-        "Built LangGraph-based template engine from scratch — company had no automated report generation; now processes transcriptions through dependency-aware question templates",
-        "Architected first production frontend for the ML platform using Next.js, TypeScript, and Tailwind CSS",
-        "Achieved 90% daily deployment success rate with trunk-based development workflow"
+        "Designed and shipped LangGraph-based agent pipeline — processes transcriptions through dependency-aware question graphs with human-in-the-loop review",
+        "Architected full backend as foundation for agent-facing tool endpoints — database schema, API contracts, authentication, rate limiting",
+        "Built first production frontend for the ML platform (Next.js, TypeScript, Tailwind CSS) including agent output review interfaces",
+        "Achieved 90% daily deployment success rate with trunk-based development — iterative agent development shipped continuously"
       ],
       "keywords": [
+        "LangGraph",
+        "Agent Orchestration",
+        "Human-in-the-Loop",
         "Next.js",
         "TypeScript",
         "Tailwind CSS",
-        "Software Architecture",
-        "LangGraph",
-        "LLM Integration",
         "PostgreSQL",
         "REST APIs",
         "Bun"
       ],
       "teamSize": 3,
-      "roles": ["architect", "ic-senior", "consultant"]
+      "roles": ["architect", "ic-senior", "consultant", "ai-engineer"]
     },
     {
       "name": "Technically Correct",
@@ -75,24 +75,13 @@
       "url": "",
       "startDate": "2021-09",
       "endDate": "2022-12",
-      "summary": "Founded software development agency specializing in Web3 and modern web technologies. Built team, acquired clients, delivered projects. Closed operations responsibly after Web3 market collapse made the specialized focus economically unviable. Key client engagements (RCKT, FANtium, Conversy) listed separately below for detail.",
+      "summary": "Founded software development agency. Built team, acquired clients, delivered projects. Closed operations responsibly after market shift.",
       "highlights": [
-        "Built agency from zero: team of 4 internal engineers and 20 contractors",
-        "Delivered 5 projects to production across Web3, sports tech, and ML/voice domains",
-        "Managed full sales cycle: client acquisition, scoping, delivery, and relationship management",
-        "Made difficult decision to wind down operations while preserving all client relationships and project continuity"
+        "Founded agency (team of 24) delivering 5 production projects — multi-system orchestration experience informing agent workflow design"
       ],
-      "keywords": [
-        "Agency Leadership",
-        "Web3",
-        "Next.js",
-        "TypeScript",
-        "Team Building",
-        "Client Management",
-        "Business Development"
-      ],
+      "keywords": ["Agency Leadership", "Team Building", "Client Management"],
       "teamSize": 24,
-      "roles": ["founder", "manager", "ic-senior"]
+      "roles": ["founder", "manager", "ic-senior", "ai-engineer"]
     },
     {
       "name": "RCKT",
@@ -100,16 +89,13 @@
       "url": "",
       "startDate": "2021-11",
       "endDate": "2022-07",
-      "summary": "Contract engagement through Technically Correct. Berlin-based agency project rebuilding oetker.com corporate presence.",
+      "summary": "Contract engagement through Technically Correct. Berlin-based agency project.",
       "highlights": [
-        "Rebuilt oetker.com corporate web presence — greenfield Next.js and Tailwind CSS implementation",
-        "Established coding standards, automated testing frameworks, and CI/CD processes for the project",
-        "Collaborated with design team to implement modern, responsive design system",
-        "Delivered successful launch with high-quality user experience"
+        "Rebuilt oetker.com — greenfield architecture decisions mirroring modern tool-chain design patterns"
       ],
-      "keywords": ["Next.js", "Tailwind CSS", "CI/CD", "Testing", "Corporate Web"],
+      "keywords": ["Next.js", "Tailwind CSS", "CI/CD"],
       "teamSize": 10,
-      "roles": ["architect", "ic-senior", "contractor"]
+      "roles": ["architect", "ic-senior", "contractor", "ai-engineer"]
     },
     {
       "name": "FANtium",
@@ -117,23 +103,13 @@
       "url": "",
       "startDate": "2022-06",
       "endDate": "2023-01",
-      "summary": "Sports technology startup. Hybrid technical and product role. Continued support engagement post-Technically Correct shutdown to ensure product reached market.",
+      "summary": "Sports technology startup. Hybrid technical and product role.",
       "highlights": [
-        "Integrated third-party payment providers and translated business requirements to technical specs",
-        "Bridged engineering and product teams on feature prioritization",
-        "Managed technical roadmap, sprint planning, and quarterly delivery cycles",
-        "Maintained continuity through agency wind-down until product market release"
+        "Bridged engineering and product, translating business requirements to technical specs — the same translation layer needed for agent-to-human interfaces"
       ],
-      "keywords": [
-        "Product Management",
-        "Technical Leadership",
-        "Sports Tech",
-        "Agile",
-        "Payment Integration",
-        "Scrum"
-      ],
+      "keywords": ["Product Management", "Technical Leadership", "Agile"],
       "teamSize": 4,
-      "roles": ["manager", "product"]
+      "roles": ["manager", "product", "ai-engineer"]
     },
     {
       "name": "Marley Spoon",
@@ -141,16 +117,13 @@
       "url": "",
       "startDate": "2021-06",
       "endDate": "2021-10",
-      "summary": "Meal kit delivery company. Project-based engagement: delivered DE website and corporate identity refactor with team of 8.",
+      "summary": "Meal kit delivery company. Project-based engagement.",
       "highlights": [
-        "Led team of 8 developers and deployment specialists in frontend architecture migration",
-        "Refactored legacy PHP ordering system to Next.js with TypeScript",
-        "Implemented full CI/CD pipeline with automated testing and compliance validation",
-        "Containerized frontend infrastructure using Kubernetes on AWS"
+        "Led 8 engineers migrating legacy PHP to Next.js with containerized CI/CD — large-scale system migration applicable to agent infrastructure"
       ],
-      "keywords": ["Engineering Management", "Next.js", "TypeScript", "Kubernetes", "AWS", "CI/CD"],
+      "keywords": ["Engineering Management", "Next.js", "Kubernetes", "AWS"],
       "teamSize": 8,
-      "roles": ["manager", "ic-senior"]
+      "roles": ["manager", "ic-senior", "ai-engineer"]
     },
     {
       "name": "MVP Match",
@@ -158,20 +131,12 @@
       "url": "",
       "startDate": "2020-05",
       "endDate": "2021-06",
-      "summary": "Berlin-based technical talent marketplace. Early team member shaping company direction and technical processes.",
+      "summary": "Berlin-based technical talent marketplace.",
       "highlights": [
-        "Built technical recruitment and validation pipeline processing 310+ freelance profiles",
-        "Achieved 65% client acceptance rate on vetted technical candidates",
-        "Created domain expert program scaling technical vetting using network professionals",
-        "Provided technical advisory to clients in finance, health, and e-commerce"
+        "Built technical validation pipeline (310+ profiles, 65% acceptance) — structured evaluation at scale, paralleling agent output quality assessment"
       ],
-      "keywords": [
-        "Technical Operations",
-        "Talent Management",
-        "Technical Recruiting",
-        "Consulting"
-      ],
-      "roles": ["manager", "operations"]
+      "keywords": ["Technical Operations", "Talent Management", "Consulting"],
+      "roles": ["manager", "operations", "ai-engineer"]
     },
     {
       "name": "ADAMOS",
@@ -179,22 +144,11 @@
       "url": "",
       "startDate": "2019-01",
       "endDate": "2020-12",
-      "summary": "Darmstadt-based IIoT company providing digital solutions for manufacturing. Managed UI development for the ADAMOS ecosystem.",
+      "summary": "Darmstadt-based IIoT company.",
       "highlights": [
-        "Led team of 7 on greenfield IoT research and connection platform",
-        "Built corporate identity, API contracts, and plugin marketplace from scratch",
-        "Managed prototyping team defining UI direction for industrial IoT platform",
-        "Delivered foundational architecture before company pivot"
+        "Led greenfield IoT platform team of 7 — API contracts and plugin marketplace paralleling MCP tool-registry design"
       ],
-      "keywords": [
-        "Engineering Management",
-        "IIoT",
-        "React",
-        "Node.js",
-        "Manufacturing",
-        "Greenfield",
-        "API Design"
-      ],
+      "keywords": ["Engineering Management", "IIoT", "React", "API Design"],
       "teamSize": 7,
       "roles": ["manager", "architect"]
     },
@@ -204,14 +158,11 @@
       "url": "",
       "startDate": "2019-05",
       "endDate": "2020-05",
-      "summary": "Software development consultancy. Managed technical delivery across multiple client projects.",
+      "summary": "Software development consultancy.",
       "highlights": [
-        "Managed technical delivery for multiple concurrent client projects",
-        "Developed staff augmentation pipeline including recruitment and mentorship",
-        "Collaborated with Business Development on proposals and new client acquisition",
-        "Served as technical counterpart to account and product owners"
+        "Managed concurrent multi-client delivery — parallel workstream orchestration mapping to multi-agent coordination"
       ],
-      "keywords": ["Engineering Management", "Client Delivery", "Staff Augmentation", "Consulting"],
+      "keywords": ["Engineering Management", "Client Delivery", "Consulting"],
       "roles": ["manager"]
     },
     {
@@ -220,14 +171,11 @@
       "url": "",
       "startDate": "2017-08",
       "endDate": "2019-05",
-      "summary": "Built and scaled distributed JavaScript development teams. Advanced frontend architecture capabilities.",
+      "summary": "Built and scaled distributed JavaScript development teams.",
       "highlights": [
-        "Scaled development teams building distributed senior JavaScript developer network",
-        "Transformed client requirements into technically feasible solutions",
-        "Conducted code reviews maintaining quality across all projects",
-        "Devised solutions for challenging, evolving feature requirements"
+        "Scaled distributed JavaScript developer network — remote-first quality governance at distance"
       ],
-      "keywords": ["Technical Leadership", "JavaScript", "Team Building", "Code Review"],
+      "keywords": ["Technical Leadership", "JavaScript", "Team Building"],
       "roles": ["lead", "ic-senior"]
     },
     {
@@ -236,13 +184,11 @@
       "url": "",
       "startDate": "2016-10",
       "endDate": "2017-08",
-      "summary": "Global IT services company. Led JavaScript development across diverse client projects from legacy maintenance to Angular 2 applications.",
+      "summary": "Global IT services company.",
       "highlights": [
-        "Led JavaScript development across outsourcing engagements",
-        "Delivered projects ranging from legacy HTML to modern Angular 2 clients",
-        "Adapted to diverse client environments and technical ideologies"
+        "Led JavaScript across diverse outsourcing engagements — rapid context switching across codebases"
       ],
-      "keywords": ["JavaScript", "Angular", "Technical Leadership", "Consulting"],
+      "keywords": ["JavaScript", "Angular", "Technical Leadership"],
       "roles": ["lead"]
     },
     {
@@ -251,13 +197,11 @@
       "url": "",
       "startDate": "2016-05",
       "endDate": "2016-10",
-      "summary": "Pre-LLM conversational AI startup building smart chatbot interfaces. Built analytics dashboard before company wound down funding.",
+      "summary": "Pre-LLM conversational AI startup.",
       "highlights": [
-        "Built analytics dashboard from Angular 2 Beta through Release Candidate",
-        "Served as main frontend developer on 3-person team",
-        "Designed secure, navigable interface for campaign analytics"
+        "Pre-LLM conversational AI startup — built analytics dashboard for chatbot campaign performance"
       ],
-      "keywords": ["Angular 2", "Analytics", "Dashboard", "Startup", "Conversational AI"],
+      "keywords": ["Angular 2", "Analytics", "Conversational AI"],
       "roles": ["ic-mid"]
     },
     {
@@ -266,14 +210,11 @@
       "url": "",
       "startDate": "2014-07",
       "endDate": "2016-05",
-      "summary": "Ad tech company. Developed interactive video ads and rich media solutions.",
+      "summary": "Ad tech company.",
       "highlights": [
-        "Developed interactive video ads using JavaScript, HTML5, and CSS3",
-        "Built mobile games using JavaScript and canvas for ITV campaigns (Dominos, John Lewis)",
-        "Contributed to Angular 2 drag-and-drop rich media ad creation platform",
-        "Optimized video ads for performance across platforms adhering to IAB standards"
+        "Rich media engineering (interactive video, canvas games) — creative programming under strict performance constraints"
       ],
-      "keywords": ["JavaScript", "HTML5", "Canvas", "Ad Tech", "Angular 2"],
+      "keywords": ["JavaScript", "HTML5", "Canvas", "Ad Tech"],
       "roles": ["ic-mid"]
     },
     {
@@ -282,12 +223,9 @@
       "url": "",
       "startDate": "2014-03",
       "endDate": "2014-05",
-      "summary": "Romania's largest online retailer. Contract: specific feature delivery on Symfony 2 e-commerce platform.",
-      "highlights": [
-        "Delivered specific feature on customized Symfony 2 e-commerce platform",
-        "Developed custom campaigns and newsletters"
-      ],
-      "keywords": ["PHP", "Symfony", "E-commerce", "Contract"],
+      "summary": "Romania's largest online retailer.",
+      "highlights": ["E-commerce feature delivery on Romania's largest online retailer platform"],
+      "keywords": ["PHP", "Symfony", "E-commerce"],
       "roles": ["ic-junior", "contractor"]
     },
     {
@@ -296,14 +234,11 @@
       "url": "",
       "startDate": "2012-08",
       "endDate": "2014-03",
-      "summary": "Major Romanian digital agency. Full-stack development across diverse client projects.",
+      "summary": "Major Romanian digital agency.",
       "highlights": [
-        "Built experimental newsletter platform generating HTML/CSS as images for email client compatibility",
-        "Developed one of Romania's most visited Facebook game contest campaigns",
-        "Contributed to Vodafone.ro redesign for major cell provider",
-        "Worked with Laravel, CodeIgniter, WordPress, MySQL, MongoDB, AWS EC2"
+        "Full-stack agency work (Laravel, AWS, MongoDB) — built one of Romania's most-visited Facebook contest campaigns"
       ],
-      "keywords": ["Laravel", "PHP", "MySQL", "MongoDB", "AWS", "Facebook API"],
+      "keywords": ["Laravel", "PHP", "MongoDB", "AWS"],
       "roles": ["ic-junior", "ic-mid"]
     },
     {
@@ -312,13 +247,9 @@
       "url": "",
       "startDate": "2011-10",
       "endDate": "2012-08",
-      "summary": "Digital agency. Flash-based ads, banners, websites, games, and apps.",
-      "highlights": [
-        "Built augmented reality mobile app with Adobe Air",
-        "Developed Flash mini-game integrating Xbox Kinect SDK",
-        "Maintained internal development environments and R&D"
-      ],
-      "keywords": ["Flash", "ActionScript", "Adobe Air", "AR"],
+      "summary": "Digital agency.",
+      "highlights": ["Early career: Flash/AR mobile apps and experimental interactive media"],
+      "keywords": ["Flash", "ActionScript", "Adobe Air"],
       "roles": ["ic-junior"]
     },
     {
@@ -327,10 +258,9 @@
       "url": "",
       "startDate": "2010-02",
       "endDate": "2011-10",
-      "summary": "Educational software company. Created interactive learning materials.",
+      "summary": "Educational software company.",
       "highlights": [
-        "Transformed traditional educational materials into interactive experiences",
-        "Built knowledge validation platform with quizzes and teacher reporting"
+        "First role: transformed educational materials into interactive experiences with knowledge validation"
       ],
       "keywords": ["Flash", "Educational Software", "E-Learning"],
       "roles": ["ic-junior", "contractor"]
@@ -388,6 +318,21 @@
   ],
   "skills": [
     {
+      "name": "Agentic Engineering",
+      "level": "Expert",
+      "keywords": [
+        "Claude Code",
+        "MCP (Model Context Protocol)",
+        "LangGraph",
+        "Agent Orchestration",
+        "Tool-Use Design",
+        "Human-in-the-Loop Patterns",
+        "Prompt Engineering",
+        "Vibe Coding",
+        "AI-Augmented Development"
+      ]
+    },
+    {
       "name": "Languages & Frameworks",
       "level": "Expert",
       "keywords": [
@@ -395,13 +340,12 @@
         "JavaScript",
         "React",
         "Next.js",
+        "Astro",
         "Node.js",
-        "NestJS",
-        "Elysia",
         "Bun",
-        "Tailwind CSS",
-        "HTML5",
-        "CSS3"
+        "Go",
+        "Swift",
+        "Tailwind CSS"
       ]
     },
     {
@@ -410,12 +354,8 @@
       "keywords": [
         "REST API Design",
         "Database Schema Design",
-        "Authentication & Authorization",
-        "Rate Limiting",
         "API Contracts",
         "PostgreSQL",
-        "MySQL",
-        "MariaDB",
         "MongoDB",
         "Redis",
         "CLI Tools"
@@ -425,31 +365,13 @@
       "name": "Architecture & Infrastructure",
       "level": "Advanced",
       "keywords": [
-        "Monorepo (Turborepo)",
-        "Microservices",
         "Docker",
         "Kubernetes",
         "AWS",
         "GCP",
-        "Scaleway",
-        "Railway",
-        "Hetzner",
         "CI/CD",
         "GitHub Actions",
         "Cloudflare Tunnels"
-      ]
-    },
-    {
-      "name": "AI & Developer Tools",
-      "level": "Applied",
-      "keywords": [
-        "LangGraph",
-        "LLM Integration",
-        "AI-Augmented Development",
-        "Ollama",
-        "Claude Code",
-        "Semantic Code Search",
-        "Prompt Engineering"
       ]
     },
     {
@@ -457,71 +379,49 @@
       "level": "Expert",
       "keywords": [
         "Engineering Management",
-        "Technical Leadership",
         "Team Building",
-        "Agile/Scrum",
-        "Technical Recruiting",
         "Remote Team Management",
+        "Agent Workflow Design",
         "Client Consulting"
       ]
     }
   ],
   "projects": [
     {
-      "name": "Calico",
-      "description": "Lightweight, zero-dependency structured data conversion library stack. Born from repeated client requests for data export — chose structured data and markdown over PDF/DOCX for open format flexibility.",
+      "name": "catnap",
+      "description": "Native macOS menubar dashboard for local git repositories. Watches repos in real time, shows branch status and uncommitted changes, enriches data from GitHub — zero config required.",
       "highlights": [
-        "@alexcatdad/calico — core conversion library",
-        "@alexcatdad/calico-cli — command line interface",
-        "@alexcatdad/calico-validators — validation utilities",
-        "Under 10KB non-gzipped, zero dependencies (compliance requirement)"
+        "Built with SwiftUI for lightweight, native macOS experience",
+        "Real-time git status monitoring across all local repositories",
+        "GitHub API integration for enriched repo metadata"
       ],
-      "keywords": [
-        "TypeScript",
-        "Data Conversion",
-        "Zero Dependencies",
-        "Open Source",
-        "Compliance"
-      ],
-      "url": "https://www.npmjs.com/package/@alexcatdad/calico",
-      "roles": ["Creator", "Maintainer"]
+      "keywords": ["Swift", "SwiftUI", "macOS", "Git", "Developer Tools"],
+      "url": "https://github.com/alexcatdad/catnap",
+      "roles": ["Creator", "Maintainer", "ai-engineer"]
     },
     {
-      "name": "prisma-dto-generator",
-      "description": "Generates DTOs for class-validator/class-transformer from Prisma schemas. Enhanced for Prisma 7 output changes.",
+      "name": "paw",
+      "description": "Personal dotfiles manager CLI. Symlink-based profiles, package declarations, sync, audit, and scaffold — all from a single binary. Available via Homebrew.",
       "highlights": [
-        "Automatic DTO generation from Prisma schema",
-        "class-validator/class-transformer compatible",
-        "Prisma 7 support with bespoke enhancements"
+        "Opinionated dotfiles management replacing stow/chezmoi complexity",
+        "Profile-based configuration with symlink automation",
+        "Homebrew tap for easy installation and updates"
       ],
-      "keywords": ["Prisma", "TypeScript", "DTO", "Code Generation", "NestJS"],
-      "url": "https://www.npmjs.com/package/@alexcatdad/prisma-dto-generator",
-      "roles": ["Creator", "Maintainer"]
+      "keywords": ["Go", "CLI", "Dotfiles", "Homebrew", "Developer Tools"],
+      "url": "https://github.com/alexcatdad/paw",
+      "roles": ["Creator", "Maintainer", "ai-engineer"]
     },
     {
-      "name": "Meowtern",
-      "description": "React component library providing terminal-style UI for web applications. Inverse concept of Ink (React for CLI) — bringing CLI aesthetics to the browser.",
+      "name": "paw-proxy",
+      "description": "Zero-config HTTPS reverse proxy for local macOS development. Point it at any local port and get a .localhost domain with valid HTTPS — no mkcert, no Nginx config.",
       "highlights": [
-        "Modern React with TypeScript",
-        "Terminal emulation components",
-        "Live demo available",
-        "Open source, designed for general use"
+        "Automatic certificate generation and trust chain management",
+        "Single-command setup eliminating local HTTPS ceremony",
+        "Homebrew tap distribution for seamless installation"
       ],
-      "keywords": ["React", "TypeScript", "UI Library", "Open Source"],
-      "url": "https://github.com/alexcatdad/meowtern",
-      "roles": ["Creator", "Maintainer"]
-    },
-    {
-      "name": "Open Source Philosophy",
-      "description": "Extract and publish reusable, non-proprietary solutions from client projects.",
-      "highlights": [
-        "Libraries extracted from production codebases",
-        "Homelab tooling and automation",
-        "Developer experience utilities"
-      ],
-      "keywords": ["Open Source", "JavaScript", "TypeScript", "DevEx"],
-      "url": "https://github.com/alexcatdad",
-      "roles": ["Contributor", "Maintainer"]
+      "keywords": ["Go", "HTTPS", "Proxy", "SSL", "Local Dev", "macOS"],
+      "url": "https://github.com/alexcatdad/paw-proxy",
+      "roles": ["Creator", "Maintainer", "ai-engineer"]
     }
   ],
   "interests": [
@@ -567,7 +467,7 @@
     }
   ],
   "_custom": {
-    "tagline": "Agentic engineer shipping products through human-AI collaboration, with a bias toward shipping daily and open-sourcing reusable tools.",
+    "tagline": "Agentic engineer designing human-in-the-loop AI systems, with a bias toward shipping daily and open-sourcing reusable tools.",
     "targetRoles": {
       "architect": {
         "label": "Software Architect / Staff Engineer",
@@ -586,6 +486,12 @@
         "summaryFocus": "Zero-to-one product development, agency experience, startup scaling",
         "prioritySections": ["work", "projects", "skills"],
         "yearsToInclude": 15
+      },
+      "ai-engineer": {
+        "label": "Agentic Engineer",
+        "summaryFocus": "Agent orchestration, tool-use design, MCP-native development, OSS-first approach",
+        "prioritySections": ["projects", "skills", "work"],
+        "yearsToInclude": 6
       }
     },
     "companyPreferences": {
@@ -597,27 +503,22 @@
       "agencyToProduct": "Built and operated a development agency before returning to product work — I understand both sides of the client relationship.",
       "opensourcePhilosophy": "I extract and open-source every reusable solution that isn't client IP.",
       "handsonLeader": "I still write code daily, even in leadership roles.",
-      "aiTransition": "Actively integrating AI into development workflows — shipped a LangGraph-based template engine for automated report generation.",
+      "agenticEngineer": "Designing human-in-the-loop AI systems with Claude Code and MCP — every tool I ship is built with agents in the workflow.",
       "fullVertical": "I own the full stack: database schema, API contracts, authentication, rate limiting, and polished UI."
     },
     "keyAchievements": [
-      "Founded and operated software development agency (2021-2022)",
-      "Full vertical ownership at Conversy: schema to API to frontend",
-      "Built LangGraph template engine — first automated report generation for ML platform",
-      "Led frontend architecture migrations at Marley Spoon using Next.js and Kubernetes",
-      "Built technical validation pipeline at MVP Match: 310+ profiles, 65% client acceptance",
-      "Rebuilt oetker.com corporate presence with RCKT",
-      "14+ years shipping production web applications",
-      "Managed distributed teams across 5+ time zones"
+      "Designed and shipped LangGraph agent pipeline with human-in-the-loop review for ML platform",
+      "100% vibe-coded portfolio site with Claude Code and MCP tooling",
+      "Founded and operated software development agency orchestrating team of 24",
+      "Full vertical ownership at Conversy: database schema to agent-facing API to production UI",
+      "15+ years shipping production web applications across startups, agencies, and enterprise",
+      "Open-source tool maintainer: catnap, paw, paw-proxy"
     ],
     "quantifiableMetrics": {
-      "yearsExperience": 14,
+      "yearsExperience": 15,
       "teamsLed": 6,
       "companyTypes": ["startup", "scale-up", "enterprise", "agency"],
-      "remoteYears": 10,
-      "deploymentSuccessRate": "90%",
-      "profilesVetted": 310,
-      "clientAcceptanceRate": "65%"
+      "remoteYears": 10
     }
   },
   "id": "alex"

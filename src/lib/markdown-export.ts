@@ -1,3 +1,4 @@
+import { splitWorkByEra } from '@/lib/resume-utils';
 import type { JSONResume } from '@/types/json-resume';
 
 export function generateMarkdown(resume: JSONResume): string {
@@ -63,47 +64,9 @@ export function generateMarkdown(resume: JSONResume): string {
     });
   }
 
-  // Professional Experience
-  if (resume.work && resume.work.length > 0) {
-    sections.push('## Professional Experience');
-    sections.push('');
-
-    resume.work.forEach((exp) => {
-      if (exp.position) {
-        sections.push(`### ${exp.position}`);
-      }
-      if (exp.name) {
-        sections.push(`**${exp.name}**`);
-      }
-      if (exp.startDate || exp.endDate) {
-        const start = exp.startDate ? exp.startDate.split('-')[0] : '';
-        const end = exp.endDate ? exp.endDate.split('-')[0] : 'Present';
-        sections.push(`*${start} - ${end}*`);
-      }
-      sections.push('');
-
-      if (exp.summary) {
-        sections.push(exp.summary);
-        sections.push('');
-      }
-
-      if (exp.highlights && exp.highlights.length > 0) {
-        exp.highlights.forEach((h) => {
-          sections.push(`- ${h}`);
-        });
-        sections.push('');
-      }
-
-      if (exp.keywords && exp.keywords.length > 0) {
-        sections.push(`**Technologies**: ${exp.keywords.join(', ')}`);
-        sections.push('');
-      }
-    });
-  }
-
-  // Projects
+  // Open Source Projects — ABOVE Experience
   if (resume.projects && resume.projects.length > 0) {
-    sections.push('## Featured Projects');
+    sections.push('## Open Source');
     sections.push('');
 
     resume.projects.forEach((project) => {
@@ -134,6 +97,69 @@ export function generateMarkdown(resume: JSONResume): string {
         sections.push('');
       }
     });
+  }
+
+  // Professional Experience — Two-era split
+  const work = resume.work ?? [];
+  if (work.length > 0) {
+    sections.push('## Professional Experience');
+    sections.push('');
+
+    const { agenticEra, foundation } = splitWorkByEra(work);
+
+    if (agenticEra.length > 0) {
+      sections.push('### Agentic Era');
+      sections.push('');
+
+      agenticEra.forEach((exp) => {
+        if (exp.position) {
+          sections.push(`#### ${exp.position}`);
+        }
+        if (exp.name) {
+          sections.push(`**${exp.name}**`);
+        }
+        if (exp.startDate || exp.endDate) {
+          const start = exp.startDate ? exp.startDate.split('-')[0] : '';
+          const end = exp.endDate ? exp.endDate.split('-')[0] : 'Present';
+          sections.push(`*${start} - ${end}*`);
+        }
+        sections.push('');
+
+        if (exp.summary) {
+          sections.push(exp.summary);
+          sections.push('');
+        }
+
+        if (exp.highlights && exp.highlights.length > 0) {
+          exp.highlights.forEach((h) => {
+            sections.push(`- ${h}`);
+          });
+          sections.push('');
+        }
+
+        if (exp.keywords && exp.keywords.length > 0) {
+          sections.push(`**Technologies**: ${exp.keywords.join(', ')}`);
+          sections.push('');
+        }
+      });
+    }
+
+    if (foundation.length > 0) {
+      sections.push('### Foundation');
+      sections.push('');
+
+      foundation.forEach((exp) => {
+        const start = exp.startDate ? exp.startDate.split('-')[0] : '';
+        const end = exp.endDate ? exp.endDate.split('-')[0] : 'Present';
+        const title = [exp.position, exp.name].filter(Boolean).join(' — ');
+        sections.push(`**${title}** (*${start} - ${end}*)`);
+
+        if (exp.highlights && exp.highlights.length > 0) {
+          sections.push(`- ${exp.highlights[0]}`);
+        }
+        sections.push('');
+      });
+    }
   }
 
   // Publications

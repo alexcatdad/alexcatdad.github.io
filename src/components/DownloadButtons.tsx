@@ -75,23 +75,10 @@ export function DownloadButtons({ resume, alignment = 'right' }: DownloadButtons
         });
         triggerDownload(blob, filename);
       } else {
-        // Dynamic import to avoid bundling @react-pdf/renderer on initial load
-        const [{ pdf }, { ProfilePDF }] = await Promise.all([
-          import('@react-pdf/renderer'),
-          import('@/components/pdf/ProfilePDF'),
-        ]);
-        const roleLabel =
-          role !== 'all'
-            ? (filtered._custom?.targetRoles?.[role]?.label ?? role.replace(/-/g, ' '))
-            : undefined;
-        const blob = await pdf(ProfilePDF({ resume: filtered, roleLabel })).toBlob();
-        const filename = buildDownloadFileName({
-          basics: filtered.basics,
-          targetRoles: filtered._custom?.targetRoles,
-          role,
-          format: 'pdf',
-        });
-        triggerDownload(blob, filename);
+        // Open print-optimized page — triggers window.print() automatically
+        const params = new URLSearchParams(window.location.search);
+        const printUrl = `/work/print${params.toString() ? `?${params}` : ''}`;
+        window.open(printUrl, '_blank');
       }
     } catch (error) {
       console.error('Download error:', error);

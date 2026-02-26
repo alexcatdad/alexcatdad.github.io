@@ -1,4 +1,5 @@
 import { Document, Link, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { splitWorkByEra } from '@/lib/resume-utils';
 import type { JSONResume } from '@/types/json-resume';
 
 const styles = StyleSheet.create({
@@ -79,19 +80,27 @@ const styles = StyleSheet.create({
     textDecoration: 'none',
   },
   skillTag: {
-    fontSize: 9,
+    fontSize: 7.5,
     backgroundColor: '#eff6ff',
-    paddingHorizontal: 6,
-    paddingVertical: 3,
-    borderRadius: 4,
+    paddingHorizontal: 4,
+    paddingVertical: 2,
+    borderRadius: 3,
     color: '#1e40af',
-    marginBottom: 4,
-    marginRight: 4,
+    marginBottom: 3,
+    marginRight: 3,
     alignSelf: 'flex-start',
   },
   skillsRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+  },
+  skillCategoryLabel: {
+    fontSize: 8,
+    fontWeight: 'bold',
+    color: '#374151',
+    marginBottom: 2,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   metricItem: {
     marginBottom: 8,
@@ -152,6 +161,73 @@ const styles = StyleSheet.create({
     fontSize: 9,
     color: '#4b5563',
   },
+  eraSubheading: {
+    fontSize: 9,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    color: '#2563eb',
+    paddingBottom: 3,
+    marginBottom: 6,
+  },
+  foundationSubheading: {
+    fontSize: 9,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    color: '#6b7280',
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#e5e7eb',
+    paddingBottom: 3,
+    marginBottom: 6,
+    marginTop: 8,
+  },
+  foundationFullWidth: {
+    marginTop: 4,
+  },
+  foundationIntro: {
+    fontSize: 8,
+    color: '#9ca3af',
+    marginBottom: 10,
+  },
+  foundationGrid: {
+    flexDirection: 'row',
+    gap: 20,
+  },
+  foundationColumn: {
+    flex: 1,
+  },
+  foundationItem: {
+    marginBottom: 8,
+  },
+  foundationItemTitle: {
+    fontSize: 9.5,
+    fontWeight: 'bold',
+    color: '#111827',
+  },
+  foundationItemCompany: {
+    fontSize: 8,
+    color: '#6b7280',
+    marginBottom: 2,
+  },
+  foundationItemHighlight: {
+    fontSize: 8,
+    color: '#4b5563',
+    lineHeight: 1.3,
+  },
+  earlierCareerLabel: {
+    fontSize: 8,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    color: '#9ca3af',
+    marginBottom: 3,
+  },
+  earlierCareerText: {
+    fontSize: 8.5,
+    color: '#6b7280',
+    lineHeight: 1.5,
+  },
   footer: {
     position: 'absolute',
     bottom: 30,
@@ -190,18 +266,17 @@ export function ProfilePDF({ resume, roleLabel }: ProfilePDFProps) {
     ? `${basics.location.city || ''}${basics.location.city && basics.location.countryCode ? ', ' : ''}${basics.location.countryCode || ''}`
     : '';
   const linkedInProfile = basics.profiles?.find((p) => p.network === 'LinkedIn');
-  const quantifiable = resume._custom?.quantifiableMetrics;
   const displayTitle = roleLabel || basics.label;
 
-  const metrics = [
-    quantifiable?.yearsExperience
-      ? { label: 'Experience', value: `${quantifiable.yearsExperience}+ Years` }
-      : null,
-    quantifiable?.teamsLed ? { label: 'Teams Led', value: `${quantifiable.teamsLed}` } : null,
-    quantifiable?.remoteYears
-      ? { label: 'Remote Work', value: `${quantifiable.remoteYears}+ Years` }
-      : null,
-  ].filter((metric): metric is { label: string; value: string } => Boolean(metric));
+  const { agenticEra, foundation } = splitWorkByEra(resume.work ?? []);
+  const recentFoundation = foundation.filter((w) => {
+    const year = w.startDate ? Number.parseInt(w.startDate.split('-')[0], 10) : 0;
+    return year >= 2017;
+  });
+  const earlierCareer = foundation.filter((w) => {
+    const year = w.startDate ? Number.parseInt(w.startDate.split('-')[0], 10) : 0;
+    return year < 2017;
+  });
 
   return (
     <Document>
@@ -215,7 +290,7 @@ export function ProfilePDF({ resume, roleLabel }: ProfilePDFProps) {
           <View style={styles.container}>
             {/* Left Main Column */}
             <View style={styles.mainColumn}>
-              {/* Title Moved Here */}
+              {/* Title */}
               {displayTitle && <Text style={styles.title}>{displayTitle}</Text>}
 
               {/* Summary */}
@@ -226,47 +301,11 @@ export function ProfilePDF({ resume, roleLabel }: ProfilePDFProps) {
                 </View>
               )}
 
-              {/* Experience */}
-              {resume.work && resume.work.length > 0 && (
-                <View style={styles.section}>
-                  <Text style={styles.sectionTitle}>Experience</Text>
-                  {resume.work.map((work, index) => (
-                    <View
-                      key={`${work.name ?? 'experience'}-${work.position ?? 'role'}-${work.startDate ?? index}`}
-                      style={styles.item}
-                      wrap={false}
-                    >
-                      <View style={styles.itemHeader}>
-                        <Text style={styles.itemTitle}>{work.position}</Text>
-                        <Text style={styles.itemMeta}>
-                          {formatDate(work.startDate)} - {formatDate(work.endDate)}
-                        </Text>
-                      </View>
-                      <Text style={styles.itemSubtitle}>{work.name}</Text>
-                      {work.summary && <Text style={styles.itemDescription}>{work.summary}</Text>}
-                      {work.highlights && (
-                        <View>
-                          {work.highlights.slice(0, 4).map((highlight) => (
-                            <View
-                              key={`${work.name ?? 'experience'}-${highlight}`}
-                              style={styles.bulletRow}
-                            >
-                              <Text style={styles.bullet}>•</Text>
-                              <Text style={styles.bulletText}>{highlight}</Text>
-                            </View>
-                          ))}
-                        </View>
-                      )}
-                    </View>
-                  ))}
-                </View>
-              )}
-
-              {/* Projects */}
+              {/* Open Source Projects — ABOVE Experience */}
               {resume.projects && resume.projects.length > 0 && (
                 <View style={styles.section}>
-                  <Text style={styles.sectionTitle}>Key Projects</Text>
-                  {resume.projects.slice(0, 3).map((project, index) => (
+                  <Text style={styles.sectionTitle}>Open Source</Text>
+                  {resume.projects.map((project, index) => (
                     <View
                       key={`${project.name ?? 'project'}-${project.startDate ?? index}`}
                       style={styles.item}
@@ -283,6 +322,43 @@ export function ProfilePDF({ resume, roleLabel }: ProfilePDFProps) {
                           {project.highlights.slice(0, 2).map((highlight) => (
                             <View
                               key={`${project.name ?? 'project'}-${highlight}`}
+                              style={styles.bulletRow}
+                            >
+                              <Text style={styles.bullet}>•</Text>
+                              <Text style={styles.bulletText}>{highlight}</Text>
+                            </View>
+                          ))}
+                        </View>
+                      )}
+                    </View>
+                  ))}
+                </View>
+              )}
+
+              {/* Agentic Era Experience */}
+              {agenticEra.length > 0 && (
+                <View style={styles.section}>
+                  <Text style={styles.sectionTitle}>Experience</Text>
+                  <Text style={styles.eraSubheading}>Agentic Era</Text>
+                  {agenticEra.map((work, index) => (
+                    <View
+                      key={`${work.name ?? 'experience'}-${work.position ?? 'role'}-${work.startDate ?? index}`}
+                      style={styles.item}
+                      wrap={false}
+                    >
+                      <View style={styles.itemHeader}>
+                        <Text style={styles.itemTitle}>{work.position}</Text>
+                        <Text style={styles.itemMeta}>
+                          {formatDate(work.startDate)} - {formatDate(work.endDate)}
+                        </Text>
+                      </View>
+                      <Text style={styles.itemSubtitle}>{work.name}</Text>
+                      {work.summary && <Text style={styles.itemDescription}>{work.summary}</Text>}
+                      {work.highlights && (
+                        <View>
+                          {work.highlights.slice(0, 3).map((highlight) => (
+                            <View
+                              key={`${work.name ?? 'experience'}-${highlight}`}
                               style={styles.bulletRow}
                             >
                               <Text style={styles.bullet}>•</Text>
@@ -317,19 +393,22 @@ export function ProfilePDF({ resume, roleLabel }: ProfilePDFProps) {
                 )}
               </View>
 
-              {/* Skills */}
+              {/* Skills — Grouped by category */}
               {resume.skills && resume.skills.length > 0 && (
                 <View style={styles.sidebarSection}>
                   <Text style={styles.sectionTitle}>Skills</Text>
-                  <View style={styles.skillsRow}>
-                    {resume.skills.flatMap((skill) =>
-                      (skill.keywords || []).slice(0, 6).map((keyword) => (
-                        <Text key={`${skill.name ?? 'skill'}-${keyword}`} style={styles.skillTag}>
-                          {keyword}
-                        </Text>
-                      ))
-                    )}
-                  </View>
+                  {resume.skills.slice(0, 4).map((skill) => (
+                    <View key={skill.name ?? 'skill'} style={{ marginBottom: 4 }}>
+                      <Text style={styles.skillCategoryLabel}>{skill.name}</Text>
+                      <View style={styles.skillsRow}>
+                        {(skill.keywords || []).slice(0, 5).map((keyword) => (
+                          <Text key={`${skill.name ?? 'skill'}-${keyword}`} style={styles.skillTag}>
+                            {keyword}
+                          </Text>
+                        ))}
+                      </View>
+                    </View>
+                  ))}
                 </View>
               )}
 
@@ -356,20 +435,89 @@ export function ProfilePDF({ resume, roleLabel }: ProfilePDFProps) {
                 </View>
               )}
 
-              {/* Metrics */}
-              {metrics.length > 0 && (
+              {/* Certificates */}
+              {resume.certificates && resume.certificates.length > 0 && (
                 <View style={styles.sidebarSection}>
-                  <Text style={styles.sectionTitle}>Metrics</Text>
-                  {metrics.map((metric) => (
-                    <View key={metric.label} style={styles.metricItem}>
-                      <Text style={styles.metricValue}>{metric.value}</Text>
-                      <Text style={styles.metricLabel}>{metric.label}</Text>
+                  <Text style={styles.sectionTitle}>Certifications</Text>
+                  {resume.certificates.map((cert) => (
+                    <View key={cert.name ?? 'cert'} style={{ marginBottom: 4 }}>
+                      <Text style={{ fontSize: 8.5, fontWeight: 'bold', color: '#111827' }}>
+                        {cert.name}
+                      </Text>
+                      <Text style={{ fontSize: 8, color: '#6b7280' }}>{cert.issuer}</Text>
                     </View>
                   ))}
                 </View>
               )}
             </View>
           </View>
+
+          {/* Foundation — Full width below the two-column layout */}
+          {(recentFoundation.length > 0 || earlierCareer.length > 0) && (
+            <View style={styles.foundationFullWidth} break>
+              <Text style={styles.sectionTitle}>Foundation</Text>
+              <Text style={styles.foundationIntro}>
+                Pre-AI roles condensed to transferable value for agentic work
+              </Text>
+
+              {/* Two-column foundation grid */}
+              <View style={styles.foundationGrid}>
+                {/* Left column */}
+                <View style={styles.foundationColumn}>
+                  {recentFoundation
+                    .filter((_, i) => i % 2 === 0)
+                    .map((work, index) => (
+                      <View
+                        key={`${work.name ?? 'experience'}-${work.position ?? 'role'}-${work.startDate ?? index}`}
+                        style={styles.foundationItem}
+                      >
+                        <Text style={styles.foundationItemTitle}>{work.position}</Text>
+                        <Text style={styles.foundationItemCompany}>
+                          {work.name} · {formatDate(work.startDate)} - {formatDate(work.endDate)}
+                        </Text>
+                        {work.highlights && work.highlights.length > 0 && (
+                          <Text style={styles.foundationItemHighlight}>{work.highlights[0]}</Text>
+                        )}
+                      </View>
+                    ))}
+                </View>
+                {/* Right column */}
+                <View style={styles.foundationColumn}>
+                  {recentFoundation
+                    .filter((_, i) => i % 2 === 1)
+                    .map((work, index) => (
+                      <View
+                        key={`${work.name ?? 'experience'}-${work.position ?? 'role'}-${work.startDate ?? index}`}
+                        style={styles.foundationItem}
+                      >
+                        <Text style={styles.foundationItemTitle}>{work.position}</Text>
+                        <Text style={styles.foundationItemCompany}>
+                          {work.name} · {formatDate(work.startDate)} - {formatDate(work.endDate)}
+                        </Text>
+                        {work.highlights && work.highlights.length > 0 && (
+                          <Text style={styles.foundationItemHighlight}>{work.highlights[0]}</Text>
+                        )}
+                      </View>
+                    ))}
+                </View>
+              </View>
+
+              {/* Earlier Career */}
+              {earlierCareer.length > 0 && (
+                <View style={{ marginTop: 8 }}>
+                  <Text style={styles.earlierCareerLabel}>Earlier Career</Text>
+                  <Text style={styles.earlierCareerText}>
+                    {earlierCareer
+                      .map((w) => {
+                        const year = w.startDate ? w.startDate.split('-')[0] : '';
+                        return `${w.position} at ${w.name} (${year})`;
+                      })
+                      .join(' · ')}
+                  </Text>
+                </View>
+              )}
+            </View>
+          )}
         </View>
 
         <Text
