@@ -8,13 +8,13 @@
   },
   "basics": {
     "name": "Alex Alexandrescu",
-    "label": "Full-Stack Architect",
+    "label": "Agentic Engineer",
     "pronouns": "he/they",
     "image": "",
     "email": "alex@escu.dev",
     "phone": "",
     "url": "https://github.com/alexcatdad",
-    "summary": "Full-stack architect building products from database to deployment, with a bias toward shipping daily and open-sourcing reusable tools. 14+ years taking products from ideation to market release — from schema design and API contracts to polished UI. Founded and operated a development agency, led distributed teams across time zones, and currently focused on AI-augmented development workflows. Open to remote and hybrid opportunities anywhere in the EEA.",
+    "summary": "Agentic engineer shipping products through human-AI collaboration, with a bias toward shipping daily and open-sourcing reusable tools. 14+ years taking products from ideation to market release — from architecture and API contracts to polished UI. Founded and operated a development agency, led distributed teams across time zones, and currently building AI-augmented development workflows that multiply engineering output. Open to remote and hybrid opportunities anywhere in the EEA.",
     "profiles": [
       {
         "network": "LinkedIn",
@@ -567,7 +567,7 @@
     }
   ],
   "_custom": {
-    "tagline": "Full-stack architect building products from database to deployment, with a bias toward shipping daily and open-sourcing reusable tools.",
+    "tagline": "Agentic engineer shipping products through human-AI collaboration, with a bias toward shipping daily and open-sourcing reusable tools.",
     "targetRoles": {
       "architect": {
         "label": "Software Architect / Staff Engineer",
