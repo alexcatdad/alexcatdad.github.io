@@ -4,7 +4,7 @@ test.describe('Work Page', () => {
   test('shows resume content', async ({ page }) => {
     await page.goto('/work');
     await expect(page.getByRole('heading', { name: 'Alex Alexandrescu' })).toBeVisible();
-    await expect(page.getByText('Full-Stack Architect', { exact: true })).toBeVisible();
+    await expect(page.getByText('Agentic Engineer', { exact: true })).toBeVisible();
   });
 
   test('tab navigation switches sections', async ({ page }) => {

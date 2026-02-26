@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-08T13:20:31.075Z",
+  "generatedAt": "2026-02-26T05:53:48.725Z",
   "owner": "alexcatdad",
   "thresholds": {
     "activeDays": 7,
@@ -7,9 +7,297 @@
     "pausedDays": 90
   },
   "totals": {
-    "scannedRepos": 22,
-    "includedRepos": 0,
-    "excludedRepos": 22
+    "scannedRepos": 14,
+    "includedRepos": 9,
+    "excludedRepos": 5
   },
-  "items": []
+  "items": [
+    {
+      "name": "catscan",
+      "fullName": "alexcatdad/catscan",
+      "description": "Local background dashboard for monitoring all your GitHub repos",
+      "htmlUrl": "https://github.com/alexcatdad/catscan",
+      "homepage": null,
+      "language": "Go",
+      "stars": 0,
+      "forks": 0,
+      "topics": [],
+      "defaultBranch": "main",
+      "pushedAt": "2026-02-10T21:56:33Z",
+      "lastCommitAt": "2026-02-10T21:53:59Z",
+      "daysSinceCommit": 15,
+      "state": "maintenance",
+      "what": "A local-only GitHub repository dashboard for tracking project health and lifecycle.",
+      "why": "I needed a way to track the status of many GitHub repositories—stale projects, missing READMEs, failing CI—without cloud dependencies or API rate limits. CatScan runs locally, polls GitHub at my own pace, and provides instant visibility into my entire portfolio.",
+      "hero": "https://opengraph.githubassets.com/1/alexcatdad/catscan",
+      "tags": [
+        "go",
+        "svelte",
+        "github",
+        "dashboard",
+        "devtools"
+      ],
+      "featured": false,
+      "order": 20
+    },
+    {
+      "name": "paw",
+      "fullName": "alexcatdad/paw",
+      "description": "Personal dotfiles manager CLI",
+      "htmlUrl": "https://github.com/alexcatdad/paw",
+      "homepage": "https://alexcatdad.github.io/paw/",
+      "language": "Go",
+      "stars": 0,
+      "forks": 0,
+      "topics": [
+        "bun",
+        "cli",
+        "dotfiles-manager",
+        "typescript"
+      ],
+      "defaultBranch": "main",
+      "pushedAt": "2026-02-25T16:53:53Z",
+      "lastCommitAt": "2026-02-25T16:53:52Z",
+      "daysSinceCommit": 0,
+      "state": "active",
+      "what": "Personal dotfiles manager CLI with symlink management and cross-machine sync.",
+      "why": "Manages dotfiles across machines with backup, rollback, and dry-run support.",
+      "hero": "https://opengraph.githubassets.com/1/alexcatdad/paw",
+      "tags": [
+        "go",
+        "toml",
+        "dotfiles",
+        "cli"
+      ],
+      "featured": false,
+      "order": 50
+    },
+    {
+      "name": "homebrew-tap",
+      "fullName": "alexcatdad/homebrew-tap",
+      "description": "Homebrew formulae for alexcatdad tools — paw, paw-proxy",
+      "htmlUrl": "https://github.com/alexcatdad/homebrew-tap",
+      "homepage": null,
+      "language": "Ruby",
+      "stars": 0,
+      "forks": 0,
+      "topics": [
+        "homebrew",
+        "homebrew-formula",
+        "homebrew-tap",
+        "macos"
+      ],
+      "defaultBranch": "main",
+      "pushedAt": "2026-02-25T05:04:57Z",
+      "lastCommitAt": "2026-02-25T05:04:56Z",
+      "daysSinceCommit": 1,
+      "state": "active",
+      "what": "Homebrew tap containing formulae for alexcatdad command-line tools.",
+      "why": "Provides standard package distribution and upgrade paths for maintained CLI utilities.",
+      "hero": "https://opengraph.githubassets.com/1/alexcatdad/homebrew-tap",
+      "tags": [
+        "homebrew",
+        "distribution",
+        "cli",
+        "dev-tools"
+      ],
+      "featured": false,
+      "order": 50
+    },
+    {
+      "name": "meowtern",
+      "fullName": "alexcatdad/meowtern",
+      "description": "Terminal UI Tailwind CSS v4 plugin — Aerospace mission control aesthetics",
+      "htmlUrl": "https://github.com/alexcatdad/meowtern",
+      "homepage": "https://alexcatdad.github.io/meowtern/",
+      "language": "CSS",
+      "stars": 0,
+      "forks": 0,
+      "topics": [
+        "accessibility",
+        "aerospace",
+        "css",
+        "design-system",
+        "react",
+        "tailwind-plugin",
+        "tailwindcss",
+        "terminal-ui",
+        "tui",
+        "ui-components",
+        "web-components"
+      ],
+      "defaultBranch": "main",
+      "pushedAt": "2026-02-13T02:45:19Z",
+      "lastCommitAt": "2026-02-13T02:45:17Z",
+      "daysSinceCommit": 13,
+      "state": "maintenance",
+      "what": "Terminal-inspired Tailwind CSS component and styling library for web interfaces.",
+      "why": "Enables mission-control aesthetics with framework-agnostic CSS primitives and components.",
+      "hero": "https://opengraph.githubassets.com/1/alexcatdad/meowtern",
+      "tags": [
+        "tailwind",
+        "css",
+        "ui",
+        "design-system"
+      ],
+      "featured": false,
+      "order": 50
+    },
+    {
+      "name": "scrouge",
+      "fullName": "alexcatdad/scrouge",
+      "description": "Subscription tracker with smart notifications",
+      "htmlUrl": "https://github.com/alexcatdad/scrouge",
+      "homepage": null,
+      "language": "TypeScript",
+      "stars": 0,
+      "forks": 0,
+      "topics": [
+        "better-auth",
+        "convex",
+        "subscription-tracker",
+        "svelte",
+        "sveltekit"
+      ],
+      "defaultBranch": "main",
+      "pushedAt": "2026-02-14T02:22:59Z",
+      "lastCommitAt": "2026-02-10T15:36:22Z",
+      "daysSinceCommit": 15,
+      "state": "maintenance",
+      "what": "Subscription tracker application for managing recurring services and billing visibility.",
+      "why": "Built to monitor subscription spend and reduce unnoticed recurring cost growth.",
+      "hero": "https://opengraph.githubassets.com/1/alexcatdad/scrouge",
+      "tags": [
+        "sveltekit",
+        "convex",
+        "subscriptions",
+        "finance"
+      ],
+      "featured": false,
+      "order": 50
+    },
+    {
+      "name": "homelab-inventory",
+      "fullName": "alexcatdad/homelab-inventory",
+      "description": "Homelab device tracker with on-device AI classification",
+      "htmlUrl": "https://github.com/alexcatdad/homelab-inventory",
+      "homepage": "https://alexcatdad.github.io/homelab-inventory/",
+      "language": "Svelte",
+      "stars": 0,
+      "forks": 0,
+      "topics": [
+        "convex",
+        "homelab",
+        "inventory",
+        "svelte",
+        "web-llm"
+      ],
+      "defaultBranch": "main",
+      "pushedAt": "2026-02-20T10:31:07Z",
+      "lastCommitAt": "2026-02-10T15:36:14Z",
+      "daysSinceCommit": 15,
+      "state": "maintenance",
+      "what": "Homelab device tracker with inventory management and on-device AI classification.",
+      "why": "Centralizes infrastructure visibility and reduces manual tracking for homelab assets.",
+      "hero": "https://opengraph.githubassets.com/1/alexcatdad/homelab-inventory",
+      "tags": [
+        "homelab",
+        "inventory",
+        "ai",
+        "svelte"
+      ],
+      "featured": false,
+      "order": 50
+    },
+    {
+      "name": "catnap",
+      "fullName": "alexcatdad/catnap",
+      "description": "macOS menubar dashboard for local git repos — live status, GitHub enrichment, zero config",
+      "htmlUrl": "https://github.com/alexcatdad/catnap",
+      "homepage": "https://alexcatdad.github.io/catnap",
+      "language": "Swift",
+      "stars": 0,
+      "forks": 0,
+      "topics": [
+        "developer-tools",
+        "git",
+        "macos",
+        "menubar",
+        "swift",
+        "swiftui"
+      ],
+      "defaultBranch": "main",
+      "pushedAt": "2026-02-10T15:36:08Z",
+      "lastCommitAt": "2026-02-10T15:36:06Z",
+      "daysSinceCommit": 15,
+      "state": "maintenance",
+      "what": "macOS menubar dashboard for monitoring local git repositories with GitHub enrichment.",
+      "why": "Built to track repo activity and status at a glance across many concurrent projects.",
+      "hero": "https://opengraph.githubassets.com/1/alexcatdad/catnap",
+      "tags": [
+        "macos",
+        "git",
+        "dashboard",
+        "menubar"
+      ],
+      "featured": false,
+      "order": 50
+    },
+    {
+      "name": "alexcatdad",
+      "fullName": "alexcatdad/alexcatdad",
+      "description": "GitHub profile README",
+      "htmlUrl": "https://github.com/alexcatdad/alexcatdad",
+      "homepage": null,
+      "language": null,
+      "stars": 0,
+      "forks": 0,
+      "topics": [
+        "github-profile",
+        "readme"
+      ],
+      "defaultBranch": "main",
+      "pushedAt": "2026-02-10T15:36:04Z",
+      "lastCommitAt": "2026-02-10T15:36:03Z",
+      "daysSinceCommit": 15,
+      "state": "maintenance",
+      "what": "GitHub profile repository containing the public README and profile presentation assets.",
+      "why": "Maintains a single source for personal profile content, links, and portfolio visibility.",
+      "hero": "https://opengraph.githubassets.com/1/alexcatdad/alexcatdad",
+      "tags": [
+        "github",
+        "profile",
+        "readme"
+      ],
+      "featured": false,
+      "order": 50
+    },
+    {
+      "name": "aksmed",
+      "fullName": "alexcatdad/aksmed",
+      "description": "AKSMED brand logo preview tool - luxury medical brand design studio",
+      "htmlUrl": "https://github.com/alexcatdad/aksmed",
+      "homepage": null,
+      "language": "TypeScript",
+      "stars": 0,
+      "forks": 0,
+      "topics": [],
+      "defaultBranch": "main",
+      "pushedAt": "2026-02-10T15:36:03Z",
+      "lastCommitAt": "2026-02-10T15:36:01Z",
+      "daysSinceCommit": 15,
+      "state": "maintenance",
+      "what": "Browser-based design studio for previewing and refining AKSMED luxury medical logo lockups.",
+      "why": "Created to iterate quickly on brand typography and composition before vectorizing for print.",
+      "hero": "https://opengraph.githubassets.com/1/alexcatdad/aksmed",
+      "tags": [
+        "branding",
+        "design-tool",
+        "logo",
+        "frontend"
+      ],
+      "featured": false,
+      "order": 50
+    }
+  ]
 }
