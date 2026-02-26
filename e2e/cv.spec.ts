@@ -4,7 +4,7 @@ test.describe('Work Page', () => {
   test('shows resume content', async ({ page }) => {
     await page.goto('/work');
     await expect(page.getByRole('heading', { name: 'Alex Alexandrescu' })).toBeVisible();
-    await expect(page.getByText('Agentic Engineer', { exact: true })).toBeVisible();
+    await expect(page.getByText('Agentic Engineer', { exact: true }).first()).toBeVisible();
   });
 
   test('tab navigation switches sections', async ({ page }) => {
@@ -43,5 +43,16 @@ test.describe('Work Page', () => {
   test('legacy /cv route redirects to /work', async ({ page }) => {
     await page.goto('/cv');
     await expect(page).toHaveURL('/work');
+  });
+
+  test('print page renders resume content', async ({ page }) => {
+    // Block print dialog from firing
+    await page.addInitScript(() => {
+      window.print = () => {};
+    });
+    await page.goto('/work/print');
+    await expect(page.getByRole('heading', { name: 'Alex Alexandrescu' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Foundation' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Open Source' })).toBeVisible();
   });
 });

@@ -24,8 +24,8 @@ const fullSectionOrder: FullSectionId[] = [
   'summary',
   'metrics',
   'skills',
-  'experience',
   'projects',
+  'experience',
   'publications',
   'personal',
 ];
@@ -438,7 +438,7 @@ export function ResumeLayout({ resume }: ResumeLayoutProps) {
           </div>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-6 mb-6">
           {summarySection && wrapSection('summary', summarySection)}
           {metricsSection && wrapSection('metrics', metricsSection)}
           {insightsSection}
@@ -451,6 +451,16 @@ export function ResumeLayout({ resume }: ResumeLayoutProps) {
             <SkillsSection skills={resume.skills ?? []} highlighted={isHighlighted('skills')} />
           )}
 
+        {(activeTab === 'full' || activeTab === 'projects') &&
+          hasProjects &&
+          wrapSection(
+            'projects',
+            <ProjectsSection
+              projects={resume.projects ?? []}
+              highlighted={isHighlighted('projects')}
+            />
+          )}
+
         {(activeTab === 'full' || activeTab === 'experience') &&
           hasExperience &&
           wrapSection(
@@ -459,16 +469,6 @@ export function ResumeLayout({ resume }: ResumeLayoutProps) {
               work={resume.work ?? []}
               formatDate={formatDate}
               highlighted={isHighlighted('experience')}
-            />
-          )}
-
-        {(activeTab === 'full' || activeTab === 'projects') &&
-          hasProjects &&
-          wrapSection(
-            'projects',
-            <ProjectsSection
-              projects={resume.projects ?? []}
-              highlighted={isHighlighted('projects')}
             />
           )}
 

@@ -1,0 +1,160 @@
+/* Print-optimized stylesheet — imported only by /work/print */
+
+@page {
+  size: A4;
+  margin: 12mm 15mm 18mm 15mm;
+}
+
+/* Screen preview: show A4-sized page on gray background */
+@media screen {
+  html {
+    background: #e5e7eb;
+  }
+
+  body {
+    max-width: 210mm;
+    margin: 20px auto;
+    background: #fff;
+    box-shadow: 0 4px 24px rgb(0 0 0 / 15%);
+    padding: 12mm 15mm;
+    color: #1a1a1a;
+  }
+
+  /* Simulate page 2 as a separate card in preview */
+  .break-before-page {
+    break-before: auto;
+    margin-top: 40px;
+    padding-top: 12mm;
+    border-top: 2px dashed #d1d5db;
+    position: relative;
+  }
+
+  .break-before-page::before {
+    content: 'Page 2';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #e5e7eb;
+    padding: 2px 12px;
+    font-size: 8pt;
+    color: #9ca3af;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+}
+
+/* Print overrides */
+@media print {
+  *,
+  *::before,
+  *::after {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #1a1a1a !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  a {
+    text-decoration: none !important;
+    color: inherit !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Page break utilities */
+.break-before-page {
+  break-before: page;
+}
+
+.break-inside-avoid {
+  break-inside: avoid;
+}
+
+/* Base typography for print */
+.print-body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 9.5pt;
+  line-height: 1.45;
+  color: #1a1a1a;
+}
+
+/* Two-column layout */
+.print-grid {
+  display: grid;
+  grid-template-columns: 68fr 32fr;
+  gap: 24px;
+}
+
+/* Section headings */
+.print-section-title {
+  font-size: 10pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #2563eb;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 3px;
+  margin-bottom: 8px;
+}
+
+/* Era labels */
+.print-era-label {
+  font-size: 9pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #2563eb;
+  margin-bottom: 6px;
+}
+
+.print-foundation-label {
+  font-size: 9pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6b7280;
+  border-bottom: 0.5px solid #e5e7eb;
+  padding-bottom: 3px;
+  margin-bottom: 6px;
+}
+
+/* Skill tags */
+.print-skill-tag {
+  display: inline-block;
+  font-size: 7.5pt;
+  background: #eff6ff;
+  padding: 1.5px 5px;
+  border-radius: 3px;
+  color: #1e40af;
+  margin: 0 3px 3px 0;
+}
+
+/* Foundation grid */
+.print-foundation-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 20px;
+}
+
+/* Footer */
+.print-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 7.5pt;
+  color: #9ca3af;
+  border-top: 1px solid #f3f4f6;
+  padding-top: 6px;
+}
