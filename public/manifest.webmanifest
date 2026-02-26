@@ -30,10 +30,10 @@
   "categories": ["business", "productivity"],
   "shortcuts": [
     {
-      "name": "View Projects",
-      "short_name": "Projects",
-      "description": "View all projects",
-      "url": "/#projects",
+      "name": "Open Source",
+      "short_name": "Open Source",
+      "description": "View open-source projects",
+      "url": "/open-source",
       "icons": [
         {
           "src": "/icon.svg",

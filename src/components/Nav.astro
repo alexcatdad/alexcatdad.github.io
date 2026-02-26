@@ -6,11 +6,16 @@ const pathname = Astro.url.pathname;
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/work', label: 'Work' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/tools', label: 'Tools' },
+  { href: '/open-source', label: 'Open Source' },
   { href: '/stats', label: 'Stats' },
   { href: '/bored', label: "I'm bored" },
-  { href: '/contact', label: 'Contact' },
+];
+
+const socialLinks = [
+  { href: 'mailto:alex@escu.dev', label: 'Email', favicon: '' },
+  { href: 'https://github.com/alexcatdad', label: 'GitHub', favicon: '/images/social/github.svg' },
+  { href: 'https://linkedin.com/in/alexalexandrescu', label: 'LinkedIn', favicon: '/images/social/linkedin.svg' },
+  { href: 'https://tokscale.ai/u/alexcatdad', label: 'TokScale', favicon: '/images/social/tokscale.png' },
 ];
 
 function isActive(href: string): boolean {
@@ -59,7 +64,23 @@ function isActive(href: string): boolean {
       </div>
 
       {/* Desktop Actions */}
-      <div class="hidden lg:flex items-center">
+      <div class="hidden lg:flex items-center gap-1">
+        {socialLinks.map((link) => (
+          <a
+            href={link.href}
+            target={link.href.startsWith('mailto:') ? undefined : '_blank'}
+            rel={link.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+            aria-label={link.label}
+            class="p-2 text-muted-foreground hover:text-primary transition-colors duration-200"
+          >
+            {link.favicon ? (
+              <img src={link.favicon} alt="" width="16" height="16" class="social-favicon w-4 h-4" />
+            ) : (
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+            )}
+          </a>
+        ))}
+        <div class="w-px h-4 bg-border mx-1" />
         <ThemeToggle />
       </div>
 
@@ -101,8 +122,24 @@ function isActive(href: string): boolean {
           {link.label}
         </a>
       ))}
-      <div class="pt-3 flex items-center justify-between">
-        <span class="text-xs text-muted-foreground uppercase tracking-widest">Theme</span>
+      <div class="pt-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          {socialLinks.map((link) => (
+            <a
+              href={link.href}
+              target={link.href.startsWith('mailto:') ? undefined : '_blank'}
+              rel={link.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+              aria-label={link.label}
+              class="p-1.5 text-muted-foreground hover:text-primary transition-colors"
+            >
+              {link.favicon ? (
+                <img src={link.favicon} alt="" width="16" height="16" class="social-favicon w-4 h-4" />
+              ) : (
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+              )}
+            </a>
+          ))}
+        </div>
         <ThemeToggle />
       </div>
     </div>
@@ -200,3 +237,17 @@ function isActive(href: string): boolean {
     initNav();
   });
 </script>
+
+<style>
+  .social-favicon {
+    filter: brightness(0) invert(1);
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .social-favicon:hover {
+    opacity: 1;
+  }
+  html.light .social-favicon {
+    filter: brightness(0);
+  }
+</style>
