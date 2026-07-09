@@ -1,41 +1,37 @@
 {
-  "generatedAt": "2026-02-26T05:53:58.902Z",
+  "generatedAt": "2026-07-09T15:28:05.973Z",
   "owner": "alexcatdad",
   "windows": {
     "activeDays": 30,
     "commitDays": 90
   },
   "totals": {
-    "publicRepos": 14,
+    "publicRepos": 24,
     "stars": 0,
     "forks": 0,
-    "activeRepos": 14,
-    "recentCommitCount": 565,
-    "recentTouchedRepos": 14
+    "activeRepos": 5,
+    "recentCommitCount": 58,
+    "recentTouchedRepos": 6
   },
   "languages": [
     {
       "name": "TypeScript",
-      "repos": 4
-    },
-    {
-      "name": "Go",
-      "repos": 3
-    },
-    {
-      "name": "Ruby",
-      "repos": 1
+      "repos": 10
     },
     {
       "name": "Shell",
+      "repos": 2
+    },
+    {
+      "name": "Go",
+      "repos": 2
+    },
+    {
+      "name": "Python",
       "repos": 1
     },
     {
-      "name": "CSS",
-      "repos": 1
-    },
-    {
-      "name": "Svelte",
+      "name": "Astro",
       "repos": 1
     },
     {
@@ -43,100 +39,112 @@
       "repos": 1
     },
     {
+      "name": "Ruby",
+      "repos": 1
+    },
+    {
       "name": "JavaScript",
+      "repos": 1
+    },
+    {
+      "name": "Svelte",
+      "repos": 1
+    },
+    {
+      "name": "Batchfile",
       "repos": 1
     }
   ],
   "recentUpdates": [
     {
-      "name": "alexcatdad.github.io",
-      "htmlUrl": "https://github.com/alexcatdad/alexcatdad.github.io",
-      "description": "Personal GitHub Pages site",
-      "language": "TypeScript",
-      "pushedAt": "2026-02-25T18:49:11Z",
-      "daysSinceCommit": 0,
-      "state": "active"
-    },
-    {
-      "name": "paw",
-      "htmlUrl": "https://github.com/alexcatdad/paw",
-      "description": "Personal dotfiles manager CLI",
-      "language": "Go",
-      "pushedAt": "2026-02-25T16:53:53Z",
-      "daysSinceCommit": 0,
-      "state": "active"
-    },
-    {
-      "name": "homebrew-tap",
-      "htmlUrl": "https://github.com/alexcatdad/homebrew-tap",
-      "description": "Homebrew formulae for alexcatdad tools — paw, paw-proxy",
-      "language": "Ruby",
-      "pushedAt": "2026-02-25T05:04:57Z",
-      "daysSinceCommit": 1,
-      "state": "active"
-    },
-    {
-      "name": "dotfiles",
-      "htmlUrl": "https://github.com/alexcatdad/dotfiles",
-      "description": "My personal dotfiles configuration",
-      "language": "Shell",
-      "pushedAt": "2026-02-25T04:52:28Z",
-      "daysSinceCommit": 1,
-      "state": "active"
-    },
-    {
-      "name": "homelab-inventory",
-      "htmlUrl": "https://github.com/alexcatdad/homelab-inventory",
-      "description": "Homelab device tracker with on-device AI classification",
-      "language": "Svelte",
-      "pushedAt": "2026-02-20T10:31:07Z",
-      "daysSinceCommit": 5,
-      "state": "active"
-    },
-    {
       "name": "paw-proxy",
       "htmlUrl": "https://github.com/alexcatdad/paw-proxy",
       "description": "Zero-config HTTPS proxy for local macOS development",
       "language": "Go",
-      "pushedAt": "2026-02-20T02:42:04Z",
+      "pushedAt": "2026-07-03T11:04:33Z",
       "daysSinceCommit": 6,
       "state": "active"
+    },
+    {
+      "name": "manhwa-recs",
+      "htmlUrl": "https://github.com/alexcatdad/manhwa-recs",
+      "description": "Private-data manhwa reading tracker and recommendation backlog built on Convex",
+      "language": null,
+      "pushedAt": "2026-06-23T10:25:36Z",
+      "daysSinceCommit": 16,
+      "state": "maintenance"
+    },
+    {
+      "name": "scenario-eval-harness",
+      "htmlUrl": "https://github.com/alexcatdad/scenario-eval-harness",
+      "description": "Scenario evaluation harness for AI workflows with structured reports and traces.",
+      "language": "TypeScript",
+      "pushedAt": "2026-06-09T13:43:51Z",
+      "daysSinceCommit": 30,
+      "state": "maintenance"
+    },
+    {
+      "name": "n8n-workflow-auditor",
+      "htmlUrl": "https://github.com/alexcatdad/n8n-workflow-auditor",
+      "description": "n8n workflow auditor for LLM validation, recovery paths, secrets, and automation reliability.",
+      "language": "TypeScript",
+      "pushedAt": "2026-06-09T13:43:51Z",
+      "daysSinceCommit": 30,
+      "state": "maintenance"
+    },
+    {
+      "name": "agentic-pr-review-lab",
+      "htmlUrl": "https://github.com/alexcatdad/agentic-pr-review-lab",
+      "description": "Structured review packets for AI-generated code changes.",
+      "language": "TypeScript",
+      "pushedAt": "2026-06-09T13:43:51Z",
+      "daysSinceCommit": 30,
+      "state": "maintenance"
+    },
+    {
+      "name": "media-metadata-dataset",
+      "htmlUrl": "https://github.com/alexcatdad/media-metadata-dataset",
+      "description": null,
+      "language": "Python",
+      "pushedAt": "2026-05-20T10:26:17Z",
+      "daysSinceCommit": 50,
+      "state": "paused"
     },
     {
       "name": "scrouge",
       "htmlUrl": "https://github.com/alexcatdad/scrouge",
       "description": "Subscription tracker with smart notifications",
       "language": "TypeScript",
-      "pushedAt": "2026-02-14T02:22:59Z",
-      "daysSinceCommit": 12,
-      "state": "maintenance"
+      "pushedAt": "2026-05-15T17:41:18Z",
+      "daysSinceCommit": 54,
+      "state": "paused"
     },
     {
-      "name": "meowtern",
-      "htmlUrl": "https://github.com/alexcatdad/meowtern",
-      "description": "Terminal UI Tailwind CSS v4 plugin — Aerospace mission control aesthetics",
-      "language": "CSS",
-      "pushedAt": "2026-02-13T02:45:19Z",
-      "daysSinceCommit": 13,
-      "state": "maintenance"
+      "name": "super-duper-tribble",
+      "htmlUrl": "https://github.com/alexcatdad/super-duper-tribble",
+      "description": null,
+      "language": null,
+      "pushedAt": "2026-04-25T23:38:09Z",
+      "daysSinceCommit": 74,
+      "state": "paused"
     },
     {
-      "name": "aniforge",
-      "htmlUrl": "https://github.com/alexcatdad/aniforge",
+      "name": "alexcatdad.github.io",
+      "htmlUrl": "https://github.com/alexcatdad/alexcatdad.github.io",
+      "description": "Personal GitHub Pages site",
+      "language": "TypeScript",
+      "pushedAt": "2026-04-21T21:50:16Z",
+      "daysSinceCommit": 78,
+      "state": "paused"
+    },
+    {
+      "name": "video-toolbox",
+      "htmlUrl": "https://github.com/alexcatdad/video-toolbox",
       "description": null,
       "language": "TypeScript",
-      "pushedAt": "2026-02-12T17:28:42Z",
-      "daysSinceCommit": 13,
-      "state": "maintenance"
-    },
-    {
-      "name": "catscan",
-      "htmlUrl": "https://github.com/alexcatdad/catscan",
-      "description": "Local background dashboard for monitoring all your GitHub repos",
-      "language": "Go",
-      "pushedAt": "2026-02-10T21:56:33Z",
-      "daysSinceCommit": 15,
-      "state": "maintenance"
+      "pushedAt": "2026-04-10T04:13:18Z",
+      "daysSinceCommit": 90,
+      "state": "paused"
     }
   ]
 }
