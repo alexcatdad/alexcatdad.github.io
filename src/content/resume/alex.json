@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "meta": {
     "version": "1.0.0",
-    "lastModified": "2026-02-26",
+    "lastModified": "2026-07-09",
     "theme": "elegant",
     "canonical": "https://registry.jsonresume.org/alexcatdad"
   },
@@ -42,6 +42,33 @@
     }
   },
   "work": [
+    {
+      "name": "Jouncetech",
+      "position": "Full-Stack Developer",
+      "url": "",
+      "startDate": "2026-01",
+      "summary": "Full-stack development on asource, a TypeScript workflow platform for regulated finance, legal, procurement, and compliance operations. The platform turns documents and business events into tenant-scoped workflows with contract and policy checks, human review, durable execution, and auditable outcomes.",
+      "highlights": [
+        "Built across the React/React Flow frontend, Elysia API, PostgreSQL data model, and Temporal worker/runtime surfaces for document-native workflow execution",
+        "Shipped tenant-scoped workflow and review flows for invoice ingestion, contract compliance, policy checks, notifications, and operational auditability",
+        "Improved local and deployment workflows around Bun/Turborepo, managed dev-stack, Playwright coverage, GitHub Actions, and Woodpecker CI"
+      ],
+      "keywords": [
+        "TypeScript",
+        "React",
+        "React Flow",
+        "Elysia",
+        "PostgreSQL",
+        "Temporal",
+        "Bun",
+        "Turborepo",
+        "Playwright",
+        "Workflow Automation",
+        "Document Ingestion",
+        "Human-in-the-Loop"
+      ],
+      "roles": ["ic-senior", "ai-engineer"]
+    },
     {
       "name": "Conversy",
       "position": "Software Architect & Engineering Consultant",
@@ -322,14 +349,15 @@
       "level": "Expert",
       "keywords": [
         "Claude Code",
+        "Codex",
         "MCP (Model Context Protocol)",
-        "LangGraph",
+        "LLM Evaluation",
+        "AI Code Review",
+        "Workflow Auditing",
         "Agent Orchestration",
         "Tool-Use Design",
         "Human-in-the-Loop Patterns",
-        "Prompt Engineering",
-        "Vibe Coding",
-        "AI-Augmented Development"
+        "Structured Reports"
       ]
     },
     {
@@ -339,12 +367,14 @@
         "TypeScript",
         "JavaScript",
         "React",
-        "Next.js",
         "Astro",
+        "SvelteKit",
         "Node.js",
         "Bun",
         "Go",
-        "Swift",
+        "SwiftUI",
+        "Python",
+        "Shell",
         "Tailwind CSS"
       ]
     },
@@ -356,9 +386,11 @@
         "Database Schema Design",
         "API Contracts",
         "PostgreSQL",
-        "MongoDB",
-        "Redis",
-        "CLI Tools"
+        "Convex",
+        "Elysia",
+        "Temporal Workflows",
+        "CLI Tools",
+        "Document Processing"
       ]
     },
     {
@@ -366,11 +398,13 @@
       "level": "Advanced",
       "keywords": [
         "Docker",
-        "Kubernetes",
-        "AWS",
-        "GCP",
-        "CI/CD",
+        "Turborepo",
+        "Playwright",
         "GitHub Actions",
+        "Woodpecker CI",
+        "Homebrew Distribution",
+        "macOS Developer Tools",
+        "Local HTTPS/Proxying",
         "Cloudflare Tunnels"
       ]
     },
